@@ -3,7 +3,7 @@
     <el-submenu index="1">
       <template slot="title">
         <i class="el-icon-location"></i>
-        <span>导航一</span>
+        <span>项目列表</span>
       </template>
       <el-menu-item-group>
         <template slot="title">分组一</template>
@@ -24,12 +24,18 @@
     </el-menu-item>
     <el-menu-item index="3" disabled>
       <i class="el-icon-document"></i>
-      <span slot="title">导航三</span>
+      <span slot="title">财务系统</span>
     </el-menu-item>
     <nuxt-link to="/user">
       <el-menu-item index="4">
         <i class="el-icon-user"></i>
         <span slot="title">用户管理</span>
+      </el-menu-item>
+    </nuxt-link>
+    <nuxt-link to="/role">
+      <el-menu-item index="4">
+        <i class="el-icon-s-opportunity"></i>
+        <span slot="title">角色管理</span>
       </el-menu-item>
     </nuxt-link>
   </el-menu>
