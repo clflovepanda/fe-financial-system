@@ -191,7 +191,7 @@
           <el-tab-pane label="工时分配" name="second">
             <el-row>
               <el-col :offset="22">
-                <el-button size="small" type="primary">新增工时</el-button>
+                <el-button size="small" type="primary" @click="handleAddTime()">新增工时</el-button>
               </el-col>
             </el-row>
             <div class="project-info-wrap">
@@ -201,7 +201,8 @@
               <el-divider></el-divider>
               <el-row>
                 <el-col :span="6">
-                  <span></span>
+                  <span>王大龙</span>
+                  <span class="pro-manager">项目经理</span>
                 </el-col>
                 <el-col :span="6">
                   <span>数量：</span>
@@ -219,8 +220,12 @@
               <el-divider></el-divider>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="收入" name="third">收入</el-tab-pane>
-          <el-tab-pane label="支出" name="fourth">支出</el-tab-pane>
+          <el-tab-pane label="收入" name="third">
+            <Income />
+          </el-tab-pane>
+          <el-tab-pane label="支出" name="fourth">
+            <Pay />
+          </el-tab-pane>
           <el-tab-pane label="押金" name>押金</el-tab-pane>
           <el-tab-pane label="报价单" name>报价单</el-tab-pane>
           <el-tab-pane label="项目合同" name>项目合同</el-tab-pane>
@@ -229,20 +234,27 @@
         </el-tabs>
 
         <el-row>
-          <el-col :offset="9">
+          <el-col :span="3" :offset="10">
             <el-button class="add-project" type="primary" @click="handleBackList()">返回项目列表</el-button>
           </el-col>
         </el-row>
       </el-main>
     </el-container>
+    <AddNewProModal :show="dialogAddTime" @hideModal="handlehideModal" />
   </el-container>
 </template>
 
 <script>
+import AddNewProModal from "~/components/projectListPage/AddNewProModal.vue";
+import Income from "~/components/projectListPage/Income.vue";
+import Pay from "~/components/projectListPage/Pay.vue";
+
+
 export default {
   data() {
     return {
       activeName: "first",
+      dialogAddTime: false,
     };
   },
 
@@ -253,23 +265,27 @@ export default {
     handleBackList() {
       this.$router.push("/projectList");
     },
+    handleAddTime() {
+      this.dialogAddTime = true;
+    },
+    handlehideModal() {
+      this.dialogAddTime = false;
+    },
   },
 };
 </script>
 
 <style>
+
 .breadcrumb.breadcrumb-actived .el-breadcrumb__inner.is-link {
   color: blue;
 }
-.project-list-form .el-form-item {
-  display: inline-block;
-  vertical-align: top;
-}
+ 
 .project-info-wrap {
   background: #eee;
   padding: 20px;
   margin-bottom: 20px;
-  margin-top:20px;
+  margin-top: 20px;
 }
 .info-title {
   font-weight: bold;
@@ -282,6 +298,12 @@ export default {
   color: #606266;
   margin-top: 15px;
 }
-
-
+.pro-manager {
+  padding: 5px;
+  background: #fff;
+  margin-left: 10px;
+}
+.view-project .el-input {
+  width: 250px;
+}
 </style>
