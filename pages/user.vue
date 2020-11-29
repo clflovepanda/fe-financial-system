@@ -42,6 +42,7 @@ import CreateUserDialog from '~/components/userPage/CreateUserDialog';
 import SearchUserListComponent from '~/components/userPage/SearchUserListComponent';
 import UserListTableComponent from '~/components/userPage/UserListTableComponent';
 import EditUserDialog from '~/components/userPage/EditUserDialog';
+import axios from 'axios';
 
 export default {
 
@@ -50,8 +51,14 @@ export default {
       this.$store.commit("dialogSwitchData/showCreateUserDialog", true);
     }
   },
-  async asyncData() {
+  async asyncData(ctx) {
     console.log("初始化UserPage数据");
+    let result = await axios.get("/api/searchUserList").then((rep)=>{
+      if(rep && rep.data) {
+        return rep.data.data;
+      }
+    }, ()=>{});
+    ctx.store.commit("userData/setUserListTable", result);
   }
 };
 

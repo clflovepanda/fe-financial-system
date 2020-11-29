@@ -58,23 +58,13 @@
 export default {
   data() {
     return {
-      userListTable: {
-        listData: [
-          {
-            id: 1,
-            num: 1,
-            name: "Panda",
-            phone: "13312345678",
-            part: "动物园",
-            role: "Panda",
-            accountStatus: "启用",
-            createTime: "2020-11-20",
-          },
-        ],
-        total: 100,
-        currentPage: 1,
-      },
     };
+  },
+  computed: {
+    userListTable() {
+      console.log("computed userListTable", this.$store.state.userData.userListTable);
+      return this.$store.state.userData.userListTable;
+    }
   },
   methods: {
     handleSizeChange() {},

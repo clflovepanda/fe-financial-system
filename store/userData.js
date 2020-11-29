@@ -8,6 +8,11 @@ export const state = () => ({
         updateDate: "",
         part: "",
     },
+    userListTable: {
+        listData: [],
+        total: 0,
+        currentPage: 1,
+    },
     editUserForm: {
         userName: "",
         phone: "",
@@ -30,7 +35,11 @@ export const state = () => ({
 
 export const mutations = {
     setUserSearchForm(state, newObj) {
-        console.log("hahaha~");
         Object.assign(state.userSearchForm, newObj);
+    },
+    setUserListTable(state, newObj) {
+        console.log("setUserListTable", newObj);
+        state.userListTable.listData = newObj.list;
+        state.userListTable.total = newObj.total;
     }
 }
