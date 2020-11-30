@@ -89,7 +89,7 @@
     </el-row>
     <el-row class="rowSty">
       <el-col :span="4" :offset="16">
-        <el-button type="primary" style="width: 90%" @click="createUser">确认收款</el-button>
+        <el-button type="primary" style="width: 90%">确认收款</el-button>
       </el-col>
       <el-col :span="4">
         <el-button style="width: 90%">返回到款列表</el-button>

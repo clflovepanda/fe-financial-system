@@ -62,7 +62,6 @@ export default {
   },
   computed: {
     userListTable() {
-      console.log("computed userListTable", this.$store.state.userData.userListTable);
       return this.$store.state.userData.userListTable;
     }
   },

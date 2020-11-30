@@ -33,6 +33,10 @@
     </el-container>
     <NewIncomeDialog />
     <ConfirmIncomeDialog />
+    <EditIncomeDialog />
+    <ConfirmAccountingDialog />
+    <ConfirmDeleteIncomeDialog />
+    <ConfirmedIncomeListDialog />
   </el-container>
 </template>
 
@@ -41,6 +45,10 @@ import SearchIncomeComponent from "~/components/financialModule/incomePage/Searc
 import IncomeListTableComponent from "~/components/financialModule/incomePage/IncomeListTableComponent";
 import NewIncomeDialog from "~/components/financialModule/incomePage/NewIncomeDialog";
 import ConfirmIncomeDialog from "~/components/financialModule/incomePage/ConfirmIncomeDialog";
+import EditIncomeDialog from "~/components/financialModule/incomePage/EditIncomeDialog";
+import ConfirmAccountingDialog from "~/components/financialModule/incomePage/ConfirmAccountingDialog";
+import ConfirmDeleteIncomeDialog from "~/components/financialModule/incomePage/ConfirmDeleteIncomeDialog";
+import ConfirmedIncomeListDialog from "~/components/financialModule/incomePage/ConfirmedIncomeListDialog";
 
 export default {
   methods: {

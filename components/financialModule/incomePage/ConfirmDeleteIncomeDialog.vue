@@ -1,27 +1,14 @@
 <template>
-  <el-dialog title="认款" :visible.sync="confirmIncomeDialogShow" width="80%">
-    <el-row>
+  <el-dialog title="删除" :visible.sync="deleteIncomeDialogShow" width="40%">
+    <el-row class="rowSty">
       <el-col :span="22" :offset="1">
-        <h2>到款信息</h2>
-        <el-row>
-          <IncomeDetailListTableComponent />
-        </el-row>
+        <span>请确认是否要删除这条记录？删除后记录将不可恢复，请谨慎操作。</span>
       </el-col>
     </el-row>
-    <el-divider></el-divider>
-    <el-row>
-      <el-col :span="22" :offset="1">
-        <h2>已认款列表</h2>
-        <el-row>
-          <ConfirmIncomeListTableComponent />
-        </el-row>
-      </el-col>
-    </el-row>
-    <el-divider></el-divider>
-    <el-row>
-      <el-col :span="22" :offset="1">
-        <h2>本次认款</h2>
-        <NowIncomeComponent />
+    <el-row style="margin-top: 50px">
+      <el-col :span="8" :offset="16">
+        <el-button type="primary">确认删除</el-button>
+        <el-button>取消</el-button>
       </el-col>
     </el-row>
   </el-dialog>
@@ -29,7 +16,7 @@
 <script>
 import IncomeDetailListTableComponent from "~/components/financialModule/incomePage/IncomeDetailListTableComponent";
 import ConfirmIncomeListTableComponent from "~/components/financialModule/incomePage/ConfirmIncomeListTableComponent";
-import NowIncomeComponent from "~/components/financialModule/incomePage/NowIncomeComponent";
+import AccountingInfoComponent from "~/components/financialModule/incomePage/AccountingInfoComponent";
 
 export default {
   data() {
@@ -40,7 +27,7 @@ export default {
         incomeType: "",
         incomeFromType: "",
       },
-      confirmIncomeDialogShow: false,
+      deleteIncomeDialogShow: false,
     };
   },
   computed: {
@@ -50,19 +37,19 @@ export default {
     accountStatusList() {
       return this.$store.state.userData.accountStatusList;
     },
-    isShowConfirmIncomeDialog() {
-      return this.$store.state.dialogSwitchData.confirmIncomeDialogShow;
+    isShowDeleteIncomeDialog() {
+      return this.$store.state.dialogSwitchData.deleteIncomeDialogShow;
     },
   },
   watch: {
-    confirmIncomeDialogShow() {
+    deleteIncomeDialogShow() {
       this.$store.commit(
-        "dialogSwitchData/showConfirmIncomeDialog",
-        this.confirmIncomeDialogShow
+        "dialogSwitchData/showConfirmedIncomeDialog",
+        this.deleteIncomeDialogShow
       );
     },
-    isShowConfirmIncomeDialog(val, oldVal) {
-      this.confirmIncomeDialogShow = val;
+    isShowDeleteIncomeDialog(val, oldVal) {
+      this.deleteIncomeDialogShow = val;
     },
   },
   methods: {

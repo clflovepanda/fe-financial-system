@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="认款" :visible.sync="confirmIncomeDialogShow" width="80%">
+  <el-dialog title="确认做账" :visible.sync="confirmAccountingDialogShow" width="80%">
     <el-row>
       <el-col :span="22" :offset="1">
         <h2>到款信息</h2>
@@ -20,8 +20,8 @@
     <el-divider></el-divider>
     <el-row>
       <el-col :span="22" :offset="1">
-        <h2>本次认款</h2>
-        <NowIncomeComponent />
+        <h2>做账信息</h2>
+        <AccountingInfoComponent />
       </el-col>
     </el-row>
   </el-dialog>
@@ -29,7 +29,7 @@
 <script>
 import IncomeDetailListTableComponent from "~/components/financialModule/incomePage/IncomeDetailListTableComponent";
 import ConfirmIncomeListTableComponent from "~/components/financialModule/incomePage/ConfirmIncomeListTableComponent";
-import NowIncomeComponent from "~/components/financialModule/incomePage/NowIncomeComponent";
+import AccountingInfoComponent from "~/components/financialModule/incomePage/AccountingInfoComponent";
 
 export default {
   data() {
@@ -40,7 +40,7 @@ export default {
         incomeType: "",
         incomeFromType: "",
       },
-      confirmIncomeDialogShow: false,
+      confirmAccountingDialogShow: false,
     };
   },
   computed: {
@@ -50,19 +50,19 @@ export default {
     accountStatusList() {
       return this.$store.state.userData.accountStatusList;
     },
-    isShowConfirmIncomeDialog() {
-      return this.$store.state.dialogSwitchData.confirmIncomeDialogShow;
+    isShowConfirmAccountingDialog() {
+      return this.$store.state.dialogSwitchData.confirmAccountingDialogShow;
     },
   },
   watch: {
-    confirmIncomeDialogShow() {
+    confirmAccountingDialogShow() {
       this.$store.commit(
-        "dialogSwitchData/showConfirmIncomeDialog",
-        this.confirmIncomeDialogShow
+        "dialogSwitchData/showConfirmAccountingDialog",
+        this.confirmAccountingDialogShow
       );
     },
-    isShowConfirmIncomeDialog(val, oldVal) {
-      this.confirmIncomeDialogShow = val;
+    isShowConfirmAccountingDialog(val, oldVal) {
+      this.confirmAccountingDialogShow = val;
     },
   },
   methods: {

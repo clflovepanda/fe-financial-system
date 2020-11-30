@@ -24,8 +24,8 @@
       <el-table-column fixed="right" label="操作" width="280">
         <template slot-scope="scope">
           <el-button @click="confirmMoney(scope)" type="text" size="small">认款</el-button>
-          <el-button @click="edit(scope)" type="text" size="small">修改</el-button>
-          <el-button @click="confirmToDo(scope)" type="text" size="small">确认做账</el-button>
+          <el-button @click="editConfirm(scope)" type="text" size="small">修改</el-button>
+          <el-button @click="confirmAccounting(scope)" type="text" size="small">确认做账</el-button>
           <el-button @click="deleteIncome(scope)" type="text" size="small">删除</el-button>
           <el-button @click="confirmList(scope)" type="text" size="small">已认款记录</el-button>
         </template>
@@ -70,12 +70,20 @@ export default {
       console.log("edit " + scope.$index + " ...");
     },
     confirmMoney(scope) {
-      console.log(scope);
-      this.$store.commit(
-        "dialogSwitchData/showConfirmIncomeDialog",
-        true
-      );
+      this.$store.commit("dialogSwitchData/showConfirmIncomeDialog", true);
     },
+    editConfirm(scope) {
+      this.$store.commit("dialogSwitchData/showEditIncomeDialog", true);
+    },
+    confirmAccounting(scope) {
+      this.$store.commit("dialogSwitchData/showConfirmAccountingDialog", true);
+    },
+    deleteIncome(scope) {
+      this.$store.commit("dialogSwitchData/showDeleteIncomeDialog", true);
+    },
+    confirmList(scope) {
+      this.$store.commit("dialogSwitchData/showConfirmedIncomeDialog", true);
+    }
   }
 };
 </script>

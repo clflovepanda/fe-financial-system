@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="认款" :visible.sync="confirmIncomeDialogShow" width="80%">
+  <el-dialog title="已认款金额" :visible.sync="confirmedIncomeDialogShow" width="80%">
     <el-row>
       <el-col :span="22" :offset="1">
         <h2>到款信息</h2>
@@ -17,19 +17,11 @@
         </el-row>
       </el-col>
     </el-row>
-    <el-divider></el-divider>
-    <el-row>
-      <el-col :span="22" :offset="1">
-        <h2>本次认款</h2>
-        <NowIncomeComponent />
-      </el-col>
-    </el-row>
   </el-dialog>
 </template>
 <script>
 import IncomeDetailListTableComponent from "~/components/financialModule/incomePage/IncomeDetailListTableComponent";
 import ConfirmIncomeListTableComponent from "~/components/financialModule/incomePage/ConfirmIncomeListTableComponent";
-import NowIncomeComponent from "~/components/financialModule/incomePage/NowIncomeComponent";
 
 export default {
   data() {
@@ -40,7 +32,7 @@ export default {
         incomeType: "",
         incomeFromType: "",
       },
-      confirmIncomeDialogShow: false,
+      confirmedIncomeDialogShow: false,
     };
   },
   computed: {
@@ -50,19 +42,19 @@ export default {
     accountStatusList() {
       return this.$store.state.userData.accountStatusList;
     },
-    isShowConfirmIncomeDialog() {
-      return this.$store.state.dialogSwitchData.confirmIncomeDialogShow;
+    isShowConfirmedIncomeDialog() {
+      return this.$store.state.dialogSwitchData.confirmedIncomeDialogShow;
     },
   },
   watch: {
-    confirmIncomeDialogShow() {
+    confirmedIncomeDialogShow() {
       this.$store.commit(
-        "dialogSwitchData/showConfirmIncomeDialog",
-        this.confirmIncomeDialogShow
+        "dialogSwitchData/showConfirmedIncomeDialog",
+        this.confirmedIncomeDialogShow
       );
     },
-    isShowConfirmIncomeDialog(val, oldVal) {
-      this.confirmIncomeDialogShow = val;
+    isShowConfirmedIncomeDialog(val, oldVal) {
+      this.confirmedIncomeDialogShow = val;
     },
   },
   methods: {

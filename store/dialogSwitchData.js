@@ -3,6 +3,10 @@ export const state = () => ({
     editUserDialogShow: false,
     newIncomeDialogShow: false,
     confirmIncomeDialogShow: false,
+    editIncomeDialogShow: false,
+    confirmAccountingDialogShow: false,
+    deleteIncomeDialogShow: false,
+    confirmedIncomeDialogShow: false,
 })
 
 export const mutations = {
@@ -17,5 +21,17 @@ export const mutations = {
     },
     showConfirmIncomeDialog(state, value) {
         state.confirmIncomeDialogShow = value;
+    },
+    showEditIncomeDialog(state, value) {
+        state.editIncomeDialogShow = value;
+    },
+    showConfirmAccountingDialog(state, value) {
+        state.confirmAccountingDialogShow = value;
+    },
+    showDeleteIncomeDialog(state, value) {
+        state.deleteIncomeDialogShow = value;
+    },
+    showConfirmedIncomeDialog(state, value) {
+        state.confirmedIncomeDialogShow = value;
     }
 }
