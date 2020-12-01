@@ -226,11 +226,19 @@
           <el-tab-pane label="支出" name="fourth">
             <Pay />
           </el-tab-pane>
-          <el-tab-pane label="押金" name>押金</el-tab-pane>
-          <el-tab-pane label="报价单" name>报价单</el-tab-pane>
-          <el-tab-pane label="项目合同" name>项目合同</el-tab-pane>
+          <el-tab-pane label="押金" name>
+            <Deposit />
+          </el-tab-pane>
+          <el-tab-pane label="报价单" name>
+            <PriceList />
+          </el-tab-pane>
+          <el-tab-pane label="项目合同" name>
+            <AgreeMent />
+          </el-tab-pane>
           <el-tab-pane label="结算单" name>结算单</el-tab-pane>
-          <el-tab-pane label="应收单" name>应收单</el-tab-pane>
+          <el-tab-pane label="应收单" name>
+            <ReceivableList />
+          </el-tab-pane>
         </el-tabs>
 
         <el-row>
@@ -248,7 +256,10 @@
 import AddNewProModal from "~/components/projectListPage/AddNewProModal.vue";
 import Income from "~/components/projectListPage/Income.vue";
 import Pay from "~/components/projectListPage/Pay.vue";
-
+import Deposit from "~/components/projectListPage/Deposit.vue";
+import PriceList from "~/components/projectListPage/PriceList.vue";
+import AgreeMent from "~/components/projectListPage/AgreeMent.vue";
+import ReceivableList from "~/components/projectListPage/ReceivableList.vue";
 
 export default {
   data() {
@@ -276,11 +287,10 @@ export default {
 </script>
 
 <style>
-
 .breadcrumb.breadcrumb-actived .el-breadcrumb__inner.is-link {
   color: blue;
 }
- 
+
 .project-info-wrap {
   background: #eee;
   padding: 20px;
