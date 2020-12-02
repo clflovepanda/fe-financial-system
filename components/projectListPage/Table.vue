@@ -10,11 +10,7 @@
     <el-table-column align="center" prop="proManager" label="项目经理"></el-table-column>
     <el-table-column align="center" prop="saleManager" label="销售经理"></el-table-column>
     <el-table-column align="center" prop="proPerson" label="项目成员"></el-table-column>
-    <el-table-column align="center" prop="accountStatus" label="花费工时/时" width="120">
-      <template slot-scope="scope">
-        <el-button @click="handleProTime(scope)" type="text" size="small">{{scope.row.name}}</el-button>
-      </template>
-    </el-table-column>
+    <el-table-column align="center" prop="accountStatus" label="花费工时/时" width="120"></el-table-column>
     <el-table-column align="center" prop="createTime" label="项目创建时间" width="120"></el-table-column>
     <el-table-column align="center" prop="num" label="项目开始时间-结束时间" width="180"></el-table-column>
     <el-table-column align="center" prop="id" label="结算收入/结算支出" width="160"></el-table-column>
@@ -29,6 +25,7 @@
 
 <script>
 export default {
+  props: ["passStatus"],
   data() {
     return {
       listData: [
@@ -42,13 +39,13 @@ export default {
     };
   },
   methods: {
-    handleProName (val) {
-      console.log(val);
-      this.$router.push('/viewProject');
+    handleProName(val) {
+      console.log(this.passStatus);
+      this.$router.push("/viewProject");
     },
     handleProTime: (val) => {
-        console.log(val)
-    }
+      console.log(val);
+    },
   },
 };
 </script>

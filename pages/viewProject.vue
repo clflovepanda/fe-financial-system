@@ -21,10 +21,18 @@
           <el-tab-pane label="项目信息" name="first">
             <el-row class="button-wrap">
               <el-col :span="10" :offset="14">
-                <el-button size="small" type="success">销售提成1%已发放</el-button>
-                <el-button size="small" type="success">销售提成已全部发放</el-button>
-                <el-button size="small" type="warning">修改项目</el-button>
-                <el-button size="small" type="danger">关闭项目</el-button>
+                <el-button size="small" type="success" @click="dialogMoneyisSend = true">销售提成1%已发放</el-button>
+                <el-button
+                  size="small"
+                  type="success"
+                  @click="dialogMoneyisAllSend = true"
+                >销售提成已全部发放</el-button>
+                <el-button size="small" type="warning" @click="handleRevisePro()">修改项目</el-button>
+                <el-button
+                  size="small"
+                  type="danger"
+                  
+                > 关闭项目 </el-button>
               </el-col>
             </el-row>
             <div class="project-info-wrap">
@@ -249,6 +257,42 @@
       </el-main>
     </el-container>
     <AddNewProModal :show="dialogAddTime" @hideModal="handlehideModal" />
+    <el-dialog
+      title="销售提成1%已发放"
+      :visible.sync="dialogMoneyisSend"
+      width="30%"
+      :before-close="handleClose"
+    >
+      <span class="show-notice">请确认是否已经发放销售提成的1%，请谨慎操作</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="handleSendMoney()">确认发放</el-button>
+        <el-button @click="dialogMoneyisSend = false">取 消</el-button>
+      </span>
+    </el-dialog>
+    <el-dialog
+      title="销售提成已全部发放"
+      :visible.sync="dialogMoneyisAllSend"
+      width="30%"
+      :before-close="handleClose"
+    >
+      <span class="show-notice">请确认是否已经发放销售全部提成，请谨慎操作</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="handleSendAllMoney()">确认发放</el-button>
+        <el-button @click="dialogMoneyisAllSend = false">取 消</el-button>
+      </span>
+    </el-dialog>
+     <!-- <el-dialog
+      title="关闭项目"
+      :visible.sync="dialogClose"
+      width="30%"
+      :before-close="handleClose"
+    >
+      <span class="show-notice">请确认是否已经发放销售全部提成，请谨慎操作</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="handleSureClose()">确认发放</el-button>
+        <el-button @click="dialogClose = false">取 消</el-button>
+      </span>
+    </el-dialog> -->
   </el-container>
 </template>
 
@@ -266,6 +310,10 @@ export default {
     return {
       activeName: "first",
       dialogAddTime: false,
+      dialogMoneyisSend: false,
+      dialogMoneyisAllSend: false,
+      closeStatus: true,
+      
     };
   },
 
@@ -282,6 +330,24 @@ export default {
     handlehideModal() {
       this.dialogAddTime = false;
     },
+    handleSendMoney() {
+      // 发送请求  成功或失败弹窗
+      this.dialogMoneyisSend = false;
+    },
+    handleSendAllMoney() {
+      // 发送请求  成功或失败弹窗
+
+      this.dialogMoneyisAllSend = false;
+    },
+    handleRevisePro() {
+      this.$router.push("/revise");
+    },
+    changeProStatus(){
+      this.closeStatus = false;
+    },
+    handleSureClose(){
+      this.han
+    }
   },
 };
 </script>
@@ -315,5 +381,8 @@ export default {
 }
 .view-project .el-input {
   width: 250px;
+}
+.show-notice {
+  color: red;
 }
 </style>

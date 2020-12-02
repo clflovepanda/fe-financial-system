@@ -85,10 +85,10 @@
 
         <el-tabs v-model="activeName" @tab-click="handleTabClick">
           <el-tab-pane label="审核通过项目" name="checkedPro">
-            <Table />
+            <Table :passStatus="true" />
           </el-tab-pane>
           <el-tab-pane label="待审核及审核失败项目" name="notChecked">
-            <Table />
+            <Table :passStatus="false"/>
           </el-tab-pane>
         </el-tabs>
       </el-main>
