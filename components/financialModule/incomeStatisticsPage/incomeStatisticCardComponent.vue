@@ -12,10 +12,8 @@
 </template>
 
 <script>
-import axios from "axios";
 
 export default {
-  name: "Echarts",
   data() {
     return {};
   },
