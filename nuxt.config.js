@@ -12,13 +12,16 @@ export default {
         ],
         link: [
             { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-        ]
+        ],
+        script: [
+            { src: '/echarts.min.js', async: true, defer: true }
+        ],
     },
 
     // Global CSS (https://go.nuxtjs.dev/config-css)
     css: [
         'element-ui/lib/theme-chalk/index.css',
-        'static/css/common.css'
+        'static/css/common.css',
     ],
 
     // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)

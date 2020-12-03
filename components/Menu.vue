@@ -11,10 +11,6 @@
         <span slot="title">项目列表</span>
       </el-menu-item>
     </nuxt-link>
-    <el-menu-item index="2">
-      <i class="el-icon-menu"></i>
-      <span slot="title">导航二</span>
-    </el-menu-item>
     <el-submenu index="3">
       <template slot="title">
         <i class="el-icon-location"></i>
@@ -24,7 +20,9 @@
         <nuxt-link to="/income">
           <el-menu-item index="3-1">到款管理</el-menu-item>
         </nuxt-link>
+        <nuxt-link to="/incomeStatistic">
         <el-menu-item index="3-2">到款统计</el-menu-item>
+        </nuxt-link>
         <el-menu-item index="3-3">押金管理</el-menu-item>
         <el-menu-item index="3-4">支出管理</el-menu-item>
         <el-menu-item index="3-5">发票应收</el-menu-item>
