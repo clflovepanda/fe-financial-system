@@ -1,12 +1,14 @@
 <template>
-  <el-row>
-    <el-col :span="16">
-      <div id="chartA" style="width: 100%; height: 300px"></div>
-    </el-col>
-    <el-col :span="8">
-      <div id="chartB" style="width: 100%; height: 300px"></div>
-    </el-col>
-  </el-row>
+  <div>
+    <el-row>
+      <el-col :span="16">
+        <div id="chartA" style="width: 100%; height: 300px"></div>
+      </el-col>
+      <el-col :span="8">
+        <div id="chartB" style="width: 100%; height: 300px"></div>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 <script>
