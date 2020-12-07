@@ -7,21 +7,21 @@
     >
       <el-table-column
         fixed
-        prop="num"
+        prop="userId"
         label="序号"
         width="120"
       ></el-table-column>
-      <el-table-column prop="name" label="用户名称"></el-table-column>
-      <el-table-column prop="phone" label="手机号"></el-table-column>
-      <el-table-column prop="part" label="部门"></el-table-column>
-      <el-table-column prop="role" label="角色" width="120"></el-table-column>
+      <el-table-column prop="username" label="用户名称"></el-table-column>
+      <el-table-column prop="mobile" label="手机号"></el-table-column>
+      <el-table-column prop="depId" label="部门"></el-table-column>
+      <el-table-column prop="roleName" label="角色" width="120"></el-table-column>
       <el-table-column
-        prop="accountStatus"
+        prop="state"
         label="账号状态"
         width="120"
       ></el-table-column>
       <el-table-column
-        prop="createTime"
+        prop="createDatetime"
         label="创建时间"
         width="120"
       ></el-table-column>
@@ -62,6 +62,7 @@ export default {
   },
   computed: {
     userListTable() {
+      console.log("user component", this.$store.state.userData.userListTable);
       return this.$store.state.userData.userListTable;
     }
   },
@@ -73,6 +74,8 @@ export default {
     },
     handleEdit(scope) {
       console.log("edit " + scope.$index + " ...");
+      this.$store.commit("userData/setEditUserForm", this.$store.state.userData.userListTable.listData[scope.$index]);
+      this.$store.commit("dialogSwitchData/showEditUserDialog", true);
     },
   }
 };

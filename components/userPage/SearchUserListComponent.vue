@@ -123,8 +123,10 @@ export default {
   methods: {
       searchUserList: function() {
           console.log("search user list ...");
-          axios.get("/api").then((response)=>{
-            console.log(response);
+          let params = "?username=" + this.userSearchForm.userName;
+          axios.get("/api/user/list" + params
+          ).then((response)=>{
+            this.$store.commit("userData/setUserListTable", response.data.data);
           }, ()=>{});
       }
   }

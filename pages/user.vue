@@ -53,7 +53,7 @@ export default {
   },
   async asyncData(ctx) {
     console.log("初始化UserPage数据");
-    let result = await axios.get("/api/searchUserList").then((rep)=>{
+    let result = await axios.get("/api/user/list").then((rep)=>{
       if(rep && rep.data) {
         return rep.data.data;
       }

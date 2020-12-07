@@ -5,7 +5,7 @@
       <el-col :span="12"
         ><el-input
           placeholder="请输入用户名称"
-          v-model="editUserForm.userName"
+          v-model="editUserForm.username"
         ></el-input
       ></el-col>
     </el-row>
@@ -14,7 +14,7 @@
       <el-col :span="12"
         ><el-input
           placeholder="请输入手机号"
-          v-model="editUserForm.phone"
+          v-model="editUserForm.mobile"
         ></el-input
       ></el-col>
     </el-row>
@@ -22,7 +22,7 @@
       <el-col :span="4" class="labelSty">部门：</el-col>
       <el-col :span="12">
         <el-select
-          v-model="editUserForm.part"
+          v-model="editUserForm.depId"
           placeholder="请选择"
           style="width: 100%"
         >
@@ -40,7 +40,7 @@
       <el-col :span="12"
         ><el-input
           placeholder="请输入角色"
-          v-model="editUserForm.role"
+          v-model="editUserForm.roleId"
         ></el-input
       ></el-col>
     </el-row>
@@ -48,7 +48,7 @@
       <el-col :span="4" class="labelSty">账号状态：</el-col>
       <el-col :span="12">
         <el-select
-          v-model="editUserForm.accountStatus"
+          v-model="editUserForm.state"
           placeholder="请选择"
           style="width: 100%"
         >
@@ -95,19 +95,20 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
       editUserForm: {
-        userName: "",
-        phone: "",
-        role: "",
-        accountStatus: "",
-        part: "",
-        password: "",
-        repassword: "",
+        userId: "",
+        username: "",
+        mobile: "",
+        depId: "",
+        state: "",
+        roleName: "",
+        roleId: "",
       },
-      showEditUserDialog: false
+      showEditUserDialog: false,
     };
   },
   computed: {
@@ -118,20 +119,52 @@ export default {
       return this.$store.state.userData.accountStatusList;
     },
     isShowEditUserDialog() {
-        return this.$store.state.dialogSwitchData.editUserDialogShow;
-    }
+      return this.$store.state.dialogSwitchData.editUserDialogShow;
+    },
+    storeEditUserForm() {
+      return this.$store.state.userData.editUserForm;
+    },
   },
   watch: {
-      showEditUserDialog() {
-          this.$store.commit("dialogSwitchData/showEditUserDialog", this.showEditUserDialog);
-      },
-      isShowEditUserDialog(val, oldVal) {
-        this.showEditUserDialog = val;
-      }
+    storeEditUserForm(val, oldVal) {
+      this.editUserForm.userId = oldVal.userId;
+      this.editUserForm.username = oldVal.username;
+      this.editUserForm.mobile = oldVal.mobile;
+      this.editUserForm.depId = oldVal.depId;
+      this.editUserForm.state = oldVal.state;
+      this.editUserForm.roleName = oldVal.roleName;
+      this.editUserForm.roleId = oldVal.roleId;
+    },
+    showEditUserDialog() {
+      this.$store.commit(
+        "dialogSwitchData/showEditUserDialog",
+        this.showEditUserDialog
+      );
+    },
+    isShowEditUserDialog(val, oldVal) {
+      this.showEditUserDialog = val;
+    },
   },
   methods: {
     editUser: function () {
-      console.log("edit user ...");
+      console.log("edit user ...", this.editUserForm);
+      axios
+        .post("/api/user/update", {
+          user: {
+            userId: this.editUserForm.userId,
+            username: this.editUserForm.username,
+            mobile: this.editUserForm.mobile,
+            state: this.editUserForm.state,
+            roleId: [this.editUserForm.roleId],
+            depId: this.editUserForm.depId,
+          },
+        })
+        .then(
+          (response) => {
+            console.log(response);
+          },
+          () => {}
+        );
     },
   },
 };

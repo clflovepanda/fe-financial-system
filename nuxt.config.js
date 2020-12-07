@@ -48,6 +48,6 @@ export default {
         proxy: true
     },
     proxy: {
-        "/api": "http://127.0.0.1:8080/"
+        "/api": "http://www.clib.info/"
     }
 }
