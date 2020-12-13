@@ -1,37 +1,30 @@
 <template>
-  <el-container class="container create-time">
-    <el-header class="headerContent">
-      <HeaderBar />
-    </el-header>
-    <el-container>
-      <el-aside width="200px">
-        <Menu />
-      </el-aside>
-      <el-main>
-        <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item class="breadcrumb">位置</el-breadcrumb-item>
-          <el-breadcrumb-item class="breadcrumb">项目列表</el-breadcrumb-item>
-          <el-breadcrumb-item class="breadcrumb">查看项目</el-breadcrumb-item>
+  <div>
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item class="breadcrumb">位置</el-breadcrumb-item>
+      <el-breadcrumb-item class="breadcrumb">项目列表</el-breadcrumb-item>
+      <el-breadcrumb-item class="breadcrumb">查看项目</el-breadcrumb-item>
 
-          <el-breadcrumb-item
-            class="breadcrumb breadcrumb-actived"
-            :to="{ path: '/createTime' }"
-          >新增工时</el-breadcrumb-item>
-        </el-breadcrumb>
-        <el-divider></el-divider>
-        <el-form
-          :model="ruleForm"
-          :rules="rules"
-          ref="ruleForm"
-          label-width="90px"
-          label-position="left"
-          class="demo-ruleForm project-list-form"
-        ></el-form>
-        <el-divider></el-divider>
-        <el-button class="add-project" type="primary" @click="handleAddClick()">保存</el-button>
-      </el-main>
-    </el-container>
-  </el-container>
+      <el-breadcrumb-item
+        class="breadcrumb breadcrumb-actived"
+        :to="{ path: '/createTime' }"
+        >新增工时</el-breadcrumb-item
+      >
+    </el-breadcrumb>
+    <el-divider></el-divider>
+    <el-form
+      :model="ruleForm"
+      :rules="rules"
+      ref="ruleForm"
+      label-width="90px"
+      label-position="left"
+      class="demo-ruleForm project-list-form"
+    ></el-form>
+    <el-divider></el-divider>
+    <el-button class="add-project" type="primary" @click="handleAddClick()"
+      >保存</el-button
+    >
+  </div>
 </template>
 
 <script>

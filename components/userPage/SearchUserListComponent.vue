@@ -68,7 +68,7 @@
           ></el-option>
         </el-select>
       </el-col>
-      <el-col :span="2">
+      <!-- <el-col :span="2">
         <div class="labelSty">更新时间：</div>
       </el-col>
       <el-col :span="7">
@@ -79,9 +79,11 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期"
         ></el-date-picker>
-      </el-col>
+      </el-col> -->
       <el-col :span="2" :offset="1">
-        <el-button type="primary" style="width: 90%" @click="searchUserList">查询</el-button>
+        <el-button type="primary" style="width: 90%" @click="searchUserList"
+          >查询</el-button
+        >
       </el-col>
       <el-col :span="2">
         <el-button style="width: 90%">重置</el-button>
@@ -91,7 +93,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   data() {
@@ -113,23 +115,29 @@ export default {
     },
     accountStatusList() {
       return this.$store.state.userData.accountStatusList;
-    }
+    },
   },
   watch: {
     userSearchForm(val, oldVal) {
       this.$store.commit("userData/setUserSearchForm", val);
-    }
+    },
   },
   methods: {
-      searchUserList: function() {
-          console.log("search user list ...");
-          let params = "?username=" + this.userSearchForm.userName;
-          axios.get("/api/user/list" + params
-          ).then((response)=>{
-            this.$store.commit("userData/setUserListTable", response.data.data);
-          }, ()=>{});
-      }
-  }
+    searchUserList: function () {
+      console.log("search user list ...");
+      let params = "?username=" + this.userSearchForm.userName
+       + "&mobile=" + this.userSearchForm.mobile
+       + "&state=" + this.userSearchForm.state
+       + "&role=" + this.userSearchForm.role
+       + "&depId=" + this.userSearchForm.part;
+      axios.get("/api/user/list" + params).then(
+        (response) => {
+          this.$store.commit("userData/setUserListTable", response.data.data);
+        },
+        () => {}
+      );
+    },
+  },
 };
 </script>
 <style>

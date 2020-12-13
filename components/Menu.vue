@@ -7,7 +7,7 @@
   >
     <nuxt-link to="/projectList">
       <el-menu-item index="1">
-        <i class="el-icon-location"></i>
+        <i class="el-icon-s-order"></i>
         <span slot="title">项目列表</span>
       </el-menu-item>
     </nuxt-link>
@@ -37,7 +37,7 @@
       </el-menu-item>
     </nuxt-link>
     <nuxt-link to="/role">
-      <el-menu-item index="4">
+      <el-menu-item index="5">
         <i class="el-icon-s-opportunity"></i>
         <span slot="title">角色管理</span>
       </el-menu-item>

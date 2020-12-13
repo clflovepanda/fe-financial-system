@@ -95,6 +95,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
@@ -107,7 +108,7 @@ export default {
         password: "",
         repassword: "",
       },
-      showCreateUserDialog: false
+      showCreateUserDialog: false,
     };
   },
   computed: {
@@ -118,20 +119,74 @@ export default {
       return this.$store.state.userData.accountStatusList;
     },
     isShowCreateUserDialog() {
-        return this.$store.state.dialogSwitchData.createUserDialogShow;
-    }
+      return this.$store.state.dialogSwitchData.createUserDialogShow;
+    },
   },
   watch: {
-      showCreateUserDialog() {
-          this.$store.commit("dialogSwitchData/showCreateUserDialog", this.showCreateUserDialog);
-      },
-      isShowCreateUserDialog(val, oldVal) {
-        this.showCreateUserDialog = val;
-      }
+    showCreateUserDialog() {
+      this.$store.commit(
+        "dialogSwitchData/showCreateUserDialog",
+        this.showCreateUserDialog
+      );
+    },
+    isShowCreateUserDialog(val, oldVal) {
+      this.showCreateUserDialog = val;
+    },
   },
   methods: {
     createUser: function () {
       console.log("create user ...");
+      if (this.createDialogForm.password != this.createDialogForm.repassword) {
+        this.$message.error("两次输入的密码不一致");
+        return;
+      }
+      if (
+        this.createDialogForm.userName == null ||
+        this.createDialogForm.userName == ""
+      ) {
+        this.$message.error("用户名不能为空");
+        return;
+      }
+      if (
+        this.createDialogForm.phone == null ||
+        this.createDialogForm.phone == ""
+      ) {
+        this.$message.error("电话号不能为空");
+        return;
+      }
+      if (
+        this.createDialogForm.role == null ||
+        this.createDialogForm.role == ""
+      ) {
+        this.$message.error("角色不能为空");
+        return;
+      }
+      if (
+        this.createDialogForm.part == null ||
+        this.createDialogForm.part == ""
+      ) {
+        this.$message.error("部门不能为空");
+        return;
+      }
+      axios
+        .post("/api/user/add", {
+          user: {
+            userId: "",
+            username: this.createDialogForm.userName,
+            mobile: this.createDialogForm.phone,
+            email: "",
+            password: this.createDialogForm.password,
+            state: 1,
+            roleId: this.createDialogForm.roleId,
+            depId: this.createDialogForm.part,
+          },
+        })
+        .then(
+          (response) => {
+            console.log(response);
+          },
+          () => {}
+        );
     },
   },
 };

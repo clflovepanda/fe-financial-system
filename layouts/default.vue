@@ -1,7 +1,17 @@
 <template>
-  <div>
-    <Nuxt />
-  </div>
+  <el-container class="container">
+    <el-header class="headerContent">
+      <HeaderBar />
+    </el-header>
+    <el-container>
+      <el-aside width="200px">
+        <Menu />
+      </el-aside>
+      <el-main>
+        <Nuxt />
+      </el-main>
+    </el-container>
+  </el-container>
 </template>
 
 <style>
