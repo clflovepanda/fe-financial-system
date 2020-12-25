@@ -193,54 +193,23 @@
           <el-divider></el-divider>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="工时分配" name="second">
-        <el-row>
-          <el-col :offset="22">
-            <el-button size="small" type="primary" @click="handleAddTime()"
-              >新增工时</el-button
-            >
-          </el-col>
-        </el-row>
-        <div class="project-info-wrap">
-          <el-row>
-            <span class="info-title">已添加工时</span>
-          </el-row>
-          <el-divider></el-divider>
-          <el-row>
-            <el-col :span="6">
-              <span>王大龙</span>
-              <span class="pro-manager">项目经理</span>
-            </el-col>
-            <el-col :span="6">
-              <span>数量：</span>
-              <span></span>
-            </el-col>
-            <el-col :span="6">
-              <span>工时：</span>
-              <span></span>
-            </el-col>
-            <el-col :span="6">
-              <span>完成实时间：</span>
-              <span></span>
-            </el-col>
-          </el-row>
-          <el-divider></el-divider>
-        </div>
-      </el-tab-pane>
+      <!-- <el-tab-pane label="工时分配" name="second">
+        
+      </el-tab-pane> -->
       <el-tab-pane label="收入" name="third">
         <!-- <Income /> -->
       </el-tab-pane>
       <el-tab-pane label="支出" name="fourth">
         <Pay />
       </el-tab-pane>
-      <el-tab-pane label="押金" name>
-        <!-- <Deposit /> -->
-      </el-tab-pane>
+      <!-- <el-tab-pane label="押金" name>
+        <Deposit />
+      </el-tab-pane> -->
       <el-tab-pane label="报价单" name>
-        <!-- <PriceList /> -->
+        <PriceList />
       </el-tab-pane>
       <el-tab-pane label="项目合同" name>
-        <!-- <AgreeMent /> -->
+        <AgreeMent />
       </el-tab-pane>
       <el-tab-pane label="结算单" name>结算单</el-tab-pane>
       <el-tab-pane label="应收单" name>
@@ -346,7 +315,6 @@ export default {
   },
   methods: {
     handleTabClick(tab, event) {
-      console.log(tab, event);
     },
     handleBackList() {
       this.$router.push("/projectList");
@@ -380,16 +348,28 @@ export default {
     if(!CookieUtil.existCookie("user_id")) {
       location.href = "/";
     }
-    let result = await axios.get("/api/expenditure/list").then(
-      (rep) => {
-        if (rep && rep.data) {
-          return rep.data.data;
-        }
-      },
-      () => {}
-    );
-    console.log("pay data", result);
-    ctx.store.commit("projectData/setProjectPay", result);
+    // let result = await axios.get("/api/expenditure/list").then(
+    //   (rep) => {
+    //     if (rep && rep.data) {
+    //       return rep.data.data;
+    //     }
+    //   },
+    //   () => {}
+    // );
+    // console.log("pay data", result);
+    // ctx.store.commit("projectData/setProjectPay", result);
+
+    // let quotationResult = await axios.get("/api/quotation/list").then(
+    //   (rep) => {
+    //     if (rep && rep.data) {
+    //       return rep.data.data;
+    //     }
+    //   },
+    //   () => {}
+    // );
+    // console.log("quotation data", quotationResult);
+    // ctx.store.commit("projectData/setQuotationList", quotationResult);
+
   },
 };
 </script>

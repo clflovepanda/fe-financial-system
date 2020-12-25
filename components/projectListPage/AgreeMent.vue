@@ -2,31 +2,25 @@
   <el-container class="container agreeMent">
     <el-container>
       <el-main>
-        <el-form
-          :model="ruleForm"
-          :rules="rules"
-          ref="ruleForm"
-          label-width="90px"
-          label-position="left"
-          class="demo-ruleForm agreeMent-form"
-        >
-          <el-form-item label="项目合同" prop="name">
+        <el-row>
+          <el-col :span="2" class="labelSty"><span>项目合同：</span></el-col>
+          <el-col :span="4">
             <el-input v-model="ruleForm.name" placeholder="请输入项目合同"></el-input>
-          </el-form-item>
-           <el-form-item label="项目编号" prop="id">
+          </el-col>
+          <el-col :span="2" class="labelSty"><span>项目编号：</span></el-col>
+          <el-col :span="4">
             <el-input v-model="ruleForm.id" placeholder="请输入项目编号"></el-input>
-          </el-form-item>
-
-          <el-form-item class="button-wrap">
-            <el-button type="primary" @click="handleFindClick()">查询</el-button>
-            <el-button @click="resetForm('ruleForm')">重置</el-button>
-          </el-form-item>
-        </el-form>
+          </el-col>
+          <el-col :span="4" :offset="1">
+            <el-button type="primary">查询</el-button>
+            <el-button >重置</el-button>
+          </el-col>
+        </el-row>
         <el-divider></el-divider>
 
         <el-row>
           <el-col :span="4" :offset="20">
-            <el-button type="primary" @click="handleExcel()">上传项目合同</el-button>
+            <el-button type="primary" >上传项目合同</el-button>
           </el-col>
         </el-row>
         <el-table :data="listData" border style="width: 100%; margin-top: 20px">
@@ -36,11 +30,11 @@
           <el-table-column align="center" prop="name" label="客户名称" width="120"></el-table-column>
           <el-table-column align="center" prop="proManager" label="附件"></el-table-column>
           <el-table-column align="center" prop="id" label="操作" width="140">
-            <tempalte>
+            <!-- <tempalte>
               <span>下载合同</span>
               <span>修改合同</span>
               <span>删除</span>
-            </tempalte>
+            </tempalte> -->
           </el-table-column>
         </el-table>
       </el-main>
@@ -148,5 +142,17 @@ export default {
   line-height: 60px;
   color: #fff;
   margin-bottom: 20px;
+}
+.labelSty {
+  line-height: 40px;
+  text-align: center;
+}
+
+.rowSty {
+  margin-top: 10px;
+}
+
+.inpSty {
+  width: 100%
 }
 </style>

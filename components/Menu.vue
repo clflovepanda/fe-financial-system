@@ -4,6 +4,7 @@
     class="el-menu-vertical-demo"
     @open="handleOpen"
     @close="handleClose"
+    style="height: 100%"
   >
     <nuxt-link to="/projectList">
       <el-menu-item index="1">

@@ -49,8 +49,18 @@ export default {
   computed: {
     getProjectList() {
       if(this.passStatus) {
+        return this.$store.state.projectData.projectList.filter(function(item) {
+          if (item.auditingState == 1) {
+            return item;
+          }
+        });
+      } else {
+        return this.$store.state.projectData.projectList.filter(function(item) {
+          if (item.auditingState != 1) {
+            return item;
+          }
+        });
       }
-      return this.$store.state.projectData.projectList;
     }
   },
   methods: {
@@ -68,6 +78,28 @@ export default {
         console.log("project detail", result);
         ts.generateProjectDetail(result);
         ts.generateProjectFinancial(result);
+
+        let expenditureResult = await axios.get("/api/expenditure/list?projectId=" + val.projectId).then(
+          (rep) => {
+            if (rep && rep.data) {
+              return rep.data.data;
+            }
+          },
+          () => {}
+        );
+        console.log("pay data", expenditureResult);
+        ts.$store.commit("projectData/setProjectPay", expenditureResult);
+
+        let quotationResult = await axios.get("/api/quotation/list?projectId=" + val.projectId).then(
+          (rep) => {
+            if (rep && rep.data) {
+              return rep.data.data;
+            }
+          },
+          () => {}
+        );
+        console.log("quotation data", quotationResult);
+        ts.$store.commit("projectData/setQuotationList", quotationResult);
       })(this);
       this.$router.push("/viewProject");
     },

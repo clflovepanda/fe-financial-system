@@ -107,11 +107,11 @@
           <el-table-column align="center" prop="num" label="退回中押金/元" width="180"></el-table-column>
           <el-table-column align="center" prop="id" label="已退回押金/元" width="140"></el-table-column>
           <el-table-column align="center" prop="id" label="操作" width="140">
-              <tempalte>
+              <!-- <tempalte>
                   <span>退押金</span>
                   <span>操作记录</span>
                 
-              </tempalte>
+              </tempalte> -->
           </el-table-column>
 
 

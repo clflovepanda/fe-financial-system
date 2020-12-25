@@ -56,11 +56,11 @@
 
 
           <el-table-column align="center" prop="id" label="操作" width="140">
-            <tempalte>
+            <!-- <tempalte>
               <span>打印</span>
               <span>修改</span>
               <span>删除</span>
-            </tempalte>
+            </tempalte> -->
           </el-table-column>
         </el-table>
       </el-main>

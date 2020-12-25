@@ -16,6 +16,25 @@ let EnumAccount = {
     }
 }
 
+let EnumProjectType = {
+    list: [
+        { value: 1, label: "未开始" },
+        { value: 2, label: "进行中" },
+        { value: 3, label: "暂停" },
+        { value: 4, label: "取消" },
+        { value: 5, label: "已完成" },
+        { value: 6, label: "已关闭" },
+    ],
+    getMsg(value) {
+        for (let i = 0; i < this.list.length; i++) {
+            if (value == this.list[i].value) {
+                return this.list[i].label;
+            }
+        }
+        return "";
+    }
+}
+
 let EnumIncomeType = {
     list: [
         { value: 1, label: "汇款" },
@@ -81,7 +100,7 @@ let EnumPayType = { //支付方式
     }
 }
 
-let EnumAuditType = { //支付方式
+let EnumAuditType = {
     list: [
         { value: 1, label: "支出申请" },
         { value: 2, label: "已支付" },
@@ -99,4 +118,63 @@ let EnumAuditType = { //支付方式
     }
 }
 
-export { EnumAccount, EnumIncomeType, EnumIncomeFromType, EnumOutputType, EnumPayType, EnumAuditType }
+let EnumSaleSendType = { //销售提成发放状态
+    list: [
+        { value: 1, label: "未发放" },
+        { value: 2, label: "部分发放" },
+        { value: 3, label: "全部发放" }
+    ],
+    getMsg(value) {
+        for (let i = 0; i < this.list.length; i++) {
+            if (value == this.list[i].value) {
+                return this.list[i].label;
+            }
+        }
+        return "";
+    }
+}
+
+let EnumSettlementState = { //结算单状态
+    list: [
+        { value: 1, label: "未结算" },
+        { value: 2, label: "已结算" }
+    ],
+    getMsg(value) {
+        for (let i = 0; i < this.list.length; i++) {
+            if (value == this.list[i].value) {
+                return this.list[i].label;
+            }
+        }
+        return "";
+    }
+}
+
+let EnumProjectAuditState = {
+    list: [
+        { value: 0, label: "待审核" },
+        { value: 1, label: "审核通过" },
+        { value: 2, label: "驳回" },
+    ],
+    getMsg(value) {
+        for (let i = 0; i < this.list.length; i++) {
+            if (value == this.list[i].value) {
+                return this.list[i].label;
+            }
+        }
+        return "";
+    }
+}
+
+
+export {
+    EnumAccount,
+    EnumIncomeType,
+    EnumIncomeFromType,
+    EnumOutputType,
+    EnumPayType,
+    EnumAuditType,
+    EnumProjectType,
+    EnumSaleSendType,
+    EnumSettlementState,
+    EnumProjectAuditState
+}

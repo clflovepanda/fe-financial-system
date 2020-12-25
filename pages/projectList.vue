@@ -2,101 +2,95 @@
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item class="breadcrumb">位置</el-breadcrumb-item>
-      <el-breadcrumb-item
-        class="breadcrumb breadcrumb-actived"
-        :to="{ path: '/projectList' }"
-        >项目列表</el-breadcrumb-item
+      <el-breadcrumb-item class="breadcrumb breadcrumb-actived">项目列表</el-breadcrumb-item
       >
     </el-breadcrumb>
     <el-divider></el-divider>
-    <el-form
-      :model="ruleForm"
-      ref="ruleForm"
-      label-width="90px"
-      label-position="left"
-      class="demo-ruleForm project-list-form"
-    >
-      <el-form-item label="项目编号" prop="id">
-        <el-input v-model="ruleForm.id" placeholder="请输入项目编号"></el-input>
-      </el-form-item>
-      <el-form-item label="项目名称" prop="name">
-        <el-input
-          v-model="ruleForm.name"
-          placeholder="请输入项目名称"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="项目经理" prop="proManager">
-        <el-input
-          v-model="ruleForm.managerName"
-          placeholder="请输入项目经理姓名"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="销售经理" prop="saleManager">
-        <el-input
-          v-model="ruleForm.salesName"
-          placeholder="请输入销售经理姓名"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="项目成员" prop="userNames">
-        <el-input
-          v-model="ruleForm.proPerson"
-          placeholder="请输入项目成员姓名"
-        ></el-input>
-      </el-form-item>
-
-      <el-form-item label="结算单" prop="statement">
-        <el-select v-model="ruleForm.settlementState" placeholder="请选择结算单状态">
-          <el-option label="未结算" value="notState"></el-option>
-          <el-option label="待结算" value="willState"></el-option>
-          <el-option label="已结算" value="stated"></el-option>
-        </el-select>
-      </el-form-item>
-
-      <el-form-item label="项目状态" prop="projectStatus">
+    <el-row>
+      <el-col :span="2" class="labelSty"><span class="labelSty">项目编号：</span></el-col>
+      <el-col :span="3">
+        <el-input v-model="ruleForm.projectNo" placeholder="请输入项目编号"></el-input>
+      </el-col>
+      <el-col :span="2" class="labelSty"><span class="labelSty">项目名称：</span></el-col>
+      <el-col :span="3">
+        <el-input v-model="ruleForm.projectName" placeholder="请输入项目名称"></el-input>
+      </el-col>
+      <el-col :span="2" class="labelSty"><span class="labelSty">项目经理：</span></el-col>
+      <el-col :span="3">
+        <el-input v-model="ruleForm.managerName" placeholder="请输入项目经理姓名"></el-input>
+      </el-col>
+      <el-col :span="2" class="labelSty"><span class="labelSty">销售经理：</span></el-col>
+      <el-col :span="3">
+        <el-input v-model="ruleForm.salesName" placeholder="请输入销售经理姓名"></el-input>
+      </el-col>
+    </el-row>
+    <el-row class="rowSty">
+      <el-col :span="2" class="labelSty"><span class="labelSty">项目成员：</span></el-col>
+      <el-col :span="3">
+        <el-input v-model="ruleForm.userNames" placeholder="请输入销售经理姓名"></el-input>
+      </el-col>
+      <el-col :span="2" class="labelSty"><span class="labelSty">结算单：</span></el-col>
+      <el-col :span="3">
         <el-select
-          v-model="ruleForm.state"
-          placeholder="请选择项目状态"
+          v-model="ruleForm.settlementState"
+          placeholder="请选择销售提成发放状态"
         >
-          <el-option label="未开始" value="notStart"></el-option>
-          <el-option label="进行中" value="pending"></el-option>
-          <el-option label="已暂停" value="stoped"></el-option>
-          <el-option label="已取消" value="cancel"></el-option>
-          <el-option label="已完成" value="fulfil"></el-option>
-          <el-option label="已关闭" value="colsed"></el-option>
+          <el-option
+            v-for="item in getSetmentStateList"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
         </el-select>
-      </el-form-item>
-
-      <el-form-item label="项目时间">
+      </el-col>
+      <el-col :span="2" class="labelSty"><span class="labelSty">项目状态：</span></el-col>
+      <el-col :span="3">
+        <el-select v-model="ruleForm.state" placeholder="请选择项目状态">
+          <el-option
+            v-for="item in getProjectTypeList"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </el-col>
+      <el-col :span="2" class="labelSty"><span class="labelSty">项目时间：</span></el-col>
+      <el-col :span="3">
         <el-date-picker
-          v-model="ruleForm.dateRange"
+          v-model="dateRange"
           type="daterange"
           range-separator="~"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
         ></el-date-picker>
-      </el-form-item>
-      <el-form-item
-        label="销售提成发放状态"
-        prop="moneyStatus"
-        class="money-label"
-      >
+      </el-col>
+    </el-row>
+    <el-row class="rowSty">
+      <el-col :span="3" class="labelSty"><span class="labelSty">销售提成发放状态：</span></el-col>
+      <el-col :span="3">
         <el-select
           v-model="ruleForm.saleCommisState"
           placeholder="请选择销售提成发放状态"
         >
-          <el-option label="未发放" value="notExtend"></el-option>
-          <el-option label="部分发放" value="someExtend"></el-option>
-          <el-option label="全部发放" value="allExtend"></el-option>
+          <el-option
+            v-for="item in getSaleSendTypeList"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
         </el-select>
-      </el-form-item>
-      <el-form-item class="button-wrap">
-        <el-button type="primary" @click="submitForm">立即创建</el-button>
+      </el-col>
+      <el-col :span="3" :offset="1">
+        <el-button type="primary" @click="submitForm">搜索</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
-      </el-form-item>
-    </el-form>
+      </el-col>
+    </el-row>
     <el-divider></el-divider>
-    <el-button class="add-project" type="primary" @click="handleAddClick()">新增项目</el-button>
-
+    <el-row>
+      <el-col :span="4" :offset="20" style="text-align:right">
+        <el-button class="add-project" type="primary" @click="handleAddClick()">新增项目</el-button>
+      </el-col>
+    </el-row>
     <el-tabs v-model="activeName" @tab-click="handleTabClick">
       <el-tab-pane label="审核通过项目" name="checkedPro">
         <Table :passStatus="true" />
@@ -111,11 +105,15 @@
 <script>
 import Table from "~/components/projectListPage/Table.vue";
 import axios from "axios";
+import {EnumProjectType,EnumSaleSendType,EnumSettlementState} from "../utils/EnumUtil";
+import DateUtil from "../utils/DateUtil";
 
 export default {
   data() {
     return {
       ruleForm: {
+        projectNo: "",
+        projectName: "",
         startDt: "",
         endDt: "",
         state: "",
@@ -124,25 +122,48 @@ export default {
         settlementState: "",
         saleCommisState: "",
         userNames: "",
-        dateRange: ""
       },
+      dateRange: "",
       activeName: "checkedPro",
       listData: [],
     };
   },
-
+  computed: {
+    getProjectTypeList() {
+      return EnumProjectType.list;
+    },
+    getSaleSendTypeList() {
+      return EnumSaleSendType.list;
+    },
+    getSetmentStateList() {
+      return EnumSettlementState.list;
+    }
+  },
   methods: {
     submitForm() {
       console.log("search project form", this.ruleForm);
-      // axios.get("/api/project/list").then((res) => {
-        
-      // });
+      if (this.dateRange) {
+        let st = this.dateRange[0];
+        let et = this.dateRange[1];
+        this.ruleForm.startDt = st.getTime();
+        this.ruleForm.endDt = et.getTime();
+      }
+      axios.get("/api/project/list", {
+        params: this.ruleForm
+      }).then((res) => {
+        if(res.data.code == 200) {
+          this.$store.commit("projectData/setProjectList", res.data.data);
+        }
+      });
+
+      if(!CookieUtil.existCookie("user_id")) {
+        location.href = "/";
+      }
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
     handleTabClick(tab, event) {
-      console.log(tab, event);
     },
     handleAddClick() {
       console.log("新增项目");
@@ -195,5 +216,13 @@ export default {
   position: relative;
   float: right;
   z-index: 999;
+}
+.labelSty {
+  line-height: 40px;
+  text-align: center;
+}
+
+.rowSty {
+  margin-top: 10px;
 }
 </style>

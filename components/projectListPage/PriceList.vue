@@ -2,41 +2,38 @@
   <el-container class="container price-list">
     <el-container>
       <el-main>
-        <el-form
-          :model="ruleForm"
-          :rules="rules"
-          ref="ruleForm"
-          label-width="90px"
-          label-position="left"
-          class="demo-ruleForm price-list-form"
-        >
-          <el-form-item label="报价单名称" prop="name">
+        <el-row>
+          <el-col :span="2">
+            <span class="labelSty">报价单名称:</span>
+          </el-col>
+          <el-col :span="4">
             <el-input v-model="ruleForm.name" placeholder="请输入报价单名称"></el-input>
-          </el-form-item>
-
-          <el-form-item class="button-wrap">
-            <el-button type="primary" @click="handleFindClick()">查询</el-button>
-            <el-button @click="resetForm('ruleForm')">重置</el-button>
-          </el-form-item>
-        </el-form>
+          </el-col>
+          <el-col :span="2" :offset="1">
+            <el-button type="primary">查询</el-button>
+          </el-col>
+        </el-row>
         <el-divider></el-divider>
 
         <el-row>
-          <el-col :span="4" :offset="20">
-            <el-button type="primary" @click="handleExcel()">上传报价单</el-button>
+          <el-col :span="4" :offset="20" style="text-align:right">
+            <el-button type="primary" @click="uploadQuotation()">上传报价单</el-button>
           </el-col>
         </el-row>
-        <el-table :data="listData" border style="width: 100%; margin-top: 20px">
-          <el-table-column align="center" fixed prop="num" label="序号" width="120"></el-table-column>
-          <el-table-column align="center" prop="id" label="报价单名称"></el-table-column>
-          <el-table-column align="center" prop="name" label="报价单编号" width="120"></el-table-column>
-          <el-table-column align="center" prop="proManager" label="附件"></el-table-column>
+        <el-table :data="getQuotationData" border style="width: 100%; margin-top: 20px">
+          <el-table-column align="center" fixed prop="quotationId" label="序号"></el-table-column>
+          <el-table-column align="center" prop="quotationName" label="报价单名称"></el-table-column>
+          <el-table-column align="center" prop="quotationNo" label="报价单编号"></el-table-column>
+          <el-table-column align="center" prop="proManager" label="附件">
+            <template slot-scope="scope">
+              <a :href="scope.row.resourceUrl">下载附件</a>
+            </template>
+          </el-table-column>
           <el-table-column align="center" prop="id" label="操作" width="140">
-            <tempalte>
-              <span>下载附件</span>
-              <span>修改报价单</span>
-              <span>删除</span>
-            </tempalte>
+            <template slot-scope="scope">
+              <el-button type="text" size="small" @click="editQuotation(scope.row)">编辑</el-button>
+              <el-button type="text" size="small" @click="deleteQuotation(scope.row)">删除</el-button>
+            </template>
           </el-table-column>
         </el-table>
       </el-main>
@@ -51,75 +48,18 @@ export default {
   data() {
     return {
       ruleForm: {
-        id: "",
         name: "",
-        proManager: "",
-        saleManager: "",
-        proPerson: "",
-        statement: "",
-        projectStatus: "",
-        proDate: "",
-        moneyStatus: "",
       },
-      //   rules: {
-      //     id: [{ required: true, message: "请输入项目编号", trigger: "blur" }],
-      //     name: [{ required: true, message: "请输入项目名称", trigger: "blur" }],
-      //     proManager: [
-      //       { required: true, message: "请输入项目经理姓名", trigger: "blur" },
-      //     ],
-      //     saleManager: [
-      //       { required: true, message: "请输入销售经理姓名", trigger: "blur" },
-      //     ],
-      //     proPerson: [
-      //       { required: true, message: "请输入项目成员姓名", trigger: "blur" },
-      //     ],
-      //     statement: [
-      //       { required: true, message: "请选择结算单状态", trigger: "change" },
-      //     ],
-      //     projectStatus: [
-      //       { required: true, message: "请选择项目状态", trigger: "change" },
-      //     ],
-
-      //     proDate: [
-      //       {
-      //         type: "date",
-      //         required: true,
-      //         message: "请选择日期",
-      //         trigger: "change",
-      //       },
-      //     ],
-      //     moneyStatus: [
-      //       {
-      //         required: true,
-      //         message: "请选择销售提成发放状态",
-      //         trigger: "change",
-      //       },
-      //     ],
-      //   },
-      listData: [],
     };
   },
-
+  computed: {
+    getQuotationData() {
+      return this.$store.state.projectData.quotationList;
+    }
+  },
   methods: {
-    // submitForm(formName) {
-    //   this.$refs[formName].validate((valid) => {
-    //     if (valid) {
-    //       alert("submit!");
-    //     } else {
-    //       console.log("error submit!!");
-    //       return false;
-    //     }
-    //   });
-    // },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
-    },
-
-    handleFindClick() {
-      console.log("查询项目");
-    },
-    handleAddPay() {},
-    handleExcel() {},
+    editQuotation() {},
+    deleteQuotation() {}
   },
 };
 </script>
@@ -144,5 +84,18 @@ export default {
   line-height: 60px;
   color: #fff;
   margin-bottom: 20px;
+}
+
+.labelSty {
+  line-height: 40px;
+  text-align: center;
+}
+
+.rowSty {
+  margin-top: 10px;
+}
+
+.inpSty {
+  width: 100%
 }
 </style>

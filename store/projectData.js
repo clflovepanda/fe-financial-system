@@ -12,9 +12,9 @@ export const state = () => ({
     },
     projectFinancial: { //项目详情页，财务模块数据
     },
-    projectPay: { //项目详情页，支出模块
-
-    }
+    projectPay: [],
+    projectDataSource: [],
+    quotationList: []
 })
 
 //状态(1:未开始 2:进行中 3:暂停 4:取消 5:已完成 6:已关闭)
@@ -34,5 +34,11 @@ export const mutations = {
     },
     setProjectPay(state, newObj) {
         state.projectPay = newObj;
+    },
+    setProjectDataSrouce(state, newObj) {
+        state.projectDataSource = newObj;
+    },
+    setQuotationList(state, newObj) {
+        state.quotationList = newObj;
     }
 }
