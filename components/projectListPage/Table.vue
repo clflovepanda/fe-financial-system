@@ -66,8 +66,8 @@ export default {
           () => {}
         );
         console.log("project detail", result);
-        let projectDetail = ts.generateProjectDetail(result);
-        
+        ts.generateProjectDetail(result);
+        ts.generateProjectFinancial(result);
       })(this);
       this.$router.push("/viewProject");
     },
@@ -119,6 +119,12 @@ export default {
         }
       }
       this.$store.commit("projectData/setProjectDetail", projectDetail);
+    },
+    generateProjectFinancial(detail) {
+      if (detail.financial) {
+        console.log("project financial", detail.financial);
+        this.$store.commit("projectData/setProjectFinancial", detail.financial);
+      }
     },
     handleProTime: (val) => {
     },

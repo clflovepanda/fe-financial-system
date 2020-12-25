@@ -131,11 +131,11 @@
           <el-row>
             <el-col :span="10">
               <span class="label-item">预计收入金额/元：</span>
-              <span></span>
+              <span>{{projectFinancial.estincome}}</span>
             </el-col>
             <el-col :span="10">
               <span class="label-item">预计支出金额/元：</span>
-              <span></span>
+              <span>{{projectFinancial.budget}}</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>
@@ -143,11 +143,11 @@
           <el-row>
             <el-col :span="10">
               <span class="label-item">实际收入金额/元：</span>
-              <span></span>
+              <span>{{projectFinancial.actualIncome}}</span>
             </el-col>
             <el-col :span="10">
               <span class="label-item">实际支出金额/元：</span>
-              <span></span>
+              <span>{{projectFinancial.actualExpenditure}}</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>
@@ -155,11 +155,11 @@
           <el-row>
             <el-col :span="10">
               <span class="label-item">预收押金/元：</span>
-              <span></span>
+              <span>{{projectFinancial.deposit}}</span>
             </el-col>
             <el-col :span="10">
               <span class="label-item">押金转收入金额/元：</span>
-              <span></span>
+              <span>{{projectFinancial.deposit}}</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>
@@ -167,15 +167,15 @@
           <el-row>
             <el-col :span="8">
               <span class="label-item">项目利润/元：</span>
-              <span></span>
+              <span>{{projectFinancial.profit}}</span>
             </el-col>
             <el-col :span="8">
               <span class="label-item">毛利率/%：</span>
-              <span></span>
+              <span>{{projectFinancial.rate}}</span>
             </el-col>
             <el-col :span="8">
               <span class="label-item">支出比/%:</span>
-              <span></span>
+              <span>{{projectFinancial.expenditureRatio}}</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>
@@ -183,11 +183,11 @@
           <el-row>
             <el-col :span="10">
               <span class="label-item">结算收入金额/元：</span>
-              <span></span>
+              <span>{{projectFinancial.settlement}}</span>
             </el-col>
             <el-col :span="10">
               <span class="label-item">应收收入/元：</span>
-              <span></span>
+              <span>{{projectFinancial.receivable}}</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>
@@ -231,7 +231,7 @@
         <!-- <Income /> -->
       </el-tab-pane>
       <el-tab-pane label="支出" name="fourth">
-        <!-- <Pay /> -->
+        <Pay />
       </el-tab-pane>
       <el-tab-pane label="押金" name>
         <!-- <Deposit /> -->
@@ -310,6 +310,7 @@ import PriceList from "~/components/projectListPage/PriceList.vue";
 import AgreeMent from "~/components/projectListPage/AgreeMent.vue";
 import ReceivableList from "~/components/projectListPage/ReceivableList.vue";
 import axios from "axios";
+import CookieUtil from "~/utils/CookieUtil";
 
 export default {
   data() {
@@ -319,12 +320,28 @@ export default {
       dialogMoneyisSend: false,
       dialogMoneyisAllSend: false,
       closeStatus: true,
+      projectDetail:{},
+      projectFinancial: {}
     };
   },
   computed: {
     getProjectDetailData() {
       console.log(this.$store.state.projectData.projectDetail);
       return this.$store.state.projectData.projectDetail;
+    },
+    getProjectFinancial() {
+      console.log(this.$store.state.projectData.projectFinancial);
+      return this.$store.state.projectData.projectFinancial;
+    }
+  },
+  watch: {
+    getProjectDetailData(newVal, oldVal) {
+      console.log("watch project detail", newVal);
+      this.projectDetail = JSON.parse(JSON.stringify(newVal));
+    },
+    getProjectFinancial(newVal, oldVal) {
+      console.log("watch project financial", newVal);
+      this.projectFinancial = JSON.parse(JSON.stringify(newVal));
     }
   },
   methods: {
@@ -358,7 +375,22 @@ export default {
     handleSureClose() {
       this.han;
     },
-  }
+  },
+  async asyncData(ctx) {
+    if(!CookieUtil.existCookie("user_id")) {
+      location.href = "/";
+    }
+    let result = await axios.get("/api/expenditure/list").then(
+      (rep) => {
+        if (rep && rep.data) {
+          return rep.data.data;
+        }
+      },
+      () => {}
+    );
+    console.log("pay data", result);
+    ctx.store.commit("projectData/setProjectPay", result);
+  },
 };
 </script>
 

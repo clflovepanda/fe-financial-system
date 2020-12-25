@@ -41,7 +41,7 @@ export default {
     },
   },
   async asyncData(ctx) {
-    if(!CookieUtil.existCookie("user")) {
+    if(!CookieUtil.existCookie("user_id")) {
       location.href = "/";
     }
     console.log("初始化UserPage数据");

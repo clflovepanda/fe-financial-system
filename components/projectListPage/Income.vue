@@ -4,7 +4,6 @@
       <el-main>
         <el-form
           :model="ruleForm"
-          :rules="rules"
           ref="ruleForm"
           label-width="90px"
           label-position="left"
@@ -108,41 +107,6 @@ export default {
         proDate: "",
         moneyStatus: "",
       },
-      //   rules: {
-      //     id: [{ required: true, message: "请输入项目编号", trigger: "blur" }],
-      //     name: [{ required: true, message: "请输入项目名称", trigger: "blur" }],
-      //     proManager: [
-      //       { required: true, message: "请输入项目经理姓名", trigger: "blur" },
-      //     ],
-      //     saleManager: [
-      //       { required: true, message: "请输入销售经理姓名", trigger: "blur" },
-      //     ],
-      //     proPerson: [
-      //       { required: true, message: "请输入项目成员姓名", trigger: "blur" },
-      //     ],
-      //     statement: [
-      //       { required: true, message: "请选择结算单状态", trigger: "change" },
-      //     ],
-      //     projectStatus: [
-      //       { required: true, message: "请选择项目状态", trigger: "change" },
-      //     ],
-
-      //     proDate: [
-      //       {
-      //         type: "date",
-      //         required: true,
-      //         message: "请选择日期",
-      //         trigger: "change",
-      //       },
-      //     ],
-      //     moneyStatus: [
-      //       {
-      //         required: true,
-      //         message: "请选择销售提成发放状态",
-      //         trigger: "change",
-      //       },
-      //     ],
-      //   },
       listData: [],
     };
   },
