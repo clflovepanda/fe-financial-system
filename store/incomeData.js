@@ -1,4 +1,13 @@
+/*
+ * @Description: 
+ * @Version: 2.0
+ * @Autor: 贺朋展
+ * @Date: 2020-12-25 13:44:27
+ * @LastEditors: 贺朋展
+ * @LastEditTime: 2020-12-25 16:38:05
+ */
 export const state = () => ({
+    namespaced: true,
     searchIncomeForm: {
         account: "",
         incomeType: "",
@@ -10,7 +19,7 @@ export const state = () => ({
     incomeListTable: {
         listData: [],
         currentPage: 1,
-        total: 100,
+        total: 10,
     },
     accountList: [
         { value: 1, label: "亚讯" },
@@ -41,9 +50,9 @@ export const mutations = {
         state.incomeDate = newObj.incomeDate;
         state.remark = newObj.remark;
     },
-    setIncomeListTable(state, newObj) {
-        state.listData = newObj;
-        state.currentPage = 1;
-        state.total = newObj.length;
+  setIncomeListTable (state, newObj) {
+        state.incomeListTable.listData = newObj;
+        state.incomeListTablecurrentPage = 1;
+        state.incomeListTable.total = newObj.length;
     }
 }

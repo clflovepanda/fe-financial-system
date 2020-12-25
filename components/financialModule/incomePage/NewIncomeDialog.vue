@@ -117,7 +117,7 @@
     </el-row>
     <el-row class="rowSty">
       <el-col :span="4" :offset="8">
-        <el-button type="primary" style="width: 90%">添加</el-button>
+        <el-button type="primary" style="width: 90%" @click="addReceivement">添加</el-button>
       </el-col>
       <el-col :span="4">
         <el-button type="primary" style="width: 90%">重置</el-button>
@@ -129,6 +129,7 @@
   </el-dialog>
 </template>
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -143,7 +144,8 @@ export default {
   },
   computed: {
     partList() {
-      return this.$store.state.partData.partList;
+      // return this.$store.state.partData.partList;
+      return this.$store.state.incomeData.accountList
     },
     accountStatusList() {
       return this.$store.state.userData.accountStatusList;
@@ -167,6 +169,24 @@ export default {
     createUser: function () {
       console.log("create user ...");
     },
+    addReceivement(){
+      let params = {
+        companyId: this.newIncomeDialogForm.account,
+        receivementTypeId: this.newIncomeDialogForm.incomeType,
+        receivementMoney: this.newIncomeDialogForm.money,
+        remitterMethodId: this.newIncomeDialogForm.incomeFromType,
+        remitter: this.newIncomeDialogForm.incomeFromName,
+        receiveDate: new Date(this.newIncomeDialogForm.incomeDate).getTime(),
+        remark: this.newIncomeDialogForm.remark
+      }
+      axios.post('/api/receivement/add?flag=1',params).then((response) => {
+        if(response.data.code==200){
+          window.location.reload()
+
+        }
+      })
+
+    }
   },
 };
 </script>

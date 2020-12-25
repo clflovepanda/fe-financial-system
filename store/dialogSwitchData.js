@@ -1,3 +1,11 @@
+/*
+ * @Description: 
+ * @Version: 2.0
+ * @Autor: 贺朋展
+ * @Date: 2020-12-25 13:44:27
+ * @LastEditors: 贺朋展
+ * @LastEditTime: 2020-12-25 22:26:39
+ */
 export const state = () => ({
     createUserDialogShow: false,
     editUserDialogShow: false,
@@ -7,6 +15,8 @@ export const state = () => ({
     confirmAccountingDialogShow: false,
     deleteIncomeDialogShow: false,
     confirmedIncomeDialogShow: false,
+    incomeDetailValue: [],
+    receivementListValue:[],
 })
 
 export const mutations = {
@@ -33,5 +43,11 @@ export const mutations = {
     },
     showConfirmedIncomeDialog(state, value) {
         state.confirmedIncomeDialogShow = value;
-    }
+  },
+    incomeDetailSubscription (state, value) {
+        state.incomeDetailValue = value;
+  },
+  receivementList (state, value) {
+    state.receivementListValue = value;
+  }
 }

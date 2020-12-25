@@ -1,31 +1,34 @@
+
 <template>
   <div>
     <el-table
-      :data="incomeListTable.listData"
+      :data="incomeListTable"
       border
       style="width: 100%; margin-top: 20px"
     >
-      <el-table-column fixed prop="num" label="ID"></el-table-column>
-      <el-table-column prop="account" label="认款用户"></el-table-column>
-      <el-table-column prop="confirmIncomeMoney" label="认款金额/元"></el-table-column>
-      <el-table-column prop="confirmIncomeDate" label="认款时间"></el-table-column>
-      <el-table-column prop="confirmIncomeProject" label="认款项目"></el-table-column>
-      <el-table-column prop="confirmIncomeProjectSub" label="项目二级类型"></el-table-column>
-      <el-table-column prop="incomeType" label="收入类型"></el-table-column>
+      <el-table-column fixed prop="id" label="ID"></el-table-column>
+      <el-table-column prop="username" label="认款用户"></el-table-column>
+      <el-table-column prop="receivementMoney" label="认款金额/元"></el-table-column>
+      <el-table-column prop="ctime" label="认款时间"></el-table-column>
+      <el-table-column prop="projectName" label="认款项目"></el-table-column>
+      <el-table-column prop="dataSourceName" label="项目二级类型"></el-table-column>
+      <el-table-column prop="revenueTypeName" label="收入类型"></el-table-column>
       <el-table-column prop="remark" label="备注"></el-table-column>
     </el-table>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
     };
   },
   computed: {
-    incomeListTable() {
-      return this.$store.state.incomeData.incomeListTable;
+     incomeListTable() {
+
+      return this.$store.state.dialogSwitchData.receivementListValue;
     }
   },
   methods: {

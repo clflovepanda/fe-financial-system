@@ -72,15 +72,15 @@
           end-placeholder="结束日期"
         ></el-date-picker>
       </el-col>
-      <el-col :span="2">
+      <!-- <el-col :span="2">
         <div class="labelSty">备注</div>
-      </el-col>
-      <el-col :span="3">
+      </el-col> -->
+      <!-- <el-col :span="3">
         <el-input
           placeholder="请输入要查询的备注"
           v-model="incomeSearchForm.remark"
         ></el-input>
-      </el-col>
+      </el-col> -->
       <el-col :span="2" :offset="1">
         <el-button type="primary" style="width: 90%" @click="searchUserList">查询</el-button
         >
@@ -125,14 +125,32 @@ export default {
     },
   },
   methods: {
-    searchUserList: function () {
+    searchUserList:  function () {
       console.log("search income list ...");
-      axios.get("/api").then(
-        (response) => {
-          console.log(response);
-        },
-        () => {}
-      );
+      let params = {
+        companyId: this.incomeSearchForm.account,
+        receivementTypeId:this.incomeSearchForm.incomeType,
+        remitterMethodId:this.incomeSearchForm.incomeFromType,
+        remitter:this.incomeSearchForm.incomeFromName,
+        startDt:this.incomeSearchForm.incomeDate?new Date(this.incomeSearchForm.incomeDate[0]).getTime():'',
+        endDt:this.incomeSearchForm.incomeDate?new Date(this.incomeSearchForm.incomeDate[1]).getTime():'',
+      }
+      axios({
+        method: 'get',
+        url: '/api/receivement/list',
+        params: params,
+        dataType: "json",
+        contentType: "application/json",
+      }).then((response) => {
+        this.$store.commit('incomeData/setIncomeListTable',response.data.data)
+      },() => {})
+
+      // axios.get("/api/receivement/list").then(
+      //   (response) => {
+      //     console.log(response);
+      //   },
+      //   () => {}
+      // );
     },
   },
 };

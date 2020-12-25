@@ -4,7 +4,7 @@
       <el-col :span="4" class="labelSty">到款账户：</el-col>
       <el-col :span="12">
         <el-select
-          v-model="editIncomeDialogForm.account"
+          v-model="editIncomeDialogForm.companyId"
           placeholder="请选择到款账户"
           style="width: 100%"
         >
@@ -22,26 +22,26 @@
       <el-col :span="12">
         <template>
           <el-radio
-            v-model="editIncomeDialogForm.incomeType"
-            label="1"
+            v-model="editIncomeDialogForm.receivementTypeId"
+            :label="1"
             class="labelSty"
             >汇款</el-radio
           >
           <el-radio
-            v-model="editIncomeDialogForm.incomeType"
-            label="2"
+            v-model="editIncomeDialogForm.receivementTypeId"
+            :label="2"
             class="labelSty"
             >支票</el-radio
           >
           <el-radio
-            v-model="editIncomeDialogForm.incomeType"
-            label="3"
+            v-model="editIncomeDialogForm.receivementTypeId"
+            :label="3"
             class="labelSty"
             >现金</el-radio
           >
           <el-radio
-            v-model="editIncomeDialogForm.incomeType"
-            label="4"
+            v-model="editIncomeDialogForm.receivementTypeId"
+            :label="4"
             class="labelSty"
             >押金</el-radio
           >
@@ -53,7 +53,7 @@
       <el-col :span="12">
         <el-input
           placeholder="请输入到款金额"
-          v-model="editIncomeDialogForm.money"
+          v-model="editIncomeDialogForm.receivementMoney"
         ></el-input>
       </el-col>
     </el-row>
@@ -62,19 +62,19 @@
       <el-col :span="12">
         <template>
           <el-radio
-            v-model="editIncomeDialogForm.incomeFromType"
+            v-model="editIncomeDialogForm.remitterMethodId"
             label="1"
             class="labelSty"
             >企业</el-radio
           >
           <el-radio
-            v-model="editIncomeDialogForm.incomeFromType"
+            v-model="editIncomeDialogForm.remitterMethodId"
             label="2"
             class="labelSty"
             >个人</el-radio
           >
           <el-radio
-            v-model="editIncomeDialogForm.incomeFromType"
+            v-model="editIncomeDialogForm.remitterMethodId"
             label="3"
             class="labelSty"
             >未知</el-radio
@@ -87,7 +87,7 @@
       <el-col :span="12">
         <el-input
           placeholder="请输入汇款方名称"
-          v-model="editIncomeDialogForm.incomeFromName"
+          v-model="editIncomeDialogForm.remitter"
         ></el-input>
       </el-col>
     </el-row>
@@ -95,7 +95,7 @@
       <el-col :span="4" class="labelSty">到款时间：</el-col>
       <el-col :span="12">
         <el-date-picker
-          v-model="editIncomeDialogForm.incomeDate"
+          v-model="editIncomeDialogForm.latestSubscriptionTime"
           type="date"
           placeholder="选择日期"
           style="width: 100%"
@@ -126,21 +126,20 @@
   </el-dialog>
 </template>
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
-      editIncomeDialogForm: {
-        account: "",
-        money: "",
-        incomeType: "",
-        incomeFromType: "",
-      },
+      editIncomeDialogForm: {},
       editIncomeDialogShow: false,
     };
   },
   computed: {
     partList() {
-      return this.$store.state.partData.partList;
+      // return this.$store.state.partData.partList;
+      return this.$store.state.incomeData.accountList;
+
+      
     },
     accountStatusList() {
       return this.$store.state.userData.accountStatusList;
@@ -150,11 +149,14 @@ export default {
     },
   },
   watch: {
-    editIncomeDialogShow() {
+    editIncomeDialogShow: function () {
       this.$store.commit(
         "dialogSwitchData/showEditIncomeDialog",
         this.editIncomeDialogShow
       );
+      console.log(this.$store.state.dialogSwitchData.incomeDetailValue[0])
+      this.editIncomeDialogForm = this.$store.state.dialogSwitchData.incomeDetailValue[0]
+
     },
     isShowEditIncomeDialog(val, oldVal) {
       this.editIncomeDialogShow = val;
@@ -162,6 +164,24 @@ export default {
   },
   methods: {
     createUser: function () {
+
+      let params = {
+        companyId: this.editIncomeDialogForm.companyId,
+        receivementTypeId: this.editIncomeDialogForm.receivementTypeId,
+        receivementMoney: this.editIncomeDialogForm.receivementMoney,
+        remitterMethodId: this.editIncomeDialogForm.remitterMethodId,
+        remitter: this.editIncomeDialogForm.remitter,
+        receiveDate: new Date(this.editIncomeDialogForm.receiveDate).getTime(),
+        remark: this.editIncomeDialogForm.remark,
+        id: this.$store.state.dialogSwitchData.incomeDetailValue[0].id
+      }
+      axios.post('/api/receivement/add?flag=2',params).then((response) => {
+        if(response.data.code==200){
+          window.location.reload()
+
+        }
+      })
+
       console.log("create user ...");
     },
   },
