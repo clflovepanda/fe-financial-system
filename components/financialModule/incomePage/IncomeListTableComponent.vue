@@ -90,9 +90,14 @@ export default {
       
     },
     editConfirm(scope) {
+      this.$store.commit("dialogSwitchData/incomeDetailSubscription", [scope.row]);
       this.$store.commit("dialogSwitchData/showEditIncomeDialog", true);
     },
-    confirmAccounting(scope) {
+    async confirmAccounting(scope) {
+      this.$store.commit("dialogSwitchData/incomeDetailSubscription", [scope.row]);
+
+      let response = await axios.get('/api/receivement/getsublog?receivementId='+[scope.row][0].id)
+      this.$store.commit("dialogSwitchData/receivementList",response.data.data);
       this.$store.commit("dialogSwitchData/showConfirmAccountingDialog", true);
     },
     deleteIncome(scope) {

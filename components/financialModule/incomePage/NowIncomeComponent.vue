@@ -140,6 +140,13 @@ export default {
   },
   methods: {
     addSubLog(){
+      if(this.nowIncomeForm.money > this.$store.state.dialogSwitchData.incomeDetailValue[0].remaindSubscriptionTotalMoney){
+        this.$message({
+          message: "本次认款金额需小于剩余认款金额",
+          type: "warning",
+        });
+        return false
+      }
       let params = {
         receivementId: this.$store.state.dialogSwitchData.incomeDetailValue[0].id,
         receivementMoney: this.nowIncomeForm.money,
@@ -148,8 +155,21 @@ export default {
         subscriptionDate: new Date(this.nowIncomeForm.incomeDate).getTime(),
         remark: this.nowIncomeForm.remark
       }
-      axios.post('/api/receivement/addsublog',params).then((response)=>{
-      })
+
+      if(this.nowIncomeForm.money&&this.nowIncomeForm.incomeType&&this.nowIncomeForm.projectId&&this.nowIncomeForm.incomeDate){
+        axios.post('/api/receivement/addsublog',params).then( (response) => {
+          if(response.data.code==200){
+            window.location.reload();
+
+          }
+        })
+      }else{
+        this.$message({
+          message: "请情书本次认款信息",
+          type: "warning",
+        });
+      }
+      
 
     },
     searchUserList: function () {

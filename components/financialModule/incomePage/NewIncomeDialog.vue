@@ -144,7 +144,8 @@ export default {
   },
   computed: {
     partList() {
-      return this.$store.state.partData.partList;
+      // return this.$store.state.partData.partList;
+      return this.$store.state.incomeData.accountList
     },
     accountStatusList() {
       return this.$store.state.userData.accountStatusList;
@@ -178,7 +179,11 @@ export default {
         receiveDate: new Date(this.newIncomeDialogForm.incomeDate).getTime(),
         remark: this.newIncomeDialogForm.remark
       }
-      axios.post('/api/receivement/add?flag=1',params).then((response)=>{
+      axios.post('/api/receivement/add?flag=1',params).then((response) => {
+        if(response.data.code==200){
+          window.location.reload()
+
+        }
       })
 
     }
