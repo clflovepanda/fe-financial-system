@@ -138,6 +138,9 @@ export default {
   methods: {
     submitForm() {
       console.log("search project form", this.ruleForm);
+      // axios.get("/api/project/list").then((res) => {
+        
+      // });
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();

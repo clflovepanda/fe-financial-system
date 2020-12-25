@@ -31,22 +31,26 @@
         <div class="project-info-wrap">
           <el-row class="project-info">
             <span class="info-title">项目信息</span>
-            <el-button size="mini" type="primary">生效中</el-button>
+            <el-button size="mini" type="primary" v-if="getProjectDetailData.status == 1">未开始</el-button>
+            <el-button size="mini" type="primary" v-else-if="getProjectDetailData.status == 2">进行中</el-button>
+            <el-button size="mini" type="primary" v-else-if="getProjectDetailData.status == 3">暂停</el-button>
+            <el-button size="mini" type="primary" v-else-if="getProjectDetailData.status == 4">取消</el-button>
+            <el-button size="mini" type="primary" v-else-if="getProjectDetailData.status == 5">已完成</el-button>
+            <el-button size="mini" type="primary" v-else-if="getProjectDetailData.status == 6">已关闭</el-button>
           </el-row>
           <el-divider></el-divider>
-
           <el-row>
             <el-col :span="8">
               <label class="label-item" for>项目名称:</label>
-              <span></span>
+              <span>{{getProjectDetailData.projectName}}</span>
             </el-col>
             <el-col :span="8">
               <label class="label-item" for>所属类目:</label>
-              <span></span>
+              <span>{{getProjectDetailData.dataSourceName}}</span>
             </el-col>
             <el-col :span="8">
               <label class="label-item" for>项目编号:</label>
-              <span></span>
+              <span>{{getProjectDetailData.code}}</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>
@@ -54,22 +58,22 @@
           <el-row>
             <el-col :span="10">
               <label class="label-item" for>项目开始时间-结束时间:</label>
-              <span></span>
+              <span>{{getProjectDetailData.date}}</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>
           <el-row>
             <el-col :span="8">
               <label class="label-item" for>项目所属公司:</label>
-              <span></span>
+              <span>{{getProjectDetailData.company}}</span>
             </el-col>
             <el-col :span="8">
               <label class="label-item" for>销售经理:</label>
-              <span></span>
+              <span>{{getProjectDetailData.salesName}}</span>
             </el-col>
             <el-col :span="8">
               <label class="label-item" for>项目经理:</label>
-              <span></span>
+              <span>{{getProjectDetailData.projectLeader}}</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>
@@ -77,7 +81,7 @@
           <el-row>
             <el-col :span="10">
               <label class="label-item" for>项目成员:</label>
-              <span></span>
+              <span>{{getProjectDetailData.userNames}}</span>
             </el-col>
             <el-col :span="10">
               <label class="label-item" for>项目成员工时:</label>
@@ -89,11 +93,11 @@
           <el-row>
             <el-col :span="10">
               <label class="label-item" for>立项人:</label>
-              <span></span>
+              <span>{{getProjectDetailData.createUserName}}</span>
             </el-col>
             <el-col :span="10">
               <label class="label-item" for>立项时间:</label>
-              <span></span>
+              <span>{{getProjectDetailData.ctime}}</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>
@@ -101,22 +105,22 @@
           <el-row>
             <el-col :span="8">
               <label class="label-item" for>项目审核人:</label>
-              <span></span>
+              <span>{{getProjectDetailData.auditName}}</span>
             </el-col>
             <el-col :span="8">
               <label class="label-item" for>审核时间:</label>
-              <span></span>
+              <span>{{getProjectDetailData.auditDate}}</span>
             </el-col>
             <el-col :span="8">
               <label class="label-item" for>审核状态:</label>
-              <span></span>
+              <span>{{getProjectDetailData.auditState == 1 ? "审批通过" : "审批驳回"}}</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>
 
           <el-row>
             <div class="label-item">项目描述：</div>
-            <div class="desc">fhdsfkjdsfhks</div>
+            <div class="desc">{{getProjectDetailData.description}}</div>
           </el-row>
         </div>
         <div class="project-info-wrap">
@@ -317,7 +321,12 @@ export default {
       closeStatus: true,
     };
   },
-
+  computed: {
+    getProjectDetailData() {
+      console.log(this.$store.state.projectData.projectDetail);
+      return this.$store.state.projectData.projectDetail;
+    }
+  },
   methods: {
     handleTabClick(tab, event) {
       console.log(tab, event);
