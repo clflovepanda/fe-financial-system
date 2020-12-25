@@ -3,11 +3,7 @@
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item class="breadcrumb">位置</el-breadcrumb-item>
       <el-breadcrumb-item class="breadcrumb">项目列表</el-breadcrumb-item>
-      <el-breadcrumb-item
-        class="breadcrumb breadcrumb-actived"
-        :to="{ path: '/viewProject' }"
-        >查看项目</el-breadcrumb-item
-      >
+      <el-breadcrumb-item class="breadcrumb">查看项目</el-breadcrumb-item>
     </el-breadcrumb>
     <el-divider></el-divider>
     <el-tabs v-model="activeName" type="card" @tab-click="handleTabClick">
@@ -228,23 +224,23 @@
         </div>
       </el-tab-pane>
       <el-tab-pane label="收入" name="third">
-        <Income />
+        <!-- <Income /> -->
       </el-tab-pane>
       <el-tab-pane label="支出" name="fourth">
-        <Pay />
+        <!-- <Pay /> -->
       </el-tab-pane>
       <el-tab-pane label="押金" name>
-        <Deposit />
+        <!-- <Deposit /> -->
       </el-tab-pane>
       <el-tab-pane label="报价单" name>
-        <PriceList />
+        <!-- <PriceList /> -->
       </el-tab-pane>
       <el-tab-pane label="项目合同" name>
-        <AgreeMent />
+        <!-- <AgreeMent /> -->
       </el-tab-pane>
       <el-tab-pane label="结算单" name>结算单</el-tab-pane>
       <el-tab-pane label="应收单" name>
-        <ReceivableList />
+        <!-- <ReceivableList /> -->
       </el-tab-pane>
     </el-tabs>
 
@@ -260,7 +256,6 @@
       title="销售提成1%已发放"
       :visible.sync="dialogMoneyisSend"
       width="30%"
-      :before-close="handleClose"
     >
       <span class="show-notice"
         >请确认是否已经发放销售提成的1%，请谨慎操作</span
@@ -276,7 +271,6 @@
       title="销售提成已全部发放"
       :visible.sync="dialogMoneyisAllSend"
       width="30%"
-      :before-close="handleClose"
     >
       <span class="show-notice"
         >请确认是否已经发放销售全部提成，请谨慎操作</span
@@ -311,6 +305,7 @@ import Deposit from "~/components/projectListPage/Deposit.vue";
 import PriceList from "~/components/projectListPage/PriceList.vue";
 import AgreeMent from "~/components/projectListPage/AgreeMent.vue";
 import ReceivableList from "~/components/projectListPage/ReceivableList.vue";
+import axios from "axios";
 
 export default {
   data() {
@@ -354,7 +349,7 @@ export default {
     handleSureClose() {
       this.han;
     },
-  },
+  }
 };
 </script>
 

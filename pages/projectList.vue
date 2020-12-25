@@ -11,7 +11,6 @@
     <el-divider></el-divider>
     <el-form
       :model="ruleForm"
-      :rules="rules"
       ref="ruleForm"
       label-width="90px"
       label-position="left"
@@ -28,17 +27,17 @@
       </el-form-item>
       <el-form-item label="项目经理" prop="proManager">
         <el-input
-          v-model="ruleForm.proManager"
+          v-model="ruleForm.managerName"
           placeholder="请输入项目经理姓名"
         ></el-input>
       </el-form-item>
       <el-form-item label="销售经理" prop="saleManager">
         <el-input
-          v-model="ruleForm.saleManager"
+          v-model="ruleForm.salesName"
           placeholder="请输入销售经理姓名"
         ></el-input>
       </el-form-item>
-      <el-form-item label="项目成员" prop="proPerson">
+      <el-form-item label="项目成员" prop="userNames">
         <el-input
           v-model="ruleForm.proPerson"
           placeholder="请输入项目成员姓名"
@@ -46,7 +45,7 @@
       </el-form-item>
 
       <el-form-item label="结算单" prop="statement">
-        <el-select v-model="ruleForm.statement" placeholder="请选择结算单状态">
+        <el-select v-model="ruleForm.settlementState" placeholder="请选择结算单状态">
           <el-option label="未结算" value="notState"></el-option>
           <el-option label="待结算" value="willState"></el-option>
           <el-option label="已结算" value="stated"></el-option>
@@ -55,7 +54,7 @@
 
       <el-form-item label="项目状态" prop="projectStatus">
         <el-select
-          v-model="ruleForm.projectStatus"
+          v-model="ruleForm.state"
           placeholder="请选择项目状态"
         >
           <el-option label="未开始" value="notStart"></el-option>
@@ -67,9 +66,9 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item label="项目时间" required>
+      <el-form-item label="项目时间">
         <el-date-picker
-          v-model="ruleForm.proDate"
+          v-model="ruleForm.dateRange"
           type="daterange"
           range-separator="~"
           start-placeholder="开始日期"
@@ -82,7 +81,7 @@
         class="money-label"
       >
         <el-select
-          v-model="ruleForm.moneyStatus"
+          v-model="ruleForm.saleCommisState"
           placeholder="请选择销售提成发放状态"
         >
           <el-option label="未发放" value="notExtend"></el-option>
@@ -91,7 +90,7 @@
         </el-select>
       </el-form-item>
       <el-form-item class="button-wrap">
-        <el-button type="primary" @click="submitForm('ruleForm')"
+        <el-button type="primary" @click="submitForm"
           >立即创建</el-button
         >
         <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -121,50 +120,15 @@ export default {
   data() {
     return {
       ruleForm: {
-        id: "",
-        name: "",
-        proManager: "",
-        saleManager: "",
-        proPerson: "",
-        statement: "",
-        projectStatus: "",
-        proDate: "",
-        moneyStatus: "",
-      },
-      rules: {
-        id: [{ required: true, message: "请输入项目编号", trigger: "blur" }],
-        name: [{ required: true, message: "请输入项目名称", trigger: "blur" }],
-        proManager: [
-          { required: true, message: "请输入项目经理姓名", trigger: "blur" },
-        ],
-        saleManager: [
-          { required: true, message: "请输入销售经理姓名", trigger: "blur" },
-        ],
-        proPerson: [
-          { required: true, message: "请输入项目成员姓名", trigger: "blur" },
-        ],
-        statement: [
-          { required: true, message: "请选择结算单状态", trigger: "change" },
-        ],
-        projectStatus: [
-          { required: true, message: "请选择项目状态", trigger: "change" },
-        ],
-
-        proDate: [
-          {
-            type: "date",
-            required: true,
-            message: "请选择日期",
-            trigger: "change",
-          },
-        ],
-        moneyStatus: [
-          {
-            required: true,
-            message: "请选择销售提成发放状态",
-            trigger: "change",
-          },
-        ],
+        startDt: "",
+        endDt: "",
+        state: "",
+        managerName: "",
+        salesName: "",
+        settlementState: "",
+        saleCommisState: "",
+        userNames: "",
+        dateRange: ""
       },
       activeName: "checkedPro",
       listData: [],
@@ -172,15 +136,8 @@ export default {
   },
 
   methods: {
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          alert("submit!");
-        } else {
-          console.log("error submit!!");
-          return false;
-        }
-      });
+    submitForm() {
+      console.log("search project form", this.ruleForm);
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
@@ -194,8 +151,7 @@ export default {
     },
   },
   async asyncData(ctx) {
-    console.log("初始化ProjectList数据");
-    let result = await axios.get("/api/project/project_list").then(
+    let result = await axios.get("/api/project/list").then(
       (rep) => {
         if (rep && rep.data) {
           return rep.data.data;
@@ -203,8 +159,8 @@ export default {
       },
       () => {}
     );
-    console.log(result);
-    // ctx.store.commit("userData/setUserListTable", result);
+    console.log("project list", result);
+    ctx.store.commit("projectData/setProjectList", result);
   },
 };
 </script>

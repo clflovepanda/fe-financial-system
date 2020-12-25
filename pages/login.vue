@@ -1,67 +1,57 @@
 <template>
-  <el-container class="container">
-    <el-header class="headerContent">
-      <HeaderBar />
-    </el-header>
-    <el-main>
-      <el-row>
-        <el-col :span="12" :offset="6">
-          <el-row class="rowContent">
-            <el-col :span="12" :offset="2">
-              <div class="loginTitle">用户登录</div>
-            </el-col>
-          </el-row>
-          <el-divider></el-divider>
-          <el-row class="rowContent">
-            <el-col :span="4" :offset="2">
-              <div class="leftLabel">账号：</div>
-            </el-col>
-            <el-col :span="16">
-              <el-input placeholder="请输入账号" v-model="account"></el-input>
-            </el-col>
-          </el-row>
-          <el-row class="rowContent">
-            <el-col :span="4" :offset="2">
-              <div class="leftLabel">密码：</div>
-            </el-col>
-            <el-col :span="16">
-              <el-input
-                placeholder="请输入密码"
-                v-model="password"
-                show-password
-              ></el-input>
-            </el-col>
-          </el-row>
-          <el-row class="rowContent">
-            <el-col :span="4" :offset="2">
-              <div class="leftLabel">验证码：</div>
-            </el-col>
-            <el-col :span="16">
-              <el-input
-                placeholder="请输入验证码"
-                v-model="checkcode"
-              ></el-input>
-            </el-col>
-          </el-row>
-          <el-row class="rowContent">
-            <el-col :span="12" :offset="2">
-              <div>
-                <el-checkbox v-model="remember"></el-checkbox>
-                <span>记住密码</span>
-              </div>
-            </el-col>
-          </el-row>
-          <el-row class="rowContent">
-            <el-col :span="20" :offset="2">
-              <el-button type="primary" class="btnLogin" @click="login"
-                >登录</el-button
-              >
-            </el-col>
-          </el-row>
+  <el-row>
+    <el-col :span="12" :offset="6">
+      <el-row class="rowContent">
+        <el-col :span="12" :offset="2">
+          <div class="loginTitle">用户登录</div>
         </el-col>
       </el-row>
-    </el-main>
-  </el-container>
+      <el-divider></el-divider>
+      <el-row class="rowContent">
+        <el-col :span="4" :offset="2">
+          <div class="leftLabel">账号：</div>
+        </el-col>
+        <el-col :span="16">
+          <el-input placeholder="请输入账号" v-model="account"></el-input>
+        </el-col>
+      </el-row>
+      <el-row class="rowContent">
+        <el-col :span="4" :offset="2">
+          <div class="leftLabel">密码：</div>
+        </el-col>
+        <el-col :span="16">
+          <el-input
+            placeholder="请输入密码"
+            v-model="password"
+            show-password
+          ></el-input>
+        </el-col>
+      </el-row>
+      <el-row class="rowContent">
+        <el-col :span="4" :offset="2">
+          <div class="leftLabel">验证码：</div>
+        </el-col>
+        <el-col :span="16">
+          <el-input placeholder="请输入验证码" v-model="checkcode"></el-input>
+        </el-col>
+      </el-row>
+      <el-row class="rowContent">
+        <el-col :span="12" :offset="2">
+          <div>
+            <el-checkbox v-model="remember"></el-checkbox>
+            <span>记住密码</span>
+          </div>
+        </el-col>
+      </el-row>
+      <el-row class="rowContent">
+        <el-col :span="20" :offset="2">
+          <el-button type="primary" class="btnLogin" @click="login"
+            >登录</el-button
+          >
+        </el-col>
+      </el-row>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
@@ -86,8 +76,8 @@ export default {
       console.log("login ...");
       axios
         .post("/api/login/check", {
-            userName: this.account,
-            password: this.password
+          userName: this.account,
+          password: this.password,
         })
         .then(
           (response) => {
@@ -97,7 +87,7 @@ export default {
                 message: "登录成功",
                 type: "success",
               });
-              this.$router.push('/');
+              location.href = "/user";
             } else {
               this.$message.error(response.data.msg);
             }

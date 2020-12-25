@@ -8,19 +8,7 @@ export const state = () => ({
         remark: ""
     },
     incomeListTable: {
-        listData: [{
-            num: 1,
-            account: "新锐",
-            incomeType: "汇款",
-            incomeFromType: "企业",
-            incomeFromName: "深圳有限公司",
-            incomeMoney: "4800",
-            incomeDate: "2020-11-01",
-            confirmMoney: "0",
-            lastConfirmDate: "2020-11-01",
-            needConfirmMoney: "4800",
-            status: "未认款",
-        }],
+        listData: [],
         currentPage: 1,
         total: 100,
     },
@@ -53,4 +41,9 @@ export const mutations = {
         state.incomeDate = newObj.incomeDate;
         state.remark = newObj.remark;
     },
+    setIncomeListTable(state, newObj) {
+        state.listData = newObj;
+        state.currentPage = 1;
+        state.total = newObj.length;
+    }
 }

@@ -32,6 +32,7 @@ import SearchUserListComponent from "~/components/userPage/SearchUserListCompone
 import UserListTableComponent from "~/components/userPage/UserListTableComponent";
 import EditUserDialog from "~/components/userPage/EditUserDialog";
 import axios from "axios";
+import CookieUtil from "~/utils/CookieUtil";
 
 export default {
   methods: {
@@ -40,6 +41,9 @@ export default {
     },
   },
   async asyncData(ctx) {
+    if(!CookieUtil.existCookie("user")) {
+      location.href = "/";
+    }
     console.log("初始化UserPage数据");
     let result = await axios.get("/api/user/list").then(
       (rep) => {

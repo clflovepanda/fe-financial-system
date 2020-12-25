@@ -23,9 +23,17 @@ export const state = () => ({
             label: "禁用",
         },
     ],
+    validateCode: {
+        id: "",
+        url: ""
+    }
 })
 
 export const mutations = {
+    setValidateCode(state, newObj) {
+        state.validateCode.id = newObj.id;
+        state.validateCode.url = newObj.url;
+    },
     setUserSearchForm(state, newObj) {
         Object.assign(state.userSearchForm, newObj);
     },

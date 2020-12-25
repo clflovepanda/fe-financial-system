@@ -9,21 +9,18 @@
         fixed
         prop="userId"
         label="序号"
-        width="120"
       ></el-table-column>
       <el-table-column prop="username" label="用户名称"></el-table-column>
       <el-table-column prop="mobile" label="手机号"></el-table-column>
       <el-table-column prop="depId" label="部门"></el-table-column>
-      <el-table-column prop="roleName" label="角色" width="120"></el-table-column>
+      <el-table-column prop="roleName" label="角色"></el-table-column>
       <el-table-column
         prop="state"
         label="账号状态"
-        width="120"
       ></el-table-column>
       <el-table-column
         prop="createDatetime"
         label="创建时间"
-        width="120"
       ></el-table-column>
       <el-table-column fixed="right" label="操作" width="120">
         <template slot-scope="scope">

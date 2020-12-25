@@ -1,43 +1,33 @@
 <template>
-  <el-container class="container">
-    <el-header class="headerContent">
-      <HeaderBar />
-    </el-header>
-    <el-container>
-      <el-aside width="200px">
-        <Menu />
-      </el-aside>
-      <el-main>
-        <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item class="breadcrumb">位置</el-breadcrumb-item>
-          <el-breadcrumb-item class="breadcrumb">财务</el-breadcrumb-item>
-          <el-breadcrumb-item class="breadcrumb" :to="{ path: '/income' }"
-            >到款管理</el-breadcrumb-item
-          >
-        </el-breadcrumb>
-        <el-divider></el-divider>
-        <SearchIncomeComponent />
-        <el-divider></el-divider>
-        <el-row>
-          <el-col :span="2" :offset="22">
-            <el-button
-              type="primary"
-              style="width: 90%"
-              @click="showNewIncomeDialog"
-              >新增到款</el-button
-            >
-          </el-col>
-        </el-row>
-        <IncomeListTableComponent />
-      </el-main>
-    </el-container>
+  <div>
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item class="breadcrumb">位置</el-breadcrumb-item>
+      <el-breadcrumb-item class="breadcrumb">财务</el-breadcrumb-item>
+      <el-breadcrumb-item class="breadcrumb" :to="{ path: '/income' }"
+        >到款管理</el-breadcrumb-item
+      >
+    </el-breadcrumb>
+    <el-divider></el-divider>
+    <SearchIncomeComponent />
+    <el-divider></el-divider>
+    <el-row>
+      <el-col :span="2" :offset="22">
+        <el-button
+          type="primary"
+          style="width: 90%"
+          @click="showNewIncomeDialog"
+          >新增到款</el-button
+        >
+      </el-col>
+    </el-row>
+    <IncomeListTableComponent />
     <NewIncomeDialog />
     <ConfirmIncomeDialog />
     <EditIncomeDialog />
     <ConfirmAccountingDialog />
     <ConfirmDeleteIncomeDialog />
     <ConfirmedIncomeListDialog />
-  </el-container>
+  </div>
 </template>
 
 <script>
@@ -49,6 +39,7 @@ import EditIncomeDialog from "~/components/financialModule/incomePage/EditIncome
 import ConfirmAccountingDialog from "~/components/financialModule/incomePage/ConfirmAccountingDialog";
 import ConfirmDeleteIncomeDialog from "~/components/financialModule/incomePage/ConfirmDeleteIncomeDialog";
 import ConfirmedIncomeListDialog from "~/components/financialModule/incomePage/ConfirmedIncomeListDialog";
+import axios from "axios"
 
 export default {
   methods: {
@@ -56,5 +47,19 @@ export default {
       this.$store.commit("dialogSwitchData/showNewIncomeDialog", true);
     },
   },
+  async asyncData(ctx) {
+    let result = await axios.get("/api/receivement/list").then(
+      (rep) => {
+        if (rep && rep.data) {
+          return rep.data.data;
+        }
+      },
+      () => {}
+    );
+    if(!result || result == null) {
+      result = [];
+    }
+    ctx.store.commit("incomeData/setIncomeListTable", result);
+  }
 };
 </script>

@@ -80,7 +80,7 @@
           end-placeholder="结束日期"
         ></el-date-picker>
       </el-col> -->
-      <el-col :span="2" :offset="1">
+      <el-col :span="2" :offset="10">
         <el-button type="primary" style="width: 90%" @click="searchUserList"
           >查询</el-button
         >
@@ -94,6 +94,7 @@
 
 <script>
 import axios from "axios";
+import moment from "moment";
 
 export default {
   data() {
@@ -103,7 +104,7 @@ export default {
         phone: "",
         role: "",
         accountStatus: "",
-        createDate: "",
+        createDate: null,
         updateDate: "",
         part: "",
       },
@@ -124,15 +125,25 @@ export default {
   },
   methods: {
     searchUserList: function () {
-      console.log("search user list ...");
+      console.log("search user list ...", this.userSearchForm);
+      let startDt = "";
+      let endDt = "";
+      if(this.userSearchForm.createDate != null) {
+        startDt = moment(this.userSearchForm.createDate[0]).format("YYYY-MM-DD HH:mm:ss");
+        endDt = moment(this.userSearchForm.createDate[1]).format("YYYY-MM-DD HH:mm:ss");
+        console.log(startDt, endDt);
+      }
       let params = "?username=" + this.userSearchForm.userName
-       + "&mobile=" + this.userSearchForm.mobile
-       + "&state=" + this.userSearchForm.state
+       + "&mobile=" + this.userSearchForm.phone
+       + "&state=" + this.userSearchForm.accountStatus
        + "&role=" + this.userSearchForm.role
-       + "&depId=" + this.userSearchForm.part;
+       + "&depId=" + this.userSearchForm.part
+       + "&startDt=" + startDt
+       + "&endDt=" + endDt;
       axios.get("/api/user/list" + params).then(
-        (response) => {
-          this.$store.commit("userData/setUserListTable", response.data.data);
+        (res) => {
+          console.log("搜索结果", res.data.data);
+          this.$store.commit("userData/setUserListTable", res.data.data);
         },
         () => {}
       );

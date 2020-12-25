@@ -37,12 +37,20 @@
     </el-row>
     <el-row class="rowSty">
       <el-col :span="4" class="labelSty">角色：</el-col>
-      <el-col :span="12"
-        ><el-input
-          placeholder="请输入角色"
+      <el-col :span="12">
+        <el-select
           v-model="createDialogForm.role"
-        ></el-input
-      ></el-col>
+          placeholder="请选择"
+          style="width: 100%"
+        >
+          <el-option
+            v-for="item in roleList"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </el-col>
     </el-row>
     <el-row class="rowSty">
       <el-col :span="4" class="labelSty">账号状态：</el-col>
@@ -118,6 +126,9 @@ export default {
     accountStatusList() {
       return this.$store.state.userData.accountStatusList;
     },
+    roleList() {
+      return this.$store.state.roleData.roleStatusList;
+    },
     isShowCreateUserDialog() {
       return this.$store.state.dialogSwitchData.createUserDialogShow;
     },
@@ -177,7 +188,7 @@ export default {
             email: "",
             password: this.createDialogForm.password,
             state: 1,
-            roleId: this.createDialogForm.roleId,
+            roleId: [this.createDialogForm.role],
             depId: this.createDialogForm.part,
           },
         })
