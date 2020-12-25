@@ -31,22 +31,26 @@
         <div class="project-info-wrap">
           <el-row class="project-info">
             <span class="info-title">项目信息</span>
-            <el-button size="mini" type="primary">生效中</el-button>
+            <el-button size="mini" type="primary" v-if="getProjectDetailData.status == 1">未开始</el-button>
+            <el-button size="mini" type="primary" v-else-if="getProjectDetailData.status == 2">进行中</el-button>
+            <el-button size="mini" type="primary" v-else-if="getProjectDetailData.status == 3">暂停</el-button>
+            <el-button size="mini" type="primary" v-else-if="getProjectDetailData.status == 4">取消</el-button>
+            <el-button size="mini" type="primary" v-else-if="getProjectDetailData.status == 5">已完成</el-button>
+            <el-button size="mini" type="primary" v-else-if="getProjectDetailData.status == 6">已关闭</el-button>
           </el-row>
           <el-divider></el-divider>
-
           <el-row>
             <el-col :span="8">
               <label class="label-item" for>项目名称:</label>
-              <span></span>
+              <span>{{getProjectDetailData.projectName}}</span>
             </el-col>
             <el-col :span="8">
               <label class="label-item" for>所属类目:</label>
-              <span></span>
+              <span>{{getProjectDetailData.dataSourceName}}</span>
             </el-col>
             <el-col :span="8">
               <label class="label-item" for>项目编号:</label>
-              <span></span>
+              <span>{{getProjectDetailData.code}}</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>
@@ -54,22 +58,22 @@
           <el-row>
             <el-col :span="10">
               <label class="label-item" for>项目开始时间-结束时间:</label>
-              <span></span>
+              <span>{{getProjectDetailData.date}}</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>
           <el-row>
             <el-col :span="8">
               <label class="label-item" for>项目所属公司:</label>
-              <span></span>
+              <span>{{getProjectDetailData.company}}</span>
             </el-col>
             <el-col :span="8">
               <label class="label-item" for>销售经理:</label>
-              <span></span>
+              <span>{{getProjectDetailData.salesName}}</span>
             </el-col>
             <el-col :span="8">
               <label class="label-item" for>项目经理:</label>
-              <span></span>
+              <span>{{getProjectDetailData.projectLeader}}</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>
@@ -77,7 +81,7 @@
           <el-row>
             <el-col :span="10">
               <label class="label-item" for>项目成员:</label>
-              <span></span>
+              <span>{{getProjectDetailData.userNames}}</span>
             </el-col>
             <el-col :span="10">
               <label class="label-item" for>项目成员工时:</label>
@@ -89,11 +93,11 @@
           <el-row>
             <el-col :span="10">
               <label class="label-item" for>立项人:</label>
-              <span></span>
+              <span>{{getProjectDetailData.createUserName}}</span>
             </el-col>
             <el-col :span="10">
               <label class="label-item" for>立项时间:</label>
-              <span></span>
+              <span>{{getProjectDetailData.ctime}}</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>
@@ -101,22 +105,22 @@
           <el-row>
             <el-col :span="8">
               <label class="label-item" for>项目审核人:</label>
-              <span></span>
+              <span>{{getProjectDetailData.auditName}}</span>
             </el-col>
             <el-col :span="8">
               <label class="label-item" for>审核时间:</label>
-              <span></span>
+              <span>{{getProjectDetailData.auditDate}}</span>
             </el-col>
             <el-col :span="8">
               <label class="label-item" for>审核状态:</label>
-              <span></span>
+              <span>{{getProjectDetailData.auditState == 1 ? "审批通过" : "审批驳回"}}</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>
 
           <el-row>
             <div class="label-item">项目描述：</div>
-            <div class="desc">fhdsfkjdsfhks</div>
+            <div class="desc">{{getProjectDetailData.description}}</div>
           </el-row>
         </div>
         <div class="project-info-wrap">
@@ -127,11 +131,11 @@
           <el-row>
             <el-col :span="10">
               <span class="label-item">预计收入金额/元：</span>
-              <span></span>
+              <span>{{projectFinancial.estincome}}</span>
             </el-col>
             <el-col :span="10">
               <span class="label-item">预计支出金额/元：</span>
-              <span></span>
+              <span>{{projectFinancial.budget}}</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>
@@ -139,11 +143,11 @@
           <el-row>
             <el-col :span="10">
               <span class="label-item">实际收入金额/元：</span>
-              <span></span>
+              <span>{{projectFinancial.actualIncome}}</span>
             </el-col>
             <el-col :span="10">
               <span class="label-item">实际支出金额/元：</span>
-              <span></span>
+              <span>{{projectFinancial.actualExpenditure}}</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>
@@ -151,11 +155,11 @@
           <el-row>
             <el-col :span="10">
               <span class="label-item">预收押金/元：</span>
-              <span></span>
+              <span>{{projectFinancial.deposit}}</span>
             </el-col>
             <el-col :span="10">
               <span class="label-item">押金转收入金额/元：</span>
-              <span></span>
+              <span>{{projectFinancial.deposit}}</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>
@@ -163,15 +167,15 @@
           <el-row>
             <el-col :span="8">
               <span class="label-item">项目利润/元：</span>
-              <span></span>
+              <span>{{projectFinancial.profit}}</span>
             </el-col>
             <el-col :span="8">
               <span class="label-item">毛利率/%：</span>
-              <span></span>
+              <span>{{projectFinancial.rate}}</span>
             </el-col>
             <el-col :span="8">
               <span class="label-item">支出比/%:</span>
-              <span></span>
+              <span>{{projectFinancial.expenditureRatio}}</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>
@@ -179,11 +183,11 @@
           <el-row>
             <el-col :span="10">
               <span class="label-item">结算收入金额/元：</span>
-              <span></span>
+              <span>{{projectFinancial.settlement}}</span>
             </el-col>
             <el-col :span="10">
               <span class="label-item">应收收入/元：</span>
-              <span></span>
+              <span>{{projectFinancial.receivable}}</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>
@@ -227,7 +231,7 @@
         <!-- <Income /> -->
       </el-tab-pane>
       <el-tab-pane label="支出" name="fourth">
-        <!-- <Pay /> -->
+        <Pay />
       </el-tab-pane>
       <el-tab-pane label="押金" name>
         <!-- <Deposit /> -->
@@ -306,6 +310,7 @@ import PriceList from "~/components/projectListPage/PriceList.vue";
 import AgreeMent from "~/components/projectListPage/AgreeMent.vue";
 import ReceivableList from "~/components/projectListPage/ReceivableList.vue";
 import axios from "axios";
+import CookieUtil from "~/utils/CookieUtil";
 
 export default {
   data() {
@@ -315,9 +320,30 @@ export default {
       dialogMoneyisSend: false,
       dialogMoneyisAllSend: false,
       closeStatus: true,
+      projectDetail:{},
+      projectFinancial: {}
     };
   },
-
+  computed: {
+    getProjectDetailData() {
+      console.log(this.$store.state.projectData.projectDetail);
+      return this.$store.state.projectData.projectDetail;
+    },
+    getProjectFinancial() {
+      console.log(this.$store.state.projectData.projectFinancial);
+      return this.$store.state.projectData.projectFinancial;
+    }
+  },
+  watch: {
+    getProjectDetailData(newVal, oldVal) {
+      console.log("watch project detail", newVal);
+      this.projectDetail = JSON.parse(JSON.stringify(newVal));
+    },
+    getProjectFinancial(newVal, oldVal) {
+      console.log("watch project financial", newVal);
+      this.projectFinancial = JSON.parse(JSON.stringify(newVal));
+    }
+  },
   methods: {
     handleTabClick(tab, event) {
       console.log(tab, event);
@@ -349,7 +375,22 @@ export default {
     handleSureClose() {
       this.han;
     },
-  }
+  },
+  async asyncData(ctx) {
+    if(!CookieUtil.existCookie("user_id")) {
+      location.href = "/";
+    }
+    let result = await axios.get("/api/expenditure/list").then(
+      (rep) => {
+        if (rep && rep.data) {
+          return rep.data.data;
+        }
+      },
+      () => {}
+    );
+    console.log("pay data", result);
+    ctx.store.commit("projectData/setProjectPay", result);
+  },
 };
 </script>
 

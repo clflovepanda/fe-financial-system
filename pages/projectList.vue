@@ -90,16 +90,12 @@
         </el-select>
       </el-form-item>
       <el-form-item class="button-wrap">
-        <el-button type="primary" @click="submitForm"
-          >立即创建</el-button
-        >
+        <el-button type="primary" @click="submitForm">立即创建</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
     <el-divider></el-divider>
-    <el-button class="add-project" type="primary" @click="handleAddClick()"
-      >新增项目</el-button
-    >
+    <el-button class="add-project" type="primary" @click="handleAddClick()">新增项目</el-button>
 
     <el-tabs v-model="activeName" @tab-click="handleTabClick">
       <el-tab-pane label="审核通过项目" name="checkedPro">
@@ -138,6 +134,9 @@ export default {
   methods: {
     submitForm() {
       console.log("search project form", this.ruleForm);
+      // axios.get("/api/project/list").then((res) => {
+        
+      // });
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
