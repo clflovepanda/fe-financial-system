@@ -50,14 +50,20 @@
         <div class="labelSty">项目二级类型：</div>
       </el-col>
       <el-col :span="8">
-        <el-autocomplete
+        <el-input
+          disabled
+          placeholder="请输入你要关联的二级项目"
+          v-model="nowIncomeForm.dataSourceName"
+        ></el-input>
+        
+        <!-- <el-autocomplete
           class="inline-input"
           v-model="nowIncomeForm.project"
           :fetch-suggestions="querySearch"
           placeholder="请输入你要关联的二级项目"
           @select="handleSelect"
           style="width: 100%"
-        ></el-autocomplete>
+        ></el-autocomplete> -->
       </el-col>
     </el-row>
     <el-row class="rowSty">
@@ -89,7 +95,7 @@
     </el-row>
     <el-row class="rowSty">
       <el-col :span="4" :offset="16">
-        <el-button type="primary" style="width: 90%">确认收款</el-button>
+        <el-button type="primary" style="width: 90%" @click="addSubLog()">确认收款</el-button>
       </el-col>
       <el-col :span="4">
         <el-button style="width: 90%">返回到款列表</el-button>
@@ -111,6 +117,8 @@ export default {
         incomeFromName: "",
         incomeDate: "",
         remark: "",
+        dataSourceName: '',
+        receivementId:'',
       },
     };
   },
@@ -131,6 +139,19 @@ export default {
     },
   },
   methods: {
+    addSubLog(){
+      let params = {
+        receivementId: this.$store.state.dialogSwitchData.incomeDetailValue[0].id,
+        receivementMoney: this.nowIncomeForm.money,
+        revenueTypeId: this.nowIncomeForm.incomeType,
+        projectId: this.nowIncomeForm.projectId,
+        subscriptionDate: new Date(this.nowIncomeForm.incomeDate).getTime(),
+        remark: this.nowIncomeForm.remark
+      }
+      axios.post('/api/receivement/addsublog',params).then((response)=>{
+      })
+
+    },
     searchUserList: function () {
       console.log("search income list ...");
       axios.get("/api").then(
@@ -140,8 +161,26 @@ export default {
         () => {}
       );
     },
-    querySearch: function (queryStr, cb) {},
-    handleSelect: function () {},
+    querySearch: function (queryStr, cb) {
+      if(queryStr){
+        axios.get('/api/project/getbykey?keyWords='+this.nowIncomeForm.project).then(
+          (res) => {
+            let searchList  = [];
+            res.data.data.map((item) => {
+              searchList.push({value:item.name,item:item})
+            })
+            cb(searchList)
+
+
+          }
+        )
+      }      
+    },
+    handleSelect: function (val) {
+      this.nowIncomeForm.dataSourceName = val.item.dataSourceName;
+      this.nowIncomeForm.projectId = val.item.projectId;
+
+    },
   },
 };
 </script>

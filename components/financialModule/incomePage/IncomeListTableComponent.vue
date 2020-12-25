@@ -7,20 +7,29 @@
     >
       <el-table-column
         fixed
-        prop="num"
         label="序号"
         width="120"
+        prop="id"
       ></el-table-column>
-      <el-table-column prop="account" label="到款账户"></el-table-column>
-      <el-table-column prop="incomeType" label="到款种类"></el-table-column>
-      <el-table-column prop="incomeFromType" label="汇款方类型"></el-table-column>
-      <el-table-column prop="incomeFromName" label="汇款方"></el-table-column>
-      <el-table-column prop="incomeMoney" label="到款金额/元"></el-table-column>
-      <el-table-column prop="incomeDate" label="到款时间"></el-table-column>
-      <el-table-column prop="confirmMoney" label="已认款金额"></el-table-column>
-      <el-table-column prop="lastConfirmDate" label="最新认款时间"></el-table-column>
-      <el-table-column prop="needConfirmMoney" label="剩余认款金额/元"></el-table-column>
-      <el-table-column prop="status" label="状态"></el-table-column>
+      <el-table-column prop="companyName" label="到款账户"></el-table-column>
+      <el-table-column prop="receivementTypeName" label="到款种类"></el-table-column>
+      <el-table-column prop="remitterMethodName" label="汇款方类型"></el-table-column>
+      <el-table-column prop="remitter" label="汇款方"></el-table-column>
+      <el-table-column prop="receivementMoney" label="到款金额/元"></el-table-column>
+      <el-table-column prop="receiveDate" label="到款时间"></el-table-column>
+      <el-table-column prop="hadSubscriptionTotalMoney" label="已认款金额"></el-table-column>
+      <el-table-column prop="latestSubscriptionTime" label="最新认款时间"></el-table-column>
+      <el-table-column prop="remaindSubscriptionTotalMoney" label="剩余认款金额/元"></el-table-column>
+      <el-table-column prop="state" label="状态">
+        <template slot-scope="scope">
+         <span v-if="scope.row.state==0">未认款</span>
+         <span v-if="scope.row.state==1">已认款</span>
+         <span v-if="scope.row.state==2">部分认款</span>
+         <span v-if="scope.row.state==3">待做账</span>
+         <span v-if="scope.row.state==4">已做账</span>
+
+      </template>
+      </el-table-column>
       <el-table-column fixed="right" label="操作" width="280">
         <template slot-scope="scope">
           <el-button @click="confirmMoney(scope)" type="text" size="small">认款</el-button>
@@ -50,6 +59,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -69,8 +79,15 @@ export default {
     handleEdit(scope) {
       console.log("edit " + scope.$index + " ...");
     },
-    confirmMoney(scope) {
+    async confirmMoney(scope) {
       this.$store.commit("dialogSwitchData/showConfirmIncomeDialog", true);
+      // 操作认款时获取某一项信息
+      this.$store.commit("dialogSwitchData/incomeDetailSubscription", [scope.row]);
+
+      //认款弹框列表
+     let response = await axios.get('/api/receivement/getsublog?receivementId='+[scope.row][0].id)
+      this.$store.commit("dialogSwitchData/receivementList",response.data.data);
+      
     },
     editConfirm(scope) {
       this.$store.commit("dialogSwitchData/showEditIncomeDialog", true);
@@ -84,6 +101,6 @@ export default {
     confirmList(scope) {
       this.$store.commit("dialogSwitchData/showConfirmedIncomeDialog", true);
     }
-  }
+  },
 };
 </script>
