@@ -1,3 +1,11 @@
+<!--
+ * @Description: 
+ * @Version: 2.0
+ * @Autor: 贺朋展
+ * @Date: 2020-12-25 13:44:27
+ * @LastEditors: 贺朋展
+ * @LastEditTime: 2020-12-26 11:58:51
+-->
 <template>
   <el-dialog title="删除" :visible.sync="deleteIncomeDialogShow" width="40%">
     <el-row class="rowSty">
@@ -7,13 +15,14 @@
     </el-row>
     <el-row style="margin-top: 50px">
       <el-col :span="8" :offset="16">
-        <el-button type="primary">确认删除</el-button>
+        <el-button type="primary" @click="deleteReceiveMent">确认删除</el-button>
         <el-button>取消</el-button>
       </el-col>
     </el-row>
   </el-dialog>
 </template>
 <script>
+import axios from 'axios'
 import IncomeDetailListTableComponent from "~/components/financialModule/incomePage/IncomeDetailListTableComponent";
 import ConfirmIncomeListTableComponent from "~/components/financialModule/incomePage/ConfirmIncomeListTableComponent";
 import AccountingInfoComponent from "~/components/financialModule/incomePage/AccountingInfoComponent";
@@ -44,7 +53,7 @@ export default {
   watch: {
     deleteIncomeDialogShow() {
       this.$store.commit(
-        "dialogSwitchData/showConfirmedIncomeDialog",
+        "dialogSwitchData/showDeleteIncomeDialog",
         this.deleteIncomeDialogShow
       );
     },
@@ -53,6 +62,19 @@ export default {
     },
   },
   methods: {
+    deleteReceiveMent() {
+      axios.get('/api/receivement/delete?id='+this.$store.state.dialogSwitchData.incomeDetailValue[0].id).then( (response) => {
+        console.log(response.data)
+        if( response.data.code === 200 ){
+          window.location.reload();
+        } else {
+          this.$message({
+            message: response.data.msg,
+            type: "error"
+          });
+        }
+      })
+    },
     createUser: function () {
       console.log("create user ...");
     },

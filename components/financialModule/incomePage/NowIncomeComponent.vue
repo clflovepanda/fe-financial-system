@@ -153,7 +153,8 @@ export default {
         revenueTypeId: this.nowIncomeForm.incomeType,
         projectId: this.nowIncomeForm.projectId,
         subscriptionDate: new Date(this.nowIncomeForm.incomeDate).getTime(),
-        remark: this.nowIncomeForm.remark
+        remark: this.nowIncomeForm.remark,
+        state: this.nowIncomeForm.money == this.$store.state.dialogSwitchData.incomeDetailValue[0].remaindSubscriptionTotalMoney?3:2,
       }
 
       if(this.nowIncomeForm.money&&this.nowIncomeForm.incomeType&&this.nowIncomeForm.projectId&&this.nowIncomeForm.incomeDate){
