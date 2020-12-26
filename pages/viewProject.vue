@@ -193,18 +193,31 @@
           <el-divider></el-divider>
         </div>
       </el-tab-pane>
-      <!-- <el-tab-pane label="工时分配" name="second">
+      <el-tab-pane label="工时分配" name="second">
+        <el-button type="primary" @click="handleAddTime">新增</el-button>
+        <el-table
+          border
+          :data="$store.state.projectData.taskTimeList"
+          style="width: 100%; margin-top: 20px"
+        >
+          <el-table-column fixed prop="taskRelationId" label="ID"></el-table-column>
+          <el-table-column align="center" prop="fullname" label="项目工时模板名称">
+            <template slot-scope="scope">
+              <el-button @click="handleProjectName(scope.row)" type="text" size="small">{{scope.row.templateName}}</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
         
-      </el-tab-pane> -->
+      </el-tab-pane>
       <el-tab-pane label="收入" name="third">
         <!-- <Income /> -->
       </el-tab-pane>
       <el-tab-pane label="支出" name="fourth">
         <Pay />
       </el-tab-pane>
-      <!-- <el-tab-pane label="押金" name>
+      <el-tab-pane label="押金" name>
         <Deposit />
-      </el-tab-pane> -->
+      </el-tab-pane>
       <el-tab-pane label="报价单" name>
         <PriceList />
       </el-tab-pane>
@@ -290,7 +303,7 @@ export default {
       dialogMoneyisAllSend: false,
       closeStatus: true,
       projectDetail:{},
-      projectFinancial: {}
+      projectFinancial: {},
     };
   },
   computed: {
@@ -314,6 +327,11 @@ export default {
     }
   },
   methods: {
+    handleProjectName(tab) {
+      // this.$router.push("/addtasktime.jsp");
+      this.$router.push("/addtasktime?layer="+tab.templateFlag + '&taskRelationId='+ tab.taskRelationId);
+      
+    },
     handleTabClick(tab, event) {
     },
     handleBackList() {
@@ -370,6 +388,20 @@ export default {
     // console.log("quotation data", quotationResult);
     // ctx.store.commit("projectData/setQuotationList", quotationResult);
 
+
+
+// console.log('vuex----',ctx.store.state.projectData.viewProjectId)
+    //工时分配列表
+     let result = await axios.get("/api/task/gettaskrelation?projectId="+ctx.store.state.projectData.viewProjectId).then(
+      (rep) => {
+        if (rep && rep.data) {
+          return  rep.data.data;
+        }
+      },
+      () => {}
+    );
+
+    ctx.store.commit("projectData/setTaskTimeList", result);
   },
 };
 </script>

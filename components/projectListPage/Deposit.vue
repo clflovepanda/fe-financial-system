@@ -139,7 +139,7 @@ export default {
         proDate: "",
         moneyStatus: "",
       },
-      //   rules: {
+        rules: {
       //     id: [{ required: true, message: "请输入项目编号", trigger: "blur" }],
       //     name: [{ required: true, message: "请输入项目名称", trigger: "blur" }],
       //     proManager: [
@@ -173,7 +173,7 @@ export default {
       //         trigger: "change",
       //       },
       //     ],
-      //   },
+        },
       listData: [],
     };
   },

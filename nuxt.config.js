@@ -4,7 +4,7 @@
  * @Autor: 贺朋展
  * @Date: 2020-12-25 13:44:27
  * @LastEditors: 贺朋展
- * @LastEditTime: 2020-12-26 21:36:40
+ * @LastEditTime: 2020-12-27 02:20:45
  */
 export default {
     // Disable server-side rendering (https://go.nuxtjs.dev/ssr-mode)

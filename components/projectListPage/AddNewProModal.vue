@@ -1,5 +1,13 @@
+<!--
+ * @Description: 
+ * @Version: 2.0
+ * @Autor: 贺朋展
+ * @Date: 2020-12-25 13:44:27
+ * @LastEditors: 贺朋展
+ * @LastEditTime: 2020-12-26 22:18:30
+-->
 <template>
-  <el-dialog title="新增工时" :visible.sync="show">
+  <el-dialog title="新增工时" :visible.sync="show"  :before-close="handleCancel">
     <el-divider></el-divider>
     <el-form :model="form" ref="form">
       <el-form-item label="选择模板" label-width="100px" prop="proTemplate">
