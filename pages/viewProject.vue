@@ -211,7 +211,9 @@
       <el-tab-pane label="项目合同" name>
         <AgreeMent />
       </el-tab-pane>
-      <el-tab-pane label="结算单" name>结算单</el-tab-pane>
+      <el-tab-pane label="结算单" name>
+        <ProjectSettlement />
+      </el-tab-pane>
       <el-tab-pane label="应收单" name>
         <!-- <ReceivableList /> -->
       </el-tab-pane>
@@ -278,6 +280,7 @@ import Deposit from "~/components/projectListPage/Deposit.vue";
 import PriceList from "~/components/projectListPage/PriceList.vue";
 import AgreeMent from "~/components/projectListPage/AgreeMent.vue";
 import ReceivableList from "~/components/projectListPage/ReceivableList.vue";
+import ProjectSettlement from "~/components/projectListPage/ProjectSettlement.vue";
 import axios from "axios";
 import CookieUtil from "~/utils/CookieUtil";
 

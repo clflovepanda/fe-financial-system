@@ -14,7 +14,9 @@ export const state = () => ({
     },
     projectPay: [],
     projectDataSource: [],
-    quotationList: []
+    quotationList: [],
+    contractList: [],
+    settlementList: []
 })
 
 //状态(1:未开始 2:进行中 3:暂停 4:取消 5:已完成 6:已关闭)
@@ -40,5 +42,11 @@ export const mutations = {
     },
     setQuotationList(state, newObj) {
         state.quotationList = newObj;
+    },
+    setContractList(state, newObj) {
+        state.contractList = newObj;
+    },
+    setSettlementList(state, newObj) {
+        state.settlementList = newObj;
     }
 }

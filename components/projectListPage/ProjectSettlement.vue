@@ -20,23 +20,28 @@
 
         <el-row>
           <el-col :span="4" :offset="20">
-            <el-button type="primary" >上传项目合同</el-button>
+            <el-button type="primary" >上传结算单</el-button>
           </el-col>
         </el-row>
-        <el-table :data="getContractList" border style="width: 100%; margin-top: 20px">
-          <el-table-column align="center" fixed prop="contractId" label="序号"></el-table-column>
-          <el-table-column align="center" prop="contractName" label="项目合同名称"></el-table-column>
-          <el-table-column align="center" prop="contractNo" label="合同编号"></el-table-column>
-          <el-table-column align="center" prop="customerName" label="客户名称"></el-table-column>
+        <el-table :data="getSettlementList" border style="width: 100%; margin-top: 20px">
+          <el-table-column align="center" fixed prop="settlementId" label="序号"></el-table-column>
+          <el-table-column align="center" prop="settlementName" label="结算单名称"></el-table-column>
+          <el-table-column align="center" prop="settlementNo" label="结算单编号"></el-table-column>
+          <el-table-column align="center" prop="isLastSettlement" label="是否为最终结算单">
+            <template slot-scope="scope">
+              {{scope.row.isLastSettlement == 1 ? "是" : "否"}}
+            </template>
+          </el-table-column>
+          <el-table-column align="center" prop="settlementIncome" label="结算收入/元"></el-table-column>
           <el-table-column align="center" prop="proManager" label="附件">
             <template slot-scope="scope">
-              <a :href="scope.row.resourceUrl">下载合同</a>
+              <a :href="scope.row.resourceUrl">{{scope.row.resourceName}}</a>
             </template>
           </el-table-column>
           <el-table-column align="center" prop="id" label="操作" width="140">
             <template slot-scope="scope">
-              <el-button type="text" size="small" @click="editContract(scope.row)">编辑</el-button>
-              <el-button type="text" size="small" @click="deleteContract(scope.row)">删除</el-button>
+              <el-button type="text" size="small" @click="editSettlement(scope.row)">编辑</el-button>
+              <el-button type="text" size="small" @click="deleteSettlement(scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -65,15 +70,15 @@ export default {
     };
   },
   computed: {
-    getContractList() {
-      return this.$store.state.projectData.contractList;
+    getSettlementList() {
+      return this.$store.state.projectData.settlementList;
     }
   },
   methods: {
-    editContract(row) {
+    editSettlement(row) {
 
     },
-    deleteContract(row) {
+    deleteSettlement(row) {
 
     }
   },
