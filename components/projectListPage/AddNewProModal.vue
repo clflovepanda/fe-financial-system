@@ -1,11 +1,4 @@
-<!--
- * @Description: 
- * @Version: 2.0
- * @Autor: 贺朋展
- * @Date: 2020-12-25 13:44:27
- * @LastEditors: 贺朋展
- * @LastEditTime: 2020-12-27 13:41:33
--->
+
 <template>
 <div>
   <el-dialog title="新增工时" :visible.sync="show"  :before-close="handleCancel">
@@ -59,9 +52,9 @@ export default {
         templateName: this.form.name
       }
       axios.post('/api/task/addrelation',params).then((res)=>{
-        console.log('创建工时---',res)
         if(res.data.code === 0){
           this.$message.success('创建成功！')
+          this.$store.commit("projectData/setTaskTimeList", res.data.data);
           this.$emit('hideModal');
         }
       })
