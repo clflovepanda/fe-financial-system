@@ -1,11 +1,4 @@
-<!--
- * @Description: 
- * @Version: 2.0
- * @Autor: 贺朋展
- * @Date: 2020-12-26 23:27:26
- * @LastEditors: 贺朋展
- * @LastEditTime: 2020-12-27 12:34:49
--->
+
 <template>
   <div  v-loading="loading">
     <el-tree :data="dealedArr" :check-on-click-node="true" show-checkbox :default-expand-all="true"

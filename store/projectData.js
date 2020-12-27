@@ -4,8 +4,9 @@
  * @Autor: 贺朋展
  * @Date: 2020-12-25 13:44:27
  * @LastEditors: 贺朋展
- * @LastEditTime: 2020-12-27 12:24:49
+ * @LastEditTime: 2020-12-27 13:47:16
  */
+
 export const state = () => ({
     projectList: [],
     viewProjectId: "",

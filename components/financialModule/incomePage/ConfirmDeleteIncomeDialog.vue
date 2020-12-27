@@ -1,11 +1,4 @@
-<!--
- * @Description: 
- * @Version: 2.0
- * @Autor: 贺朋展
- * @Date: 2020-12-25 13:44:27
- * @LastEditors: 贺朋展
- * @LastEditTime: 2020-12-26 11:58:51
--->
+
 <template>
   <el-dialog title="删除" :visible.sync="deleteIncomeDialogShow" width="40%">
     <el-row class="rowSty">
