@@ -20,9 +20,9 @@
       <el-table-column prop="createDatetime" label="创建时间"></el-table-column>
       <el-table-column fixed="right" label="操作">
         <template slot-scope="scope">
-          <el-button @click="handleClick(scope)" type="text" size="small"
+          <!-- <el-button @click="handleClick(scope)" type="text" size="small"
             >查看</el-button
-          >
+          > -->
           <el-button type="text" size="small" @click="handleEdit(scope)"
             >编辑</el-button
           >
