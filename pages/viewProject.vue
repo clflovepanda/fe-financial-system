@@ -7,7 +7,7 @@
     </el-breadcrumb>
     <el-divider></el-divider>
     <el-tabs v-model="activeName" type="card" @tab-click="handleTabClick">
-      <el-tab-pane label="项目信息" name="first">
+      <el-tab-pane label="项目信息" name="1">
         <el-row class="button-wrap">
           <el-col :span="10" :offset="14">
             <el-button
@@ -193,7 +193,7 @@
           <el-divider></el-divider>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="工时分配" name="second">
+      <el-tab-pane label="工时分配" name="2">
         <el-button type="primary" @click="handleAddTime">新增</el-button>
         <el-table
           border
@@ -209,27 +209,27 @@
         </el-table>
         
       </el-tab-pane>
-      <el-tab-pane label="收入" name="third">
+      <el-tab-pane label="收入" name="3">
         <!-- <Income /> -->
       </el-tab-pane>
-      <el-tab-pane label="支出" name="fourth">
+      <el-tab-pane label="支出" name="4">
         <Pay />
       </el-tab-pane>
-      <el-tab-pane label="押金" name>
+      <el-tab-pane label="押金" name="5">
         <Deposit />
       </el-tab-pane>
-      <el-tab-pane label="报价单" name>
+      <el-tab-pane label="报价单" name="6">
         <PriceList />
       </el-tab-pane>
-      <el-tab-pane label="项目合同" name>
+      <el-tab-pane label="项目合同" name="7">
         <AgreeMent />
       </el-tab-pane>
-      <el-tab-pane label="结算单" name>结算单</el-tab-pane>
-      <el-tab-pane label="应收单" name>
+      <el-tab-pane label="结算单" name="8">结算单</el-tab-pane>
+      <el-tab-pane label="应收单" name="9">
         <!-- <ReceivableList /> -->
       </el-tab-pane>
 
-      <el-tab-pane label="工时统计" name>
+      <el-tab-pane label="工时统计" name="10">
         <el-row>
           <span>人员</span>
           <el-select v-model="userid" filterable placeholder="请选择">
@@ -336,7 +336,7 @@ import CookieUtil from "~/utils/CookieUtil";
 export default {
   data() {
     return {
-      activeName: "first",
+      activeName: "1",
       dialogAddTime: false,
       dialogMoneyisSend: false,
       dialogMoneyisAllSend: false,

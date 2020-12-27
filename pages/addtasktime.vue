@@ -167,6 +167,7 @@ export default {
           axios.post("/api/task/adduser", reqArr).then(({data}) => {
               if (data.code == 0) {
                   this.$message.success('保存成功')
+                   this.$router.push('/viewProject')
                   // window.location.href = this.baseUrl + '/task/json/tovuegettask.do?project_id=' + this.projectId
               } else {
                   this.$message.error(data.msg)
@@ -205,9 +206,13 @@ export default {
       },
       // 修改按钮
       modify(item) {
-        let url = this.baseUrl + "/task/json/updateselect.do?project_id=" + this.projectId + "&task_id=" + item.taskId + "&amount=" + item.count + "&take_time=" + item.time
-        axios.get(url).then(({data}) => {
-            if (data.code == 0) {
+      let params = {
+        taskId: item.taskId,
+        amount: item.count,
+        takeTime: item.time
+      }
+        axios.post('/api/task/updatetasktemplate',params).then((data) => {
+            if (data.data.code === 0) {
                 this.tableOne[item.id] = {
                     time: item.time,
                     count: item.count,
@@ -216,7 +221,7 @@ export default {
                 }
                 this.$message.success('修改成功')
             } else {
-                this.$message.error('修改失败')
+                this.$message.error('修改失败：'+data.data.msg)
             }
         })
       },
