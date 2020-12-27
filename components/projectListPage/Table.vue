@@ -100,6 +100,29 @@ export default {
         );
         console.log("quotation data", quotationResult);
         ts.$store.commit("projectData/setQuotationList", quotationResult);
+
+        let contractResult = await axios.get("/api/contract/list?projectId=" + val.projectId).then(
+          (rep) => {
+            if (rep && rep.data) {
+              return rep.data.data;
+            }
+          },
+          () => {}
+        );
+        console.log("contract data", contractResult);
+        ts.$store.commit("projectData/setContractList", contractResult);
+
+        let settlementResult = await axios.get("/api/settlement/list?projectId=" + val.projectId).then(
+          (rep) => {
+            if (rep && rep.data) {
+              return rep.data.data;
+            }
+          },
+          () => {}
+        );
+        console.log("settlement data", settlementResult);
+        ts.$store.commit("projectData/setSettlementList", settlementResult);
+
       })(this);
       this.$router.push("/viewProject");
     },
