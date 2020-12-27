@@ -166,6 +166,7 @@
 import Table from "~/components/projectListPage/Table.vue";
 import axios from "axios";
 import {EnumAccount} from "../utils/EnumUtil";
+import CookieUtil from "~/utils/CookieUtil";
 
 export default {
   data() {
@@ -191,7 +192,6 @@ export default {
   },
   computed: {
     userList() {
-      console.log("user list", this.$store.state.rootData.userList);
       return this.$store.state.rootData.userList;
     },
     companyList() {
@@ -240,6 +240,9 @@ export default {
     }
   },
   async asyncData(ctx) {
+    if(!CookieUtil.existCookie("user_id")) {
+      location.href = "/";
+    }
     let result = await axios.get("/api/role/getparentdatasource").then(
       (rep) => {
         if (rep && rep.data) {
@@ -258,10 +261,10 @@ export default {
 .breadcrumb.breadcrumb-actived .el-breadcrumb__inner.is-link {
   color: blue;
 }
-.add-project-list .el-form-item {
-  /* display: inline-block;
-  vertical-align: top; */
-}
+/* .add-project-list .el-form-item {
+  display: inline-block;
+  vertical-align: top;
+} */
 
 .add-project-list .el-input {
   width: 310px;

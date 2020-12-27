@@ -44,10 +44,10 @@
           style="width: 100%"
         >
           <el-option
-            v-for="item in roleList"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
+            v-for="item in getRoleList"
+            :key="item.roleId"
+            :label="item.roleName"
+            :value="item.roleId"
           ></el-option>
         </el-select>
       </el-col>
@@ -132,6 +132,9 @@ export default {
     isShowCreateUserDialog() {
       return this.$store.state.dialogSwitchData.createUserDialogShow;
     },
+    getRoleList() {
+      return this.$store.state.roleData.roleListTable.listData;
+    }
   },
   watch: {
     showCreateUserDialog() {

@@ -27,7 +27,9 @@
         <el-menu-item index="3-3">押金管理</el-menu-item>
         <el-menu-item index="3-4">支出管理</el-menu-item>
         <el-menu-item index="3-5">发票应收</el-menu-item>
+        <nuxt-link to="/expenditureStatistic">
         <el-menu-item index="3-6">支出统计</el-menu-item>
+        </nuxt-link>
         <el-menu-item index="3-7">项目统计</el-menu-item>
       </el-menu-item-group>
     </el-submenu>

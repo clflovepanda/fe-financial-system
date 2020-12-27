@@ -40,6 +40,7 @@ import ConfirmAccountingDialog from "~/components/financialModule/incomePage/Con
 import ConfirmDeleteIncomeDialog from "~/components/financialModule/incomePage/ConfirmDeleteIncomeDialog";
 import ConfirmedIncomeListDialog from "~/components/financialModule/incomePage/ConfirmedIncomeListDialog";
 import axios from "axios"
+import CookieUtil from "~/utils/CookieUtil";
 
 export default {
   methods: {
@@ -48,6 +49,9 @@ export default {
     },
   },
   async asyncData(ctx) {
+    if(!CookieUtil.existCookie("user_id")) {
+      location.href = "/";
+    }
     let result = await axios.get("/api/receivement/list").then(
       (rep) => {
         if (rep && rep.data) {

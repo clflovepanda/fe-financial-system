@@ -123,6 +123,16 @@ export default {
         console.log("settlement data", settlementResult);
         ts.$store.commit("projectData/setSettlementList", settlementResult);
 
+        let receivableResult = await axios.get("/api/receivable/list?projectId=" + val.projectId).then(
+          (rep) => {
+            if (rep && rep.data) {
+              return rep.data.data;
+            }
+          },
+          () => {}
+        );
+        console.log("receivable data", receivableResult);
+        ts.$store.commit("projectData/setReceivableList", receivableResult);
       })(this);
       this.$router.push("/viewProject");
     },

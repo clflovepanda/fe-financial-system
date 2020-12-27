@@ -210,7 +210,7 @@
         
       </el-tab-pane>
       <el-tab-pane label="收入" name="third">
-        <!-- <Income /> -->
+        <Income />
       </el-tab-pane>
       <el-tab-pane label="支出" name="fourth">
         <Pay />
@@ -228,7 +228,7 @@
         <ProjectSettlement />
       </el-tab-pane>
       <el-tab-pane label="应收单" name>
-        <!-- <ReceivableList /> -->
+        <ReceivableList />
       </el-tab-pane>
 
       <el-tab-pane label="工时统计" name>

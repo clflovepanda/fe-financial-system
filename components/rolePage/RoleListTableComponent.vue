@@ -12,7 +12,11 @@
         width="120"
       ></el-table-column>
       <el-table-column prop="roleName" label="角色名称"></el-table-column>
-      <el-table-column prop="state" label="角色状态"></el-table-column>
+      <el-table-column prop="state" label="角色状态">
+        <template slot-scope="scope">
+          {{scope.row.state == 1 ? "启用" : "禁用"}}
+        </template>
+      </el-table-column>
       <el-table-column prop="createDatetime" label="创建时间"></el-table-column>
       <el-table-column fixed="right" label="操作">
         <template slot-scope="scope">
@@ -43,10 +47,15 @@
         </div>
       </el-col>
     </el-row>
+    <EditRoleDialog />
   </div>
 </template>
 
 <script>
+import EditRoleDialog from "~/components/rolePage/EditRoleDialog";
+import axios from "axios";
+import {EnumRoleState} from "../../utils/EnumUtil";
+
 export default {
   data() {
     return {
@@ -65,10 +74,23 @@ export default {
       console.log(scope);
     },
     handleEdit(scope) {
-      console.log("edit role " + scope.$index + " ...");
+      this.$store.commit("dialogSwitchData/showEditRoleDialog", true);
+      axios.get("/api/role/getbyroleid?roleId=" + scope.row.roleId).then(
+        (rep) => {
+          if (rep && rep.data) {
+            this.$store.commit("roleData/setNowSelectRole", rep.data.data);
+          }
+        },
+        () => {}
+      );
     },
     ban(scope) {
-      console.log("ban role " + scope.$index + " ..." );
+      axios.get("/api/role/changerolestate?roleId=" + scope.row.roleId).then(
+        (res) => {
+          console.log(res);
+        },
+        () => {}
+      );
     }
   },
 };

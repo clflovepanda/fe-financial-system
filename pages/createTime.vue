@@ -136,9 +136,9 @@ export default {
 .project-list-form .button-wrap .el-form-item__content {
   margin-left: 15px !important;
 }
-.project-list .add-project.el-button--primary.el-button {
+/* .project-list .add-project.el-button--primary.el-button {
   position: relative;
   float: right;
   z-index: 999;
-}
+} */
 </style>

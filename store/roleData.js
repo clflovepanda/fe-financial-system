@@ -7,12 +7,24 @@ export const state = () => ({
         listData: [],
         total: 0,
         currentPage: 1
-    }
+    },
+    listLevelTree: [],
+    roleTree: [],
+    nowSelectRole: {}
 })
 
 export const mutations = {
     setRoleList(state, newObj) {
         state.roleListTable.listData = newObj
         state.roleListTable.total = newObj.length;
+    },
+    setListLevelTree(state, newObj) {
+        state.listLevelTree = newObj;
+    },
+    setRoleTree(state, newObj) {
+        state.roleTree = newObj;
+    },
+    setNowSelectRole(state, newObj) {
+        state.nowSelectRole = newObj;
     }
 }

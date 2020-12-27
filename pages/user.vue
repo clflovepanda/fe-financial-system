@@ -35,6 +35,11 @@ import axios from "axios";
 import CookieUtil from "~/utils/CookieUtil";
 
 export default {
+  computed: {
+    getRoleList() {
+      return this.$store.state.roleData.roleListTable.listData;
+    }
+  },
   methods: {
     showCreateUserDialog: function () {
       this.$store.commit("dialogSwitchData/showCreateUserDialog", true);
@@ -54,6 +59,18 @@ export default {
       () => {}
     );
     ctx.store.commit("userData/setUserListTable", result);
+
+    let roleResult = await axios.get("/api/role/get").then(
+      (rep) => {
+        if (rep && rep.data) {
+          return rep.data.data;
+        }
+      },
+      () => {}
+    );
+    console.log("init role list", roleResult);
+    ctx.store.commit("roleData/setRoleList", roleResult);
+    
   },
 };
 </script>

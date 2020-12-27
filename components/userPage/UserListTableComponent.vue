@@ -14,10 +14,11 @@
       <el-table-column prop="mobile" label="手机号"></el-table-column>
       <el-table-column prop="depId" label="部门"></el-table-column>
       <el-table-column prop="roleName" label="角色"></el-table-column>
-      <el-table-column
-        prop="state"
-        label="账号状态"
-      ></el-table-column>
+      <el-table-column prop="state" label="账号状态">
+      <template slot-scope="scope">
+          {{scope.row.state == 1 ? "启用" : "禁用"}}
+        </template>
+      </el-table-column>
       <el-table-column
         prop="createDatetime"
         label="创建时间"

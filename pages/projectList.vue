@@ -107,6 +107,7 @@ import Table from "~/components/projectListPage/Table.vue";
 import axios from "axios";
 import {EnumProjectType,EnumSaleSendType,EnumSettlementState} from "../utils/EnumUtil";
 import DateUtil from "../utils/DateUtil";
+import CookieUtil from "~/utils/CookieUtil";
 
 export default {
   data() {
@@ -171,6 +172,9 @@ export default {
     },
   },
   async asyncData(ctx) {
+    if(!CookieUtil.existCookie("user_id")) {
+      location.href = "/";
+    }
     let result = await axios.get("/api/project/list").then(
       (rep) => {
         if (rep && rep.data) {
@@ -212,11 +216,11 @@ export default {
 .project-list-form .button-wrap .el-form-item__content {
   margin-left: 15px !important;
 }
-.project-list .add-project.el-button--primary.el-button {
+/* .project-list .add-project.el-button--primary.el-button {
   position: relative;
   float: right;
   z-index: 999;
-}
+} */
 .labelSty {
   line-height: 40px;
   text-align: center;

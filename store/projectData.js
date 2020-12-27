@@ -28,6 +28,7 @@ export const state = () => ({
     settlementList: [],
     taskTimeList: [],
     getuserList: [],
+    receivableList: []
 })
 
 //状态(1:未开始 2:进行中 3:暂停 4:取消 5:已完成 6:已关闭)
@@ -67,5 +68,8 @@ export const mutations = {
     //用户列表
     setgetuserlist(state, newObj) {
         state.getuserList = newObj;
+    },
+    setReceivableList(state, newObj) {
+        state.receivableList = newObj;
     }
 }

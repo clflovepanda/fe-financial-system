@@ -165,6 +165,41 @@ let EnumProjectAuditState = {
     }
 }
 
+let EnumExpenditureState = {
+    list: [
+        { value: 0, label: "未提交" },
+        { value: 1, label: "已提交" },
+        { value: 2, label: "审核中" },
+        { value: 3, label: "被驳回" },
+        { value: 4, label: "已支付" },
+        { value: 5, label: "作废" },
+        { value: 6, label: "凭借款" },
+    ],
+    getMsg(value) {
+        for (let i = 0; i < this.list.length; i++) {
+            if (value == this.list[i].value) {
+                return this.list[i].label;
+            }
+        }
+        return "";
+    }
+}
+
+let EnumRoleState = {
+    list: [
+        { value: 0, label: "停用" },
+        { value: 1, label: "启用" },
+    ],
+    getMsg(value) {
+        for (let i = 0; i < this.list.length; i++) {
+            if (value == this.list[i].value) {
+                return this.list[i].label;
+            }
+        }
+        return "";
+    }
+}
+
 
 export {
     EnumAccount,
@@ -176,5 +211,7 @@ export {
     EnumProjectType,
     EnumSaleSendType,
     EnumSettlementState,
-    EnumProjectAuditState
+    EnumProjectAuditState,
+    EnumExpenditureState,
+    EnumRoleState
 }
