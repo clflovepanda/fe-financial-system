@@ -4,7 +4,7 @@
  * @Autor: 贺朋展
  * @Date: 2020-12-26 23:27:26
  * @LastEditors: 贺朋展
- * @LastEditTime: 2020-12-27 02:18:23
+ * @LastEditTime: 2020-12-27 12:34:49
 -->
 <template>
   <div  v-loading="loading">
@@ -322,11 +322,12 @@ export default {
         })
       },
       getUser() {
-        axios.get("/api/task/getuser?projectId=" + this.$store.state.projectData.viewProjectId).then((data) => {
-            this.options = data.data.data.map(item => {
-                return item
-            })
-        })
+        this.options = this.$store.state.projectData.getuserList
+        // axios.get("/api/task/getuser?projectId=" + this.$store.state.projectData.viewProjectId).then((data) => {
+        //     this.options = data.data.data.map(item => {
+        //         return item
+        //     })
+        // })
       },
       del(index, data) {
         console.log(this.tableData[data.menuId].list[index].taskId)

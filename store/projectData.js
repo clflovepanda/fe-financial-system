@@ -4,7 +4,7 @@
  * @Autor: 贺朋展
  * @Date: 2020-12-25 13:44:27
  * @LastEditors: 贺朋展
- * @LastEditTime: 2020-12-26 23:05:47
+ * @LastEditTime: 2020-12-27 12:24:49
  */
 export const state = () => ({
     projectList: [],
@@ -23,7 +23,8 @@ export const state = () => ({
     projectPay: [],
     projectDataSource: [],
   quotationList: [],
-    taskTimeList: []
+  taskTimeList: [],
+  getuserList: [],
 })
 
 //状态(1:未开始 2:进行中 3:暂停 4:取消 5:已完成 6:已关闭)
@@ -53,5 +54,9 @@ export const mutations = {
   //工时分配列表
   setTaskTimeList (state, newObj) {
     state.taskTimeList = newObj;
+  },
+  //用户列表
+  setgetuserlist (state, newObj) {
+    state.getuserList = newObj;
   }
 }

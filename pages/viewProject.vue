@@ -228,6 +228,45 @@
       <el-tab-pane label="应收单" name>
         <!-- <ReceivableList /> -->
       </el-tab-pane>
+
+      <el-tab-pane label="工时统计" name>
+        <el-row>
+          <span>人员</span>
+          <el-select v-model="userid" filterable placeholder="请选择">
+            <el-option
+              v-for="item in $store.state.projectData.getuserList"
+              :key="item.userId"
+              :label="item.username"
+              :value="item.userId">
+            </el-option>
+          </el-select>
+          <el-button type="primary" @click="selectUser">查询</el-button>
+        </el-row>
+
+        <el-table
+          border
+          :data="templateList"
+          style="width: 100%; margin-top: 20px"
+        >
+          <el-table-column fixed prop="projectName" label="项目名称"></el-table-column>
+          <el-table-column fixed prop="relationName" label="项目工时模板名称"></el-table-column>
+          <el-table-column fixed prop="templateName" label="模板名称"></el-table-column>
+          <el-table-column fixed prop="username" label="人员"></el-table-column>
+          <el-table-column fixed prop="amount" label="数量"></el-table-column>
+          <el-table-column fixed prop="takeTime" label="单位工时"></el-table-column>
+          <el-table-column fixed prop="completionTime" label="完成时间"></el-table-column>
+          <!-- <el-table-column align="center" prop="" label="项目工时模板名称">
+            <template slot-scope="scope">
+              <el-button @click="handleProjectName(scope.row)" type="text" size="small">{{scope.row.templateName}}</el-button>
+            </template>
+          </el-table-column> -->
+        </el-table>
+
+        <p class="total">
+          <span>总价格：{{templateTotal}}</span>
+          <span>总工时：{{templateTotaltime}}</span>
+        </p>
+      </el-tab-pane>
     </el-tabs>
 
     <el-row>
@@ -304,6 +343,11 @@ export default {
       closeStatus: true,
       projectDetail:{},
       projectFinancial: {},
+      options: [],
+      userid: '',
+      templateList: [],
+      templateTotal: 0,
+      templateTotaltime: 0,
     };
   },
   computed: {
@@ -326,7 +370,23 @@ export default {
       this.projectFinancial = JSON.parse(JSON.stringify(newVal));
     }
   },
+  mounted(){
+      this.selectUser();
+  },
   methods: {
+    selectUser() {
+      axios.get('/api/task/list?userId='+this.userid+'&projectId='+this.$store.state.projectData.viewProjectId).then((res) => {
+        console.log('查询----',res)
+        if(res.data.code === 0){
+          this.templateList = res.data.data.task;
+          this.templateTotal = res.data.data.total;
+          this.templateTotaltime = res.data.data.totalTime;
+
+
+        }
+      })
+
+    },
     handleProjectName(tab) {
       // this.$router.push("/addtasktime.jsp");
       this.$router.push("/addtasktime?layer="+tab.templateFlag + '&taskRelationId='+ tab.taskRelationId);
@@ -402,6 +462,16 @@ export default {
     );
 
     ctx.store.commit("projectData/setTaskTimeList", result);
+
+    let options = await axios.get("/api/task/getuser?projectId=" + ctx.store.state.projectData.viewProjectId).then(
+      (rep) => {
+        if (rep && rep.data) {
+          return  rep.data.data;
+        }
+      },
+      () => {}
+    );
+    ctx.store.commit("projectData/setgetuserlist", options);
   },
 };
 </script>
@@ -409,6 +479,12 @@ export default {
 <style>
 .breadcrumb.breadcrumb-actived .el-breadcrumb__inner.is-link {
   color: blue;
+}
+.total{
+  margin-top: 10px;
+}
+.add-project{
+  margin-top: 20px;
 }
 
 .project-info-wrap {

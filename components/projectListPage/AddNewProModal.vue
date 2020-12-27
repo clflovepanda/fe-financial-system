@@ -4,19 +4,20 @@
  * @Autor: 贺朋展
  * @Date: 2020-12-25 13:44:27
  * @LastEditors: 贺朋展
- * @LastEditTime: 2020-12-26 22:18:30
+ * @LastEditTime: 2020-12-27 13:41:33
 -->
 <template>
+<div>
   <el-dialog title="新增工时" :visible.sync="show"  :before-close="handleCancel">
     <el-divider></el-divider>
     <el-form :model="form" ref="form">
       <el-form-item label="选择模板" label-width="100px" prop="proTemplate">
         <el-select v-model="form.proTemplate" placeholder="请选择工时模板">
-          <el-option label="活动" value="first"></el-option>
-          <el-option label="搭建" value="second"></el-option>
-          <el-option label="主场" value="third"></el-option>
-          <el-option label="IT直播" value="four"></el-option>
-          <el-option label="IT研发" value="five"></el-option>
+          <el-option label="活动" value="1"></el-option>
+          <el-option label="搭建" value="2"></el-option>
+          <el-option label="主场" value="3"></el-option>
+          <el-option label="IT直播" value="4"></el-option>
+          <el-option label="IT研发" value="5"></el-option>
         </el-select>
       </el-form-item>
       <el-divider></el-divider>
@@ -31,9 +32,11 @@
       <el-button type="primary" @click="handleCreate()">创 建</el-button>
     </div>
   </el-dialog>
+</div>
 </template>
 
 <script>
+import axios from "axios";
 export default {
   props:['show'],
   data() {
@@ -50,8 +53,19 @@ export default {
     this.$emit('hideModal',false);
     },
     handleCreate (){
-    this.$emit('hideModal');
-    this.$router.push('/createTime');
+      let params = {
+        projectId: this.$store.state.projectData.viewProjectId,
+        templateFlag: this.form.proTemplate,
+        templateName: this.form.name
+      }
+      axios.post('/api/task/addrelation',params).then((res)=>{
+        console.log('创建工时---',res)
+        if(res.data.code === 0){
+          this.$message.success('创建成功！')
+          this.$emit('hideModal');
+        }
+      })
+    // this.$router.push('/createTime');
     }
   },
 };
