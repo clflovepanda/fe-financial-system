@@ -1,3 +1,12 @@
+/*
+ * @Description: 
+ * @Version: 2.0
+ * @Autor: 贺朋展
+ * @Date: 2020-12-25 13:44:27
+ * @LastEditors: 贺朋展
+ * @LastEditTime: 2020-12-27 13:47:16
+ */
+
 export const state = () => ({
     projectList: [],
     viewProjectId: "",
@@ -16,7 +25,9 @@ export const state = () => ({
     projectDataSource: [],
     quotationList: [],
     contractList: [],
-    settlementList: []
+    settlementList: [],
+    taskTimeList: [],
+    getuserList: [],
 })
 
 //状态(1:未开始 2:进行中 3:暂停 4:取消 5:已完成 6:已关闭)
@@ -48,5 +59,13 @@ export const mutations = {
     },
     setSettlementList(state, newObj) {
         state.settlementList = newObj;
+    },
+    //工时分配列表
+    setTaskTimeList(state, newObj) {
+        state.taskTimeList = newObj;
+    },
+    //用户列表
+    setgetuserlist(state, newObj) {
+        state.getuserList = newObj;
     }
 }

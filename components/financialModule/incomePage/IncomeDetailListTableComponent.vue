@@ -1,11 +1,4 @@
-<!--
- * @Description: 
- * @Version: 2.0
- * @Autor: 贺朋展
- * @Date: 2020-12-25 13:44:27
- * @LastEditors: 贺朋展
- * @LastEditTime: 2020-12-25 18:58:23
--->
+
 <template>
   <div>
     <el-table

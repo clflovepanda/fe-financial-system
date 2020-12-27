@@ -1,11 +1,4 @@
-<!--
- * @Description: 
- * @Version: 2.0
- * @Autor: 贺朋展
- * @Date: 2020-12-25 13:44:27
- * @LastEditors: 贺朋展
- * @LastEditTime: 2020-12-26 02:25:49
--->
+
 <template>
   <div>
     <el-row class="rowSty">
@@ -41,7 +34,7 @@ export default {
   data() {
     return {
       accountingForm: {
-        isAccounting: false,
+        isAccounting: '1',
         voucher: ""
       },
     };
@@ -71,9 +64,8 @@ export default {
         '&state=' 
         + this.accountingForm.isAccounting
         axios.get('/api/receivement/accounting'+params).then( (response) => {
-          if(response.data.code==200){
+          if(response.data.code === 200){
             window.location.reload();
-
           }else{
             this.$message({
               message: response.data.msg,

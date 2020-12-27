@@ -65,7 +65,7 @@ export default {
   },
   methods: {
     handleProjectName(val) {
-      // this.$store.commit("projectData/setViewProjectId", val.projectId);
+      this.$store.commit("projectData/setViewProjectId", val.projectId);
       (async function(ts){
         let result = await axios.get("/api/project/project_detail?id=" + val.projectId).then(
           (rep) => {
