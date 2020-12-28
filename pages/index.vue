@@ -108,6 +108,7 @@ export default {
                 let projectList = await NetReqUser.getAllProject();
                 console.log(projectList);
                 this.$router.push("/user");
+                this.$store.commit("userData/setHasLogin", true);
               })();
             } else {
               this.$message.error(response.data.msg);

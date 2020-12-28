@@ -29,6 +29,7 @@
 
 <script>
 import Table from "~/components/projectListPage/Table.vue";
+import CookieUtil from "~/utils/CookieUtil";
 
 export default {
   data() {
@@ -106,6 +107,11 @@ export default {
       this.$router.push("/addNewProject");
     },
   },
+  async asyncData(ctx) {
+    if(!CookieUtil.existCookie("user_id")) {
+      location.href = "/";
+    }
+  }
 };
 </script>
 

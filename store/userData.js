@@ -27,7 +27,8 @@ export const state = () => ({
         id: "",
         url: ""
     },
-    viewUser: false
+    viewUser: false,
+    hasLogin: false
 })
 
 export const mutations = {
@@ -58,5 +59,8 @@ export const mutations = {
     },
     setViewUser(state, newObj) {
         state.viewUser = newObj;
+    },
+    setHasLogin(state, newObj) {
+        state.hasLogin = newObj;
     }
 }

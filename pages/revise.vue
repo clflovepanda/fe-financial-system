@@ -118,7 +118,10 @@
 </template>
 
 <script>
+import CookieUtil from "~/utils/CookieUtil";
+
 export default {
+  
   data() {
     return {
       ruleForm: {
@@ -176,6 +179,11 @@ export default {
       this.$router("/setWorkTime");
     },
   },
+  async asyncData(ctx) {
+    if(!CookieUtil.existCookie("user_id")) {
+      location.href = "/";
+    }
+  }
 };
 </script>
 

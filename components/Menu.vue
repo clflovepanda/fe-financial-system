@@ -70,10 +70,11 @@ export default {
   computed: {
     hasLogin() {
       if(!CookieUtil.existCookie("user_id")) {
-        return false;
+        this.$store.commit("userData/setHasLogin", false);
       } else {
-        return true;
+        this.$store.commit("userData/setHasLogin", true);
       }
+      return this.$store.state.userData.hasLogin;
     }
   }
 };

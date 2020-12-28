@@ -18,6 +18,7 @@
 <script>
 import SearchIncomeStatisticComponent from "~/components/financialModule/incomeStatisticsPage/SearchIncomeStatisticComponent";
 import IncomeStatisticCardComponent from "~/components/financialModule/incomeStatisticsPage/IncomeStatisticCardComponent";
+import CookieUtil from "~/utils/CookieUtil";
 
 export default {
   methods: {
@@ -25,5 +26,11 @@ export default {
       this.$store.commit("dialogSwitchData/showNewIncomeDialog", true);
     },
   },
+
+  async asyncData(ctx) {
+    if(!CookieUtil.existCookie("user_id")) {
+      location.href = "/";
+    }
+  }
 };
 </script>
