@@ -33,6 +33,12 @@
       </template>
     </el-table-column>
     <el-table-column align="center" prop="state" label="项目状态"></el-table-column>
+    <el-table-column align="center" prop="" width="120" label="操作">
+      <template slot-scope="scope">
+        <a v-if="passStatus != 1" href="#" @click="audit(scope, 1)">通过</a>
+        <a v-if="passStatus != 1" href="#" @click="audit(scope, 2)">拒绝</a>
+      </template>
+    </el-table-column>
   </el-table>
 </template>
 
@@ -64,6 +70,29 @@ export default {
     }
   },
   methods: {
+    audit(scope, state) {
+      let param = {
+        id: scope.row.projectId,
+        audit_state: state
+      }
+      axios.get("/api/project/project_audit", {
+        params: param
+      }).then(
+          (rep) => {
+            if (rep && rep.data) {
+              axios.get("/api/project/list").then(
+                (resp) => {
+                  if (resp && resp.data) {
+                    this.$store.commit("projectData/setProjectList", resp .data.data);
+                  }
+                },
+                () => {}
+              );
+            }
+          },
+          () => {}
+        );
+    },
     handleProjectName(val) {
       this.$store.commit("projectData/setViewProjectId", val.projectId);
       (async function(ts){
