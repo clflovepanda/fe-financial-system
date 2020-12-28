@@ -62,6 +62,7 @@
 <script>
 import axios from "axios";
 import NetReqUser from "../network/NetReqUser";
+import CookieUtil from "../utils/CookieUtil";
 
 export default {
   data() {
@@ -131,6 +132,9 @@ export default {
     },
   },
   async asyncData(ctx) {
+    if(CookieUtil.existCookie("user_id")) {
+      location.href = "/user";
+    }
     let result = await axios.get("/api/login/createValidateCode").then(
       (rep) => {
         if (rep && rep.data) {

@@ -111,18 +111,20 @@
           <el-table-column align="center" prop="returned" label="已退回押金/元" width="140"></el-table-column>
           <el-table-column align="center" prop="id" label="操作" width="140">
             <template slot-scope="scope">
-              <el-button  type="text" size="small" :disabled="scope.row.toBeReturned==0">退押金</el-button>
+              <el-button  type="text" size="small" :disabled="scope.row.toBeReturned==0" @click="backMoney(scope)">退押金</el-button>
               <el-button  type="text" size="small">操作记录</el-button>
             </template>
           </el-table-column>
         </el-table>
       </el-main>
     </el-container>
+    <CreatePayDialog />
   </el-container>
 </template>
 
 <script>
 import Table from "~/components/projectListPage/Table.vue";
+import CreatePayDialog from "~/components/projectListPage/CreatePayDialog.vue";
 import axios from 'axios';
 export default {
   data() {
@@ -137,42 +139,8 @@ export default {
         createUser: "",
         proDate: ['','']
       },
-
-        rules: {
-      //     id: [{ required: true, message: "请输入项目编号", trigger: "blur" }],
-      //     name: [{ required: true, message: "请输入项目名称", trigger: "blur" }],
-      //     proManager: [
-      //       { required: true, message: "请输入项目经理姓名", trigger: "blur" },
-      //     ],
-      //     saleManager: [
-      //       { required: true, message: "请输入销售经理姓名", trigger: "blur" },
-      //     ],
-      //     proPerson: [
-      //       { required: true, message: "请输入项目成员姓名", trigger: "blur" },
-      //     ],
-      //     statement: [
-      //       { required: true, message: "请选择结算单状态", trigger: "change" },
-      //     ],
-      //     projectStatus: [
-      //       { required: true, message: "请选择项目状态", trigger: "change" },
-      //     ],
-
-      //     proDate: [
-      //       {
-      //         type: "date",
-      //         required: true,
-      //         message: "请选择日期",
-      //         trigger: "change",
-      //       },
-      //     ],
-      //     moneyStatus: [
-      //       {
-      //         required: true,
-      //         message: "请选择销售提成发放状态",
-      //         trigger: "change",
-      //       },
-      //     ],
-        },
+      rules: {
+      },
       listData: [],
     };
   },
@@ -182,6 +150,15 @@ export default {
   },
 
   methods: {
+    backMoney(scope) {
+      console.log("点击退押金", scope.row);
+      this.$store.commit("expenditureData/setRevenueId", scope.row.id);
+      this.$store.commit("projectData/setViewProjectId", scope.row.projectId);
+      this.$store.commit("dialogSwitchData/setCreatePayDialogShow", true);
+    },
+    showCreatePayDialog() {
+      this.$store.commit("dialogSwitchData/setCreatePayDialogShow", true);
+    },
     getlistData(){
       let startDt = this.ruleForm.proDate[0]?new Date(this.ruleForm.proDate[0]).getTime():''
       let endDt = this.ruleForm.proDate[1]?new Date(this.ruleForm.proDate[1]).getTime():''
@@ -208,16 +185,6 @@ export default {
       })
 
     },
-    // submitForm(formName) {
-    //   this.$refs[formName].validate((valid) => {
-    //     if (valid) {
-    //       alert("submit!");
-    //     } else {
-    //       console.log("error submit!!");
-    //       return false;
-    //     }
-    //   });
-    // },
     resetForm(formName) {
       this.$refs[formName].resetFields();
       this.getlistData();

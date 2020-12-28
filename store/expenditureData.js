@@ -1,7 +1,8 @@
 export const state = () => ({
     expenditureList: [],
     expenditurePurposeType: [],
-    city: []
+    city: [],
+    revenueId: ""
 })
 
 export const mutations = {
@@ -13,5 +14,8 @@ export const mutations = {
     },
     setCity(state, newObj) {
         state.city = newObj;
+    },
+    setRevenueId(state, newObj) {
+        state.revenueId = newObj;
     }
 }

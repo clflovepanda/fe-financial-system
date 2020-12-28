@@ -6,6 +6,7 @@
     @open="handleOpen"
     @close="handleClose"
     style="height: 100%"
+    :class="[hasLogin ? '' : 'hiddenMenu']"
   >
     <nuxt-link to="/projectList">
       <el-menu-item index="1">
@@ -56,6 +57,7 @@
 </template>
 
 <script>
+import CookieUtil from "../utils/CookieUtil";
 export default {
   methods: {
     handleOpen(key, keyPath) {
@@ -65,8 +67,20 @@ export default {
       console.log(key, keyPath);
     },
   },
+  computed: {
+    hasLogin() {
+      if(!CookieUtil.existCookie("user_id")) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  }
 };
 </script>
 
 <style>
+.hiddenMenu {
+  display: none;
+}
 </style>

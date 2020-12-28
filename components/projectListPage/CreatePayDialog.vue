@@ -256,52 +256,19 @@ export default {
     },
     createPay() {
       console.log(this.createForm);
+      let revenueId = this.$store.state.expenditureData.revenueId;
+      let url = "/api/expenditure/add";
+      if (revenueId != null && revenueId != "" && revenueId > 0) {
+        this.createForm.revenueId = revenueId;
+        url += "?flag=deposit";
+      }
       this.createForm.projectId = this.$store.state.projectData.viewProjectId;
-       axios.post('/api/expenditure/add',this.createForm).then((response) => {
-        console.log(response);
+       axios.post(url,this.createForm).then((response) => {
+        this.$store.commit("expenditureData/setRevenueId", 0);
       })
     },
     getLabel: function(scope) {
       console.log(scope);
-    },
-    createRole: function () {
-      let levelIds = this.$refs.levelTree.getCheckedNodes();
-      let permissions = [];
-      for(let i = 0 ; i < levelIds.length ; i ++) {
-        permissions.push({
-          permissionId: levelIds[i].permissionId
-        });
-      }
-      let sourceIds = this.$refs.sourceTree.getCheckedNodes();
-      let dataSources = [];
-      for (let j = 0 ; j < sourceIds.length ; j ++) {
-        dataSources.push({
-          dataSourceId: sourceIds[j].dataSourceId
-        });
-      }
-      
-      axios.post("/api/role/add", {
-          role: {
-            roleName: this.roleName,
-            permissions: permissions,
-            dataSources: dataSources
-          },
-        })
-        .then(
-          (response) => {
-            this.$store.commit("dialogSwitchData/showCreateRoleDialog", false);
-            axios.get("/api/role/get").then(
-              (rep) => {
-                if (rep && rep.data) {
-                  this.$store.commit("roleData/setRoleList", rep.data.data);
-                }
-              },
-              () => {}
-            );
-            
-          },
-          () => {}
-        );
     },
   },
 };
