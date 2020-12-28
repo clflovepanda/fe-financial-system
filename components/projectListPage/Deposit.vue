@@ -10,41 +10,37 @@
           label-position="left"
           class="demo-ruleForm deposit-form"
         >
-  <el-form-item label="押金编号" prop="id">
-            <el-input v-model="ruleForm.id" placeholder="请输入押金编号"></el-input>
+          <el-form-item label="押金编号" prop="id">
+            <el-input v-model="ruleForm.revenueNo" placeholder="请输入押金编号"></el-input>
           </el-form-item>
             <el-form-item label="项目名称" prop="name">
-            <el-input v-model="ruleForm.id" placeholder="请输入项目名称"></el-input>
+            <el-input v-model="ruleForm.projectName" placeholder="请输入项目名称"></el-input>
           </el-form-item>
 
             <el-form-item label="项目编号" prop="proId">
-            <el-input v-model="ruleForm.id" placeholder="请输入项目编号"></el-input>
+            <el-input v-model="ruleForm.projectNo" placeholder="请输入项目编号"></el-input>
           </el-form-item>
 
-          <el-form-item label="到款账户" prop="statement">
-            <el-select v-model="ruleForm.statement" placeholder="请选择到款账户">
-              <el-option label="1" value="notState"></el-option>
-              <el-option label="2" value="willState"></el-option>
-              <el-option label="3" value="stated"></el-option>
+          <el-form-item label="到款账户" prop="">
+            <el-select v-model="ruleForm.companyId" placeholder="请选择到款账户">
+              <el-option v-for="item in $store.state.incomeData.accountList" :key="item.value" :label="item.label" :value="item.value" ></el-option>
             </el-select>
           </el-form-item>
         
-          <el-form-item label="到款种类" prop="statement">
-            <el-select v-model="ruleForm.statement" placeholder="请选择到款种类">
-              <el-option label="1" value="notState"></el-option>
-              <el-option label="2" value="willState"></el-option>
-              <el-option label="3" value="stated"></el-option>
+          <el-form-item label="到款种类" prop="">
+            <el-select v-model="ruleForm.receivementTypeId" placeholder="请选择到款种类">
+              <el-option v-for="item in $store.state.incomeData.incomeTypeList" :key="item.value" :label="item.label" :value="item.value" ></el-option>
             </el-select>
           </el-form-item>
 
           
 
           <el-form-item label="汇款方" prop="person">
-            <el-input v-model="ruleForm.name" placeholder="请输入查找汇款方"></el-input>
+            <el-input v-model="ruleForm.remitter" placeholder="请输入查找汇款方"></el-input>
           </el-form-item>
 
           <el-form-item label="认款人" prop="name">
-            <el-input v-model="ruleForm.name" placeholder="请输入查找认款人"></el-input>
+            <el-input v-model="ruleForm.createUser" placeholder="请输入查找认款人"></el-input>
           </el-form-item>
 
 
@@ -94,28 +90,31 @@
           </el-col>
         </el-row>
         <el-table :data="listData" border style="width: 100%; margin-top: 20px">
-          <el-table-column align="center" fixed prop="num" label="序号" width="120"></el-table-column>
-          <el-table-column align="center" prop="id" label="押金编号"></el-table-column>
-          <el-table-column align="center" prop="name" label="到款账户" width="120"></el-table-column>
-          <el-table-column align="center" prop="proManager" label="到款种类"></el-table-column>
-          <el-table-column align="center" prop="saleManager" label="汇款方"></el-table-column>
-          <el-table-column align="center" prop="proPerson" label="认款类型"></el-table-column>
-          <el-table-column align="center" prop="accountStatus" label="认款金额/元" width="140"></el-table-column>
-          <el-table-column align="center" prop="createTime" label="认款人" width="120"></el-table-column>
-          <el-table-column align="center" prop="num" label="认款时间" width="170"></el-table-column>
-          <el-table-column align="center" prop="id" label="待退回金额/元" width="140"></el-table-column>
-          <el-table-column align="center" prop="num" label="退回中押金/元" width="180"></el-table-column>
-          <el-table-column align="center" prop="id" label="已退回押金/元" width="140"></el-table-column>
-          <el-table-column align="center" prop="id" label="操作" width="140">
-              <!-- <tempalte>
-                  <span>退押金</span>
-                  <span>操作记录</span>
+          <el-table-column align="center" type="index" label="序号" width="120"></el-table-column>
+          <el-table-column align="center" prop="revenueNo" label="押金编号"></el-table-column>
+          <el-table-column align="center" prop="coName" label="到款账户" width="120"></el-table-column>
+          <el-table-column align="center" prop="receivementTypeName" label="到款种类"></el-table-column>
+          <el-table-column align="center" prop="remitter" label="汇款方"></el-table-column>
+          <el-table-column align="center" prop="remitter"  label="认款类型">
+            <!-- <template slot-scope="scope">
+              <div>
+                  <span>押金</span>
+              </div>
                 
-              </tempalte> -->
+            </template> -->
           </el-table-column>
-
-
-
+          <el-table-column align="center" prop="cnyMoney" label="认款金额/元" width="140"></el-table-column>
+          <el-table-column align="center" prop="username" label="认款人" width="120"></el-table-column>
+          <el-table-column align="center" prop="ctime" label="认款时间" width="170"></el-table-column>
+          <el-table-column align="center" prop="toBeReturned" label="待退回金额/元" width="140"></el-table-column>
+          <el-table-column align="center" prop="returning" label="退回中押金/元" width="180"></el-table-column>
+          <el-table-column align="center" prop="returned" label="已退回押金/元" width="140"></el-table-column>
+          <el-table-column align="center" prop="id" label="操作" width="140">
+            <template slot-scope="scope">
+              <el-button  type="text" size="small" :disabled="scope.row.toBeReturned==0">退押金</el-button>
+              <el-button  type="text" size="small">操作记录</el-button>
+            </template>
+          </el-table-column>
         </el-table>
       </el-main>
     </el-container>
@@ -124,21 +123,21 @@
 
 <script>
 import Table from "~/components/projectListPage/Table.vue";
-
+import axios from 'axios';
 export default {
   data() {
     return {
       ruleForm: {
-        id: "",
-        name: "",
-        proManager: "",
-        saleManager: "",
-        proPerson: "",
-        statement: "",
-        projectStatus: "",
-        proDate: "",
-        moneyStatus: "",
+        revenueNo: "",
+        projectName: "",
+        projectNo: "",
+        companyId: "",
+        receivementTypeId: "",
+        remitter: "",
+        createUser: "",
+        proDate: ['','']
       },
+
         rules: {
       //     id: [{ required: true, message: "请输入项目编号", trigger: "blur" }],
       //     name: [{ required: true, message: "请输入项目名称", trigger: "blur" }],
@@ -177,8 +176,38 @@ export default {
       listData: [],
     };
   },
+  mounted(){
+    this.getlistData();
+
+  },
 
   methods: {
+    getlistData(){
+      let startDt = this.ruleForm.proDate[0]?new Date(this.ruleForm.proDate[0]).getTime():''
+      let endDt = this.ruleForm.proDate[1]?new Date(this.ruleForm.proDate[1]).getTime():''
+      let project = ''
+      if(this.$route.name != 'depositmanage'){
+        project = '&projectId=' + this.$store.state.projectData.viewProjectId
+      }
+      let message = 
+       "?revenueNo=" + this.ruleForm.revenueNo 
+       + project
+       + "&projectName=" + this.ruleForm.projectName 
+       + "&projectNo=" + this.ruleForm.projectNo 
+       + "&companyId=" + this.ruleForm.companyId 
+       + "&receivementTypeId=" + this.ruleForm.receivementTypeId 
+       + "&remitter=" + this.ruleForm.remitter 
+       + "&createUser=" + this.ruleForm.createUser 
+       + "&startDt=" + startDt
+       + "&endDt=" + endDt
+      axios.get('/api/deposit/list' + message).then((res)=>{
+        console.log(res)
+        if(res.data.code === 0){
+          this.listData = res.data.data.deposit;
+        }
+      })
+
+    },
     // submitForm(formName) {
     //   this.$refs[formName].validate((valid) => {
     //     if (valid) {
@@ -191,9 +220,11 @@ export default {
     // },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+      this.getlistData();
     },
 
     handleFindClick() {
+      this.getlistData();
       console.log("查询项目");
     },
     handleAddPay() {},

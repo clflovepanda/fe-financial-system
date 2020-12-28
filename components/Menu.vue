@@ -25,7 +25,9 @@
         <nuxt-link to="/incomeStatistic">
         <el-menu-item index="3-2">到款统计</el-menu-item>
         </nuxt-link>
-        <el-menu-item index="3-3">押金管理</el-menu-item>
+        <nuxt-link to="/depositmanage">
+        <el-menu-item index="3-3" >押金管理</el-menu-item>
+        </nuxt-link>
         <el-menu-item index="3-4">支出管理</el-menu-item>
         <nuxt-link to="/invoiceReceivable">
         <el-menu-item index="3-5">发票应收</el-menu-item>
