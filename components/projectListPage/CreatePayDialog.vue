@@ -1,0 +1,328 @@
+<template>
+  <el-dialog title="新增支出" :visible.sync="showCreatePayDialog">
+    <el-row>
+      <el-col :span="4" class="labelSty"><span>公司：</span></el-col>
+      <el-col :span="6">
+          <el-select
+              v-model="createForm.companyId"
+              placeholder="请选择公司"
+              class="inpSty"
+              >
+              <el-option
+                  v-for="item in companyList"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                  >
+              </el-option>
+          </el-select>
+      </el-col>
+    </el-row>
+    <el-row class="rowSty">
+      <el-col :span="4" class="labelSty"><span>支出方式：</span></el-col>
+      <el-col :span="6" class="labelSty">
+        <el-radio-group v-model="createForm.expenditureMethodId" @change="changeMethod">
+          <el-radio :label="1">现金</el-radio>
+          <el-radio :label="2">电汇</el-radio>
+          <el-radio :label="3">差旅</el-radio>
+        </el-radio-group>
+      </el-col>
+    </el-row>
+
+    <el-row :class="[needShowRow ? 'showRow' : 'disShowRow']" >
+      <el-col :span="4" class="labelSty"><span>收款人单位（全称）：</span></el-col>
+      <el-col :span="6">
+        <el-input
+          v-model="createForm.beneficiary_unit"
+          placeholder="请输入收款人单位全称"
+           class="inpSty"
+        ></el-input>
+      </el-col>
+    </el-row>
+    <el-row :class="[needShowRow ? 'showRow' : 'disShowRow']">
+      <el-col :span="4" class="labelSty"><span>收款人账号：</span></el-col>
+      <el-col :span="6">
+        <el-input
+          v-model="createForm.beneficiary_number"
+          placeholder="请输入收款人账号"
+           class="inpSty"
+        ></el-input>
+      </el-col>
+    </el-row>
+    <el-row :class="[needShowRow ? 'showRow' : 'disShowRow']">
+      <el-col :span="4" class="labelSty"><span>地点：</span></el-col>
+      <el-col :span="6">
+        <!--province   city-->
+        <el-select v-model="createForm.province" placeholder="请选择省份" class="inpSty">
+          <el-option
+            v-for="item in cityList"
+            :key="item.provinceId"
+            :label="item.name"
+            :value="item.provinceId"
+          ></el-option>
+        </el-select>
+      </el-col>
+      <el-col :span="6" :offset="1">
+        <el-select v-model="createForm.city" placeholder="请选择城市" class="inpSty">
+          <el-option
+            v-for="item in subCityList"
+            :key="item.cityId"
+            :label="item.cityName"
+            :value="item.cityId"
+          ></el-option>
+        </el-select>
+      </el-col>
+    </el-row>
+    <el-row :class="[needShowRow ? 'showRow' : 'disShowRow']">
+      <el-col :span="4" class="labelSty"><span>汇入行：</span></el-col>
+      <el-col :span="6">
+        <el-input
+          v-model="createForm.beneficiary_bank"
+          placeholder="请输入汇入行名称"
+           class="inpSty"
+        ></el-input>
+      </el-col>
+    </el-row>
+    <el-row class="rowSty">
+      <el-col :span="4" class="labelSty"><span>支出类型：</span></el-col>
+      <el-col :span="6">
+        <el-select v-model="createForm.expenditureTypeId" placeholder="请选择支出类型" class="inpSty">
+          <el-option
+            v-for="item in expenditurePurposeType"
+            :key="item.expenditurePurposeId"
+            :label="item.expenditurePurposeName"
+            :value="item.expenditurePurposeId"
+          ></el-option>
+        </el-select>
+      </el-col>
+    </el-row>
+    <el-row class="rowSty">
+      <el-col :span="4" class="labelSty"><span>用途：</span></el-col>
+      <el-col :span="6">
+        <el-select v-model="createForm.expenditurePurposeId" placeholder="请选择用途" class="inpSty">
+          <el-option
+            v-for="item in expenditurePurposeType"
+            :key="item.expenditurePurposeId"
+            :label="item.expenditurePurposeName"
+            :value="item.expenditurePurposeId"
+          ></el-option>
+        </el-select>
+      </el-col>
+      <el-col :span="4" :offset="1">
+        <el-input
+          v-model="createForm.expenditurePurposeContent"
+          placeholder="其他用途"
+           class="inpSty"
+        ></el-input>
+      </el-col>
+    </el-row>
+    <el-row class="rowSty">
+      <el-col :span="4" class="labelSty"><span>金额/元：</span></el-col>
+      <el-col :span="6">
+        <el-input
+          v-model="createForm.expenditureMoney"
+          placeholder="请输入支出金额"
+           class="inpSty"
+        ></el-input>
+      </el-col>
+    </el-row>
+    <el-row class="rowSty">
+      <el-col :span="4" class="labelSty"><span>备注：</span></el-col>
+      <el-col :span="6">
+        <el-input
+          type="textarea"
+          :rows="4"
+          placeholder="请输入备注"
+          v-model="createForm.remark">
+        </el-input>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="4" :offset="20">
+        <el-button type="primary" @click="createPay()">创建</el-button>
+      </el-col>
+    </el-row>
+  </el-dialog>
+</template>
+
+<script>
+import axios from "axios";
+import {EnumAccount} from "../../utils/EnumUtil";
+export default {
+  data() {
+    return {
+      createForm: {
+        companyId: "",
+        projectId: "",   
+        expenditureMethodId: "",
+        expenditureTypeId: "",
+        expenditurePurposeId: 0,
+        expenditurePurposeContent: "",
+        expenditureMoney: "",
+        remark: "",
+        beneficiary_unit: "",
+        beneficiary_number: "",
+        province: "",
+        city: "",
+        beneficiary_bank: ""
+      },
+      showCreatePayDialog: false,
+      defaultProps: {
+        children: 'son',
+        label: 'dataSourceName'
+      },
+      defaultProps2: {
+        children: 'permissionSons',
+        label: 'name'
+      },
+      levelIds: [],
+      sourceIds: [],
+      roleName: "",
+      needShowRow: false
+    };
+  },
+  computed: {
+    subCityList() {
+      let cities = this.$store.state.expenditureData.city;
+      for (let i = 0 ; i < cities.length ; i ++) {
+        if (cities[i].provinceId == this.createForm.province) {
+          return cities[i].city;
+        }
+      }
+    },
+    cityList() {
+      return this.$store.state.expenditureData.city;
+    },
+    expenditurePurposeType() {
+      console.log("expenditurePurposeType", this.$store.state.expenditureData.expenditurePurposeType.purpose);
+      return this.$store.state.expenditureData.expenditurePurposeType.purpose;
+    },
+    companyList() {
+      return EnumAccount.list;
+    },
+    getListLevelData() {
+      return this.$store.state.roleData.listLevelTree;
+    },
+    getSourceData() {
+      return this.$store.state.roleData.roleTree;
+    },
+    partList() {
+      return this.$store.state.partData.partList;
+    },
+    accountStatusList() {
+      return this.$store.state.userData.accountStatusList;
+    },
+    roleList() {
+      return this.$store.state.roleData.roleStatusList;
+    },
+    isShowCreatePayDialog() {
+      return this.$store.state.dialogSwitchData.createPayDialogShow;
+    },
+    getRoleList() {
+      return this.$store.state.roleData.roleListTable.listData;
+    },
+    getLevelOneDataSourceList() {
+      return this.$store.state.projectData.projectDataSource;
+    },
+    getLevelTwoDataSourceList() {
+      let levelOne = this.$store.state.projectData.projectDataSource;
+      for (let i = 0 ; levelOne && i < levelOne.length ; i ++) {
+        if(levelOne[i].dataSourceId == this.createForm.dataSourceIdOne) {
+          return levelOne[i].son; 
+        }
+      }
+      return [];
+    }
+  },
+  watch: {
+    showCreatePayDialog() {
+      this.$store.commit(
+        "dialogSwitchData/setCreatePayDialogShow",
+        this.showCreatePayDialog
+      );
+    },
+    isShowCreatePayDialog(val, oldVal) {
+      
+      this.showCreatePayDialog = val;
+    },
+  },
+  methods: {
+    changeMethod() {
+      if(this.createForm.expenditureMethodId == 2) {
+        this.needShowRow = true;
+      } else {
+        this.needShowRow = false;
+      }
+    },
+    createPay() {
+      console.log(this.createForm);
+      this.createForm.projectId = this.$store.state.projectData.viewProjectId;
+       axios.post('/api/expenditure/add',this.createForm).then((response) => {
+        console.log(response);
+      })
+    },
+    getLabel: function(scope) {
+      console.log(scope);
+    },
+    createRole: function () {
+      let levelIds = this.$refs.levelTree.getCheckedNodes();
+      let permissions = [];
+      for(let i = 0 ; i < levelIds.length ; i ++) {
+        permissions.push({
+          permissionId: levelIds[i].permissionId
+        });
+      }
+      let sourceIds = this.$refs.sourceTree.getCheckedNodes();
+      let dataSources = [];
+      for (let j = 0 ; j < sourceIds.length ; j ++) {
+        dataSources.push({
+          dataSourceId: sourceIds[j].dataSourceId
+        });
+      }
+      
+      axios.post("/api/role/add", {
+          role: {
+            roleName: this.roleName,
+            permissions: permissions,
+            dataSources: dataSources
+          },
+        })
+        .then(
+          (response) => {
+            this.$store.commit("dialogSwitchData/showCreateRoleDialog", false);
+            axios.get("/api/role/get").then(
+              (rep) => {
+                if (rep && rep.data) {
+                  this.$store.commit("roleData/setRoleList", rep.data.data);
+                }
+              },
+              () => {}
+            );
+            
+          },
+          () => {}
+        );
+    },
+  },
+};
+</script>
+
+<style>
+.labelSty {
+  line-height: 40px;
+  text-align: center;
+}
+
+.rowSty {
+  margin-top: 10px;
+}
+
+.showRow {
+  display: block;
+  margin-top: 10px;
+}
+.disShowRow {
+  display: none;
+  margin-top: 10px;
+}
+</style>

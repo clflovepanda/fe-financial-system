@@ -33,7 +33,9 @@
         <nuxt-link to="/expenditureStatistic">
         <el-menu-item index="3-6">支出统计</el-menu-item>
         </nuxt-link>
+        <nuxt-link to="/projectStatistic">
         <el-menu-item index="3-7">项目统计</el-menu-item>
+        </nuxt-link>
       </el-menu-item-group>
     </el-submenu>
     <nuxt-link to="/user">

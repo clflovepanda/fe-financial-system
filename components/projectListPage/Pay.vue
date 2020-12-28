@@ -87,7 +87,7 @@
 
         <el-row>
           <el-col :span="4" :offset="20">
-            <el-button type="primary" @click="handleAddPay()">新增支出</el-button>
+            <el-button type="primary" @click="showCreatePayDialog()">新增支出2</el-button>
             <el-button type="primary" @click="handleExcel()">导出excel</el-button>
           </el-col>
         </el-row>
@@ -152,12 +152,14 @@
       </el-main>
     </el-container>
   </el-container>
+  <CreatePayDialog />
   </div>
 </template>
 
 <script>
 import Table from "~/components/projectListPage/Table.vue";
 import {EnumAccount, EnumOutputType, EnumPayType, EnumAuditType} from "../../utils/EnumUtil"
+import CreatePayDialog from "~/components/projectListPage/CreatePayDialog.vue";
 
 export default {
   data() {
@@ -200,7 +202,10 @@ export default {
     handleFindClick() {
       console.log("查询项目");
     },
-    handleAddPay() {},
+    showCreatePayDialog() {
+      console.log("haha");
+      this.$store.commit("dialogSwitchData/setCreatePayDialogShow", true);
+    },
     handleExcel() {},
     printPay(scope) {
 
