@@ -56,6 +56,16 @@ export default {
           this.$message.success('创建成功！')
           this.$store.commit("projectData/setTaskTimeList", res.data.data);
           this.$emit('hideModal');
+          let temp = res.data.data[res.data.data.length-1]
+
+          this.$router.push({
+            path:'/addtasktime',
+            query:{
+              layer:temp.templateFlag,
+              taskRelationId: temp.taskRelationId
+            }
+          })
+        
         }
       })
     // this.$router.push('/createTime');
