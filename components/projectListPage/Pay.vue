@@ -69,7 +69,7 @@
           <el-col :span="2" class="labelSty">
             <span class="labelSty">创建时间:</span>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="8">
             <el-date-picker
               v-model="ruleForm.proDate"
               type="daterange"
@@ -78,7 +78,7 @@
               end-placeholder="结束日期"
             ></el-date-picker>
           </el-col>
-          <el-col :span="3">
+          <el-col :span="6">
             <el-button type="primary">查询</el-button>
             <el-button>重置</el-button>
           </el-col>
@@ -86,8 +86,8 @@
         <el-divider></el-divider>
 
         <el-row>
-          <el-col :span="4" :offset="20">
-            <el-button type="primary" @click="showCreatePayDialog()">新增支出2</el-button>
+          <el-col :span="8" :offset="16">
+            <el-button type="primary" @click="showCreatePayDialog()">新增支出</el-button>
             <el-button type="primary" @click="handleExcel()">导出excel</el-button>
           </el-col>
         </el-row>
