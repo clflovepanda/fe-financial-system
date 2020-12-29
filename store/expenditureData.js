@@ -1,5 +1,6 @@
 export const state = () => ({
     expenditureList: [],
+    allExpenditureList: [],
     expenditurePurposeType: [],
     city: [],
     revenueId: ""
@@ -8,6 +9,9 @@ export const state = () => ({
 export const mutations = {
     setExpenditureList(state, newObj) {
         state.expenditureList = newObj;
+    },
+    setAllExpenditureList(state, newObj) {
+        state.allExpenditureList = newObj;
     },
     setExpenditurePurposeType(state, newObj) {
         state.expenditurePurposeType = newObj;

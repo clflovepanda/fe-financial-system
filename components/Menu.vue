@@ -29,7 +29,9 @@
         <nuxt-link to="/depositmanage">
         <el-menu-item index="3-3" >押金管理</el-menu-item>
         </nuxt-link>
+        <nuxt-link to="/expenditureManage">
         <el-menu-item index="3-4">支出管理</el-menu-item>
+        </nuxt-link>
         <nuxt-link to="/invoiceReceivable">
         <el-menu-item index="3-5">发票应收</el-menu-item>
         </nuxt-link>
