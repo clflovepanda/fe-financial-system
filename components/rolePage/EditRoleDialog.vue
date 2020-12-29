@@ -160,7 +160,7 @@ export default {
         })
         .then(
           (response) => {
-            this.$store.commit("dialogSwitchData/showCreateRoleDialog", false);
+            this.$store.commit("dialogSwitchData/showEditRoleDialog", false);
           },
           () => {}
         );
