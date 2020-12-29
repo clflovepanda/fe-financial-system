@@ -73,17 +73,17 @@
             <span></span>
           </el-col>
         </el-row>
-        <el-table :data="listData" border style="width: 100%; margin-top: 20px">
-          <el-table-column align="center" fixed prop="num" label="序号" width="120"></el-table-column>
-          <el-table-column align="center" prop="id" label="收入编号"></el-table-column>
-          <el-table-column align="center" prop="name" label="账户" width="120"></el-table-column>
-          <el-table-column align="center" prop="proManager" label="汇款方类型"></el-table-column>
-          <el-table-column align="center" prop="saleManager" label="汇款方"></el-table-column>
-          <el-table-column align="center" prop="proPerson" label="认款类型"></el-table-column>
-          <el-table-column align="center" prop="accountStatus" label="项目二级类型" width="120"></el-table-column>
-          <el-table-column align="center" prop="createTime" label="认款金额/元" width="120"></el-table-column>
-          <el-table-column align="center" prop="num" label="认款人员" width="140"></el-table-column>
-          <el-table-column align="center" prop="id" label="认款时间" width="160"></el-table-column>
+        <el-table :data="revenueList" border style="width: 100%; margin-top: 20px">
+          <el-table-column align="center" prop="id" label="序号" width="120"></el-table-column>
+          <el-table-column align="center" prop="revenueNo" label="收入编号"></el-table-column>
+          <el-table-column align="center" prop="coName" label="账户" width="120"></el-table-column>
+          <el-table-column align="center" prop="remitterMethodName" label="汇款方类型"></el-table-column>
+          <el-table-column align="center" prop="remitter" label="汇款方"></el-table-column>
+          <el-table-column align="center" prop="receivementTypeName" label="认款类型"></el-table-column>
+          <el-table-column align="center" prop="dataSourceName" label="项目二级类型" width="120"></el-table-column>
+          <el-table-column align="center" prop="cnyMoney" label="认款金额/元" width="120"></el-table-column>
+          <el-table-column align="center" prop="username" label="认款人员" width="140"></el-table-column>
+          <el-table-column align="center" prop="ctime" label="认款时间" width="160"></el-table-column>
         </el-table>
       </el-main>
     </el-container>
@@ -110,7 +110,11 @@ export default {
       listData: [],
     };
   },
-
+  computed: {
+    revenueList() {
+      return this.$store.state.incomeData.revenueList;
+    }
+  },
   methods: {
     // submitForm(formName) {
     //   this.$refs[formName].validate((valid) => {

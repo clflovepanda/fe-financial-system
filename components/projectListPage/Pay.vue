@@ -114,7 +114,7 @@
             <span></span>
           </el-col>
         </el-row> -->
-        <el-table :data="getProjectPay" border style="width: 100%; margin-top: 20px">
+        <el-table :data="getProjectPay" border style="width: 100%; margin-top: 20px" id="out-table">
           <el-table-column align="center" prop="expenditureId" label="序号"></el-table-column>
           <el-table-column align="center" prop="numbering" label="支出编号"></el-table-column>
           <el-table-column align="center" prop="coName" label="公司" width="120"></el-table-column>
@@ -160,6 +160,8 @@
 import Table from "~/components/projectListPage/Table.vue";
 import {EnumAccount, EnumOutputType, EnumPayType, EnumAuditType} from "../../utils/EnumUtil"
 import CreatePayDialog from "~/components/projectListPage/CreatePayDialog.vue";
+import FileSaver from "file-saver";
+import XLSX from "xlsx";
 
 export default {
   data() {
@@ -206,7 +208,30 @@ export default {
       console.log("haha");
       this.$store.commit("dialogSwitchData/setCreatePayDialogShow", true);
     },
-    handleExcel() {},
+    handleExcel() {
+        /* 从表生成工作簿对象 */
+        var wb = XLSX.utils.table_to_book(document.querySelector("#out-table"));
+        /* 获取二进制字符串作为输出 */
+        var wbout = XLSX.write(wb, {
+            bookType: "xlsx",
+            bookSST: true,
+            type: "array"
+        });
+        try {
+            FileSaver.saveAs(
+            //Blob 对象表示一个不可变、原始数据的类文件对象。
+            //Blob 表示的不一定是JavaScript原生格式的数据。
+            //File 接口基于Blob，继承了 blob 的功能并将其扩展使其支持用户系统上的文件。
+            //返回一个新创建的 Blob 对象，其内容由参数中给定的数组串联组成。
+            new Blob([wbout], { type: "application/octet-stream" }),
+            //设置导出文件名称
+            "sheetjs.xlsx"
+            );
+        } catch (e) {
+            if (typeof console !== "undefined") console.log(e, wbout);
+        }
+        return wbout;
+    },
     printPay(scope) {
 
     }

@@ -508,6 +508,17 @@ export default {
     );
     console.log("city", cityResult);
     ctx.store.commit("expenditureData/setCity", cityResult);
+
+    let revenueResult = await axios.get("/api/revenue/list").then(
+      (rep) => {
+        if (rep && rep.data) {
+          return rep.data.data;
+        }
+      },
+      () => {}
+    );
+    console.log("revenue", revenueResult);
+    ctx.store.commit("incomeData/setRevenueList", revenueResult);
     
   },
 };

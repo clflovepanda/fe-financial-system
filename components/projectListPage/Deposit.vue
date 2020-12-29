@@ -126,6 +126,9 @@
 import Table from "~/components/projectListPage/Table.vue";
 import CreatePayDialog from "~/components/projectListPage/CreatePayDialog.vue";
 import axios from 'axios';
+import FileSaver from "file-saver";
+import XLSX from "xlsx";
+
 export default {
   data() {
     return {
