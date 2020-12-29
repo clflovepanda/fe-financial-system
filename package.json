@@ -20,10 +20,11 @@
         "axios": "^0.21.0",
         "core-js": "^3.6.5",
         "element-ui": "^2.13.2",
-        "file-saver": "^2.0.5",
         "moment": "^2.29.1",
-        "nuxt": "^2.14.6",
-        "xlsx": "^0.16.9"
+        "nuxt": "^2.14.6"
     },
-    "devDependencies": {}
+    "devDependencies": {
+        "file-saver": "^2.0.5",
+        "xlsx": "^0.16.9"
+    }
 }
