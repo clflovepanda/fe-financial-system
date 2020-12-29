@@ -158,7 +158,7 @@ export default {
                               amount: item.count,
                               takeTime: item.time,
                               taskId: item.taskId ? item.taskId : '',
-                              completionTime: item.completionTime
+                              completionTime: item.completionTime?new Date(item.completionTime).getTime():''
                           })
                       }
                   })

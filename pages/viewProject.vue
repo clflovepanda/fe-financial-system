@@ -194,8 +194,8 @@
         </div>
       </el-tab-pane>
       <el-tab-pane label="工时分配" name="2">
-        <el-button type="primary" @click="handleAddTime">新增</el-button>
-        <el-table
+        <el-button type="primary" @click="handleAddTime" style="margin-bottom:20px;">新增</el-button>
+        <!-- <el-table
           border
           :data="$store.state.projectData.taskTimeList"
           style="width: 100%; margin-top: 20px"
@@ -206,7 +206,47 @@
               <el-button @click="handleProjectName(scope.row)" type="text" size="small">{{scope.row.templateName}}</el-button>
             </template>
           </el-table-column>
-        </el-table>
+        </el-table> -->
+
+        <el-tabs v-model="taskRelationId" type="card" closable  @tab-remove="removeTab" @tab-click="tabclick">
+          <el-tab-pane  label="统计汇总" name="0" >
+            <el-table
+              border
+              :data="templateList"
+              style="width: 100%; margin-top: 20px"
+            >
+              <el-table-column fixed prop="projectName" label="项目名称"></el-table-column>
+              <el-table-column fixed prop="relationName" label="项目工时模板名称"></el-table-column>
+              <el-table-column fixed prop="templateName" label="模板名称"></el-table-column>
+              <el-table-column fixed prop="username" label="人员"></el-table-column>
+              <el-table-column fixed prop="amount" label="数量"></el-table-column>
+              <el-table-column fixed prop="takeTime" label="单位工时"></el-table-column>
+              <el-table-column fixed prop="completionTime" label="完成时间"></el-table-column>
+            </el-table>
+          </el-tab-pane>
+          <el-tab-pane
+            v-for="item in taskTimeList"
+            :key="item.taskRelationId"
+            :label="item.templateName"
+            :name="item.taskRelationId+''"
+          >
+            <el-button @click="addPersonnel">添加人员</el-button>
+
+            <el-table
+              border
+              :data="templateList"
+              style="width: 100%; margin-top: 20px"
+            >
+              <el-table-column fixed prop="projectName" label="项目名称"></el-table-column>
+              <el-table-column fixed prop="relationName" label="项目工时模板名称"></el-table-column>
+              <el-table-column fixed prop="templateName" label="模板名称"></el-table-column>
+              <el-table-column fixed prop="username" label="人员"></el-table-column>
+              <el-table-column fixed prop="amount" label="数量"></el-table-column>
+              <el-table-column fixed prop="takeTime" label="单位工时"></el-table-column>
+              <el-table-column fixed prop="completionTime" label="完成时间"></el-table-column>
+            </el-table>
+          </el-tab-pane>
+        </el-tabs>
         
       </el-tab-pane>
       <el-tab-pane label="收入" name="3">
@@ -230,7 +270,7 @@
       <el-tab-pane label="应收单" name="9">
         <ReceivableList />
       </el-tab-pane>
-      <el-tab-pane label="工时统计" name="10">
+      <!-- <el-tab-pane label="工时统计" name="10">
         <el-row>
           <span>人员</span>
           <el-select v-model="userid" filterable placeholder="请选择">
@@ -256,18 +296,18 @@
           <el-table-column fixed prop="amount" label="数量"></el-table-column>
           <el-table-column fixed prop="takeTime" label="单位工时"></el-table-column>
           <el-table-column fixed prop="completionTime" label="完成时间"></el-table-column>
-          <!-- <el-table-column align="center" prop="" label="项目工时模板名称">
+           <el-table-column align="center" prop="" label="项目工时模板名称">
             <template slot-scope="scope">
               <el-button @click="handleProjectName(scope.row)" type="text" size="small">{{scope.row.templateName}}</el-button>
             </template>
-          </el-table-column> -->
+          </el-table-column>
         </el-table>
 
         <p class="total">
           <span>总价格：{{templateTotal}}</span>
           <span>总工时：{{templateTotaltime}}</span>
         </p>
-      </el-tab-pane>
+      </el-tab-pane> -->
     </el-tabs>
 
     <el-row>
@@ -291,6 +331,18 @@
           >确认发放</el-button
         >
         <el-button @click="dialogMoneyisSend = false">取 消</el-button>
+      </span>
+    </el-dialog>
+
+    <el-dialog
+      title="提示"
+      :visible.sync="centerDialogVisible"
+      width="30%"
+      center>
+      <span>是否确认删除？</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="centerDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="centerDialogdel">确 定</el-button>
       </span>
     </el-dialog>
     <el-dialog
@@ -338,6 +390,9 @@ import CookieUtil from "~/utils/CookieUtil";
 export default {
   data() {
     return {
+      taskTimeList: [],
+      centerDialogVisible: false,
+      taskRelationId: 0,
       activeName: "1",
       dialogAddTime: false,
       dialogMoneyisSend: false,
@@ -350,6 +405,8 @@ export default {
       templateList: [],
       templateTotal: 0,
       templateTotaltime: 0,
+      editableTabs: [],
+      targetName:0,
     };
   },
   computed: {
@@ -360,9 +417,31 @@ export default {
     getProjectFinancial() {
       console.log(this.$store.state.projectData.projectFinancial);
       return this.$store.state.projectData.projectFinancial;
+    },
+  },
+  beforeRouteEnter(to, from, next){
+    if(from.name=='addtasktime'){
+      next(vm=>{
+        vm.activeName = '2';
+      });
+    }else{
+      next()
     }
+    
+    
   },
   watch: {
+    "$store.state.projectData.taskTimeList": {
+        deep: true,
+        handler: function (newValue, oldValue) {
+          this.taskTimeList = newValue;
+        }
+
+    },
+    $router(newval,oldval){
+      console.log(oldval)
+
+    },
     getProjectDetailData(newVal, oldVal) {
       console.log("watch project detail", newVal);
       this.projectDetail = JSON.parse(JSON.stringify(newVal));
@@ -374,17 +453,69 @@ export default {
   },
   mounted(){
       this.selectUser();
+      this.taskTimeList = this.$store.state.projectData.taskTimeList;
   },
   methods: {
+    addPersonnel() {
+      let templateFlag = '';
+      this.taskTimeList.map((item)=>{
+        if(item.taskRelationId == this.taskRelationId){
+          templateFlag = item.templateFlag;
+        }
+        
+
+      })
+      this.$router.push({
+        path:'/addtasktime',
+        query:{
+          layer:templateFlag,
+          taskRelationId: this.taskRelationId
+        }
+      })
+
+    },
+    handleEdit(scope) {
+      console.log('c1111--',scope.row)
+
+    },
+    tabclick(targetName,item) {
+      this.taskRelationId = targetName.name;
+      this.selectUser()
+
+    },
+    centerDialogdel() {
+      axios.get('/api/task/del?taskRelationId='+this.targetName).then((res) => {
+        console.log('删除----',res)
+        if(res.data.code === 0){
+          this.$message.success('删除成功')
+            this.centerDialogVisible = false;
+          axios.get("/api/task/gettaskrelation?projectId="+this.$store.state.projectData.viewProjectId).then(
+              (rep) => {
+                if (rep && rep.data) {
+                  this.taskTimeList = rep.data.data;
+                  this.$store.commit("projectData/setTaskTimeList", rep.data.data);
+                }
+              },
+              () => {}
+            );
+            
+        }else{
+          this.$message.error('删除失败')
+        }
+      })
+
+    },
+    removeTab(targetName) {
+      this.centerDialogVisible = true;
+      this.targetName = targetName;
+    },
     selectUser() {
-      axios.get('/api/task/list?userId='+this.userid+'&projectId='+this.$store.state.projectData.viewProjectId).then((res) => {
+      axios.get('/api/task/list?userId='+this.userid+'&projectId='+this.$store.state.projectData.viewProjectId+'&taskRelationId='+this.taskRelationId).then((res) => {
         console.log('查询----',res)
         if(res.data.code === 0){
           this.templateList = res.data.data.task;
           this.templateTotal = res.data.data.total;
           this.templateTotaltime = res.data.data.totalTime;
-
-
         }
       })
 
