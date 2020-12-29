@@ -192,7 +192,7 @@ export default {
   },
   computed: {
     userList() {
-      return this.$store.state.rootData.userList;
+      return this.$store.state.userData.userListTable.listData;
     },
     companyList() {
       return EnumAccount.list;

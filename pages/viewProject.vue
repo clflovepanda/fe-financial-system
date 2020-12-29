@@ -454,6 +454,7 @@ export default {
 
 // console.log('vuex----',ctx.store.state.projectData.viewProjectId)
     //工时分配列表
+
      let result = await axios.get("/api/task/gettaskrelation?projectId="+ctx.store.state.projectData.viewProjectId).then(
       (rep) => {
         if (rep && rep.data) {
@@ -507,6 +508,7 @@ export default {
     );
     console.log("city", cityResult);
     ctx.store.commit("expenditureData/setCity", cityResult);
+    
   },
 };
 </script>
