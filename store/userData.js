@@ -26,7 +26,9 @@ export const state = () => ({
     validateCode: {
         id: "",
         url: ""
-    }
+    },
+    viewUser: false,
+    hasLogin: false
 })
 
 export const mutations = {
@@ -54,5 +56,11 @@ export const mutations = {
             roleName: newObj.roleName
         }
         state.editUserForm = temp;
+    },
+    setViewUser(state, newObj) {
+        state.viewUser = newObj;
+    },
+    setHasLogin(state, newObj) {
+        state.hasLogin = newObj;
     }
 }

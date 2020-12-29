@@ -12,6 +12,7 @@
     <el-row class="rowSty">
       <el-col :span="4" class="labelSty"><span>菜单权限：</span></el-col>
       <el-col :span="20">
+        <el-checkbox v-model="checkAllPermission" @change="handleCheckAllPermissionChange">全选</el-checkbox>
         <el-tree
           :data="getListLevelData"
           show-checkbox
@@ -24,6 +25,7 @@
     <el-row class="rowSty">
       <el-col :span="4" class="labelSty"><span>数据源：</span></el-col>
       <el-col :span="20">
+        <el-checkbox v-model="checkAllSourceData" @change="handleCheckAllSourceDataChange">全选</el-checkbox>
         <el-tree
           :data="getSourceData"
           show-checkbox
@@ -60,7 +62,9 @@ export default {
       },
       levelIds: [],
       sourceIds: [],
-      roleName: ""
+      roleName: "",
+      checkAllPermission: false,
+      checkAllSourceData: false
     };
   },
   computed: {
@@ -100,6 +104,20 @@ export default {
     },
   },
   methods: {
+    handleCheckAllPermissionChange() {
+      if (this.checkAllPermission) {
+        this.$refs.levelTree.setCheckedNodes(this.getListLevelData);
+      } else {
+          this.$refs.levelTree.setCheckedKeys([]);
+      }
+    },
+    handleCheckAllSourceDataChange() {
+      if (this.checkAllSourceData) {
+        this.$refs.sourceTree.setCheckedNodes(this.getSourceData);
+      } else {
+          this.$refs.sourceTree.setCheckedKeys([]);
+      }
+    },
     getLabel: function(scope) {
       console.log(scope);
     },

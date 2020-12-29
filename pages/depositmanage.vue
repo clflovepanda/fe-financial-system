@@ -17,6 +17,7 @@
 <script>
 import axios from 'axios';
 import Deposit from "~/components/projectListPage/Deposit.vue";
+import CookieUtil from "~/utils/CookieUtil";
 
 export default {
 
@@ -24,7 +25,30 @@ export default {
     
   },
   async asyncData(ctx) {
-    
+    if(!CookieUtil.existCookie("user_id")) {
+      location.href = "/";
+    }
+    let useTypeResult = await axios.get("/api/expenditure/gettype").then(
+      (rep) => {
+        if (rep && rep.data) {
+          return rep.data.data;
+        }
+      },
+      () => {}
+    );
+    console.log("user type", useTypeResult);
+    ctx.store.commit("expenditureData/setExpenditurePurposeType", useTypeResult);
+
+    let cityResult = await axios.get("/api/common/getcity").then(
+      (rep) => {
+        if (rep && rep.data) {
+          return rep.data.data;
+        }
+      },
+      () => {}
+    );
+    console.log("city", cityResult);
+    ctx.store.commit("expenditureData/setCity", cityResult);
   }
 };
 

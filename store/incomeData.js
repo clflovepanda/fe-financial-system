@@ -1,4 +1,3 @@
-
 export const state = () => ({
     namespaced: true,
     searchIncomeForm: {
@@ -14,6 +13,9 @@ export const state = () => ({
         currentPage: 1,
         total: 10,
     },
+    revenueList: [
+
+    ],
     accountList: [
         { value: 1, label: "亚讯" },
         { value: 2, label: "医通捷" },
@@ -43,9 +45,12 @@ export const mutations = {
         state.incomeDate = newObj.incomeDate;
         state.remark = newObj.remark;
     },
-  setIncomeListTable (state, newObj) {
+    setIncomeListTable(state, newObj) {
         state.incomeListTable.listData = newObj;
         state.incomeListTablecurrentPage = 1;
         state.incomeListTable.total = newObj.length;
+    },
+    setRevenueList(state, newObj) {
+        state.revenueList = newObj;
     }
 }

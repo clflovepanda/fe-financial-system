@@ -12,7 +12,11 @@
       ></el-table-column>
       <el-table-column prop="username" label="用户名称"></el-table-column>
       <el-table-column prop="mobile" label="手机号"></el-table-column>
-      <el-table-column prop="depId" label="部门"></el-table-column>
+      <el-table-column prop="depId" label="部门">
+        <template slot-scope="scope">
+          {{getPart(scope)}}
+        </template>
+      </el-table-column>
       <el-table-column prop="roleName" label="角色"></el-table-column>
       <el-table-column prop="state" label="账号状态">
       <template slot-scope="scope">
@@ -25,7 +29,7 @@
       ></el-table-column>
       <el-table-column fixed="right" label="操作" width="120">
         <template slot-scope="scope">
-          <el-button @click="handleClick(scope)" type="text" size="small"
+          <el-button @click="handleView(scope)" type="text" size="small"
             >查看</el-button
           >
           <el-button type="text" size="small" @click="handleEdit(scope)"
@@ -65,13 +69,23 @@ export default {
     }
   },
   methods: {
+    getPart(scope) {
+      let partList = this.$store.state.partData.partList;
+      for (let i = 0 ; i < partList.length ; i ++) {
+        if (partList[i].value == scope.row.depId) {
+          return partList[i].label;
+        }
+      }
+    },
     handleSizeChange() {},
     handleCurrentChange() {},
-    handleClick(scope) {
-      console.log(scope);
+    handleView(scope) {
+      this.$store.commit("userData/setViewUser", true);
+      this.$store.commit("userData/setEditUserForm", this.$store.state.userData.userListTable.listData[scope.$index]);
+      this.$store.commit("dialogSwitchData/showEditUserDialog", true);
     },
     handleEdit(scope) {
-      console.log("edit " + scope.$index + " ...");
+      this.$store.commit("userData/setViewUser", false);
       this.$store.commit("userData/setEditUserForm", this.$store.state.userData.userListTable.listData[scope.$index]);
       this.$store.commit("dialogSwitchData/showEditUserDialog", true);
     },

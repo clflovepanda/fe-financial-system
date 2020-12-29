@@ -96,7 +96,7 @@
         >
       </el-col>
       <el-col :span="4">
-        <el-button style="width: 90%">重置</el-button>
+        <el-button style="width: 90%" @click="resetForm">重置</el-button>
       </el-col>
     </el-row>
   </el-dialog>
@@ -197,11 +197,28 @@ export default {
         })
         .then(
           (response) => {
-            console.log(response);
+            this.$store.commit("dialogSwitchData/showCreateUserDialog", false);
+            axios.get("/api/user/list").then(
+              (rep) => {
+                if (rep && rep.data) {
+                  this.$store.commit("userData/setUserListTable", rep.data.data);
+                }
+              },
+              () => {}
+            );
           },
           () => {}
         );
     },
+    resetForm() {
+      this.createDialogForm.userName = "";
+      this.createDialogForm.phone = "";
+      this.createDialogForm.role = "";
+      this.createDialogForm.accountStatus = "";
+      this.createDialogForm.part = "";
+      this.createDialogForm.password = "";
+      this.createDialogForm.repassword = "";
+    }
   },
 };
 </script>

@@ -1,4 +1,3 @@
-
 export const state = () => ({
     createUserDialogShow: false,
     createRoleDialogShow: false,
@@ -12,6 +11,7 @@ export const state = () => ({
     confirmedIncomeDialogShow: false,
     incomeDetailValue: [],
     receivementListValue: [],
+    createPayDialogShow: false
 })
 
 export const mutations = {
@@ -50,5 +50,9 @@ export const mutations = {
     },
     receivementList(state, value) {
         state.receivementListValue = value;
+    },
+    setCreatePayDialogShow(state, value) {
+        console.log(value);
+        state.createPayDialogShow = value;
     }
 }

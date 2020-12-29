@@ -89,6 +89,7 @@
 
 <script>
 import axios from 'axios'
+import CookieUtil from "~/utils/CookieUtil";
 export default {
   data() {
     return {
@@ -349,6 +350,11 @@ export default {
   },
   async mounted(){
     this.getInitData()
+  },
+  async asyncData(ctx) {
+    if(!CookieUtil.existCookie("user_id")) {
+      location.href = "/";
+    }
   }
 };
 </script>

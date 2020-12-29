@@ -185,6 +185,17 @@ export default {
     );
     console.log("project list", result);
     ctx.store.commit("projectData/setProjectList", result);
+
+    let userResult = await axios.get("/api/user/list").then(
+      (rep) => {
+        if (rep && rep.data) {
+          return rep.data.data;
+        }
+      },
+      () => {}
+    );
+    console.log("user list", userResult);
+    ctx.store.commit("userData/setUserListTable", userResult);
   },
 };
 </script>

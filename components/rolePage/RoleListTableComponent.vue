@@ -87,7 +87,14 @@ export default {
     ban(scope) {
       axios.get("/api/role/changerolestate?roleId=" + scope.row.roleId).then(
         (res) => {
-          console.log(res);
+          axios.get("/api/role/get").then(
+            (rep) => {
+              if (rep && rep.data) {
+                this.$store.commit("roleData/setRoleList", rep.data.data);
+              }
+            },
+            () => {}
+          );
         },
         () => {}
       );

@@ -136,6 +136,7 @@
 
 <script>
 import axios from "axios";
+import CookieUtil from "~/utils/CookieUtil";
 export default {
   data(){
     return {
@@ -314,15 +315,9 @@ export default {
     // ctx.store.commit("userData/setUserListTable", result);
   },
   async asyncData(ctx) {
-    // let result = await axios.get("/api/invoice/list").then(
-    //   (rep) => {
-    //     if (rep && rep.data) {
-    //       return rep.data.data;
-    //     }
-    //   },
-    //   () => {}
-    // );
-    // ctx.store.commit("userData/setUserListTable", result);
+    if(!CookieUtil.existCookie("user_id")) {
+      location.href = "/";
+    }
   },
 };
 </script>

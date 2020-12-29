@@ -585,6 +585,7 @@ export default {
 
 // console.log('vuex----',ctx.store.state.projectData.viewProjectId)
     //工时分配列表
+
      let result = await axios.get("/api/task/gettaskrelation?projectId="+ctx.store.state.projectData.viewProjectId).then(
       (rep) => {
         if (rep && rep.data) {
@@ -605,6 +606,51 @@ export default {
       () => {}
     );
     ctx.store.commit("projectData/setgetuserlist", options);
+
+    let dataSourceResult = await axios.get("/api/role/getparentdatasource").then(
+      (rep) => {
+        if (rep && rep.data) {
+          return rep.data.data;
+        }
+      },
+      () => {}
+    );
+    console.log("project data source", dataSourceResult);
+    ctx.store.commit("projectData/setProjectDataSrouce", dataSourceResult);
+
+    let useTypeResult = await axios.get("/api/expenditure/gettype").then(
+      (rep) => {
+        if (rep && rep.data) {
+          return rep.data.data;
+        }
+      },
+      () => {}
+    );
+    console.log("user type", useTypeResult);
+    ctx.store.commit("expenditureData/setExpenditurePurposeType", useTypeResult);
+
+    let cityResult = await axios.get("/api/common/getcity").then(
+      (rep) => {
+        if (rep && rep.data) {
+          return rep.data.data;
+        }
+      },
+      () => {}
+    );
+    console.log("city", cityResult);
+    ctx.store.commit("expenditureData/setCity", cityResult);
+
+    let revenueResult = await axios.get("/api/revenue/list").then(
+      (rep) => {
+        if (rep && rep.data) {
+          return rep.data.data;
+        }
+      },
+      () => {}
+    );
+    console.log("revenue", revenueResult);
+    ctx.store.commit("incomeData/setRevenueList", revenueResult);
+    
   },
 };
 </script>

@@ -6,6 +6,7 @@
     @open="handleOpen"
     @close="handleClose"
     style="height: 100%"
+    :class="[hasLogin ? '' : 'hiddenMenu']"
   >
     <nuxt-link to="/projectList">
       <el-menu-item index="1">
@@ -35,7 +36,9 @@
         <nuxt-link to="/expenditureStatistic">
         <el-menu-item index="3-6">支出统计</el-menu-item>
         </nuxt-link>
+        <nuxt-link to="/projectStatistic">
         <el-menu-item index="3-7">项目统计</el-menu-item>
+        </nuxt-link>
       </el-menu-item-group>
     </el-submenu>
     <nuxt-link to="/user">
@@ -54,6 +57,7 @@
 </template>
 
 <script>
+import CookieUtil from "../utils/CookieUtil";
 export default {
   methods: {
     handleOpen(key, keyPath) {
@@ -63,8 +67,21 @@ export default {
       console.log(key, keyPath);
     },
   },
+  computed: {
+    hasLogin() {
+      if(!CookieUtil.existCookie("user_id")) {
+        this.$store.commit("userData/setHasLogin", false);
+      } else {
+        this.$store.commit("userData/setHasLogin", true);
+      }
+      return this.$store.state.userData.hasLogin;
+    }
+  }
 };
 </script>
 
 <style>
+.hiddenMenu {
+  display: none;
+}
 </style>

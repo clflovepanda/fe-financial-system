@@ -62,6 +62,7 @@
 <script>
 import axios from "axios";
 import NetReqUser from "../network/NetReqUser";
+import CookieUtil from "../utils/CookieUtil";
 
 export default {
   data() {
@@ -107,6 +108,7 @@ export default {
                 let projectList = await NetReqUser.getAllProject();
                 console.log(projectList);
                 this.$router.push("/user");
+                this.$store.commit("userData/setHasLogin", true);
               })();
             } else {
               this.$message.error(response.data.msg);
@@ -131,6 +133,9 @@ export default {
     },
   },
   async asyncData(ctx) {
+    if(CookieUtil.existCookie("user_id")) {
+      location.href = "/user";
+    }
     let result = await axios.get("/api/login/createValidateCode").then(
       (rep) => {
         if (rep && rep.data) {

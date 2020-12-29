@@ -1,11 +1,12 @@
 <template>
-  <el-dialog title="编辑用户" :visible.sync="showEditUserDialog">
+  <el-dialog title="用户信息" :visible.sync="showEditUserDialog">
     <el-row>
       <el-col :span="4" class="labelSty">用户名称：</el-col>
       <el-col :span="12"
         ><el-input
           placeholder="请输入用户名称"
           v-model="editUserForm.username"
+          :disabled="getViewUser"
         ></el-input
       ></el-col>
     </el-row>
@@ -15,6 +16,7 @@
         ><el-input
           placeholder="请输入手机号"
           v-model="editUserForm.mobile"
+          :disabled="getViewUser"
         ></el-input
       ></el-col>
     </el-row>
@@ -25,6 +27,7 @@
           v-model="editUserForm.depId"
           placeholder="请选择"
           style="width: 100%"
+          :disabled="getViewUser"
         >
           <el-option
             v-for="item in partList"
@@ -41,6 +44,7 @@
         ><el-input
           placeholder="请输入角色"
           v-model="editUserForm.roleId"
+          :disabled="getViewUser"
         ></el-input
       ></el-col>
     </el-row>
@@ -51,6 +55,7 @@
           v-model="editUserForm.state"
           placeholder="请选择"
           style="width: 100%"
+          :disabled="getViewUser"
         >
           <el-option
             v-for="item in accountStatusList"
@@ -61,17 +66,18 @@
         </el-select>
       </el-col>
     </el-row>
-    <el-row class="rowSty">
+    <el-row class="rowSty" :class="[getViewUser ? 'hiddenRow' : '']">
       <el-col :span="4" class="labelSty">输入密码：</el-col>
       <el-col :span="12"
         ><el-input
           placeholder="请输入密码"
           v-model="editUserForm.password"
           show-password
+          
         ></el-input
       ></el-col>
     </el-row>
-    <el-row class="rowSty">
+    <el-row class="rowSty" :class="[getViewUser ? 'hiddenRow' : '']">
       <el-col :span="4" class="labelSty">再次输入密码：</el-col>
       <el-col :span="12"
         ><el-input
@@ -81,7 +87,7 @@
         ></el-input
       ></el-col>
     </el-row>
-    <el-row style="margin-top: 20px">
+    <el-row style="margin-top: 20px" :class="[getViewUser ? 'hiddenRow' : '']">
       <el-col :span="4" :offset="8">
         <el-button type="primary" style="width: 90%" @click="editUser"
           >保存</el-button
@@ -124,16 +130,19 @@ export default {
     storeEditUserForm() {
       return this.$store.state.userData.editUserForm;
     },
+    getViewUser() {
+      return this.$store.state.userData.viewUser;
+    }
   },
   watch: {
     storeEditUserForm(val, oldVal) {
-      this.editUserForm.userId = oldVal.userId;
-      this.editUserForm.username = oldVal.username;
-      this.editUserForm.mobile = oldVal.mobile;
-      this.editUserForm.depId = oldVal.depId;
-      this.editUserForm.state = oldVal.state;
-      this.editUserForm.roleName = oldVal.roleName;
-      this.editUserForm.roleId = oldVal.roleId;
+      this.editUserForm.userId = val.userId;
+      this.editUserForm.username = val.username;
+      this.editUserForm.mobile = val.mobile;
+      this.editUserForm.depId = val.depId;
+      this.editUserForm.state = val.state;
+      this.editUserForm.roleName = val.roleName;
+      this.editUserForm.roleId = val.roleId;
     },
     showEditUserDialog() {
       this.$store.commit(
@@ -161,7 +170,15 @@ export default {
         })
         .then(
           (response) => {
-            console.log(response);
+            this.$store.commit("dialogSwitchData/showEditUserDialog", false);
+            axios.get("/api/user/list").then(
+              (rep) => {
+                if (rep && rep.data) {
+                  this.$store.commit("userData/setUserListTable", rep.data.data);
+                }
+              },
+              () => {}
+            );
           },
           () => {}
         );
@@ -178,5 +195,9 @@ export default {
 
 .rowSty {
   margin-top: 10px;
+}
+
+.hiddenRow {
+  display: none;
 }
 </style>
