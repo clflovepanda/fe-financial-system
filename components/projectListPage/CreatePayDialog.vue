@@ -88,10 +88,10 @@
       <el-col :span="10">
         <el-select v-model="createForm.expenditureTypeId" placeholder="请选择支出类型" class="inpSty">
           <el-option
-            v-for="item in expenditurePurposeType"
-            :key="item.expenditurePurposeId"
-            :label="item.expenditurePurposeName"
-            :value="item.expenditurePurposeId"
+            v-for="item in expenditureType"
+            :key="item.expenditureTypeId"
+            :label="item.expenditureTypeName"
+            :value="item.expenditureTypeId"
           ></el-option>
         </el-select>
       </el-col>
@@ -156,7 +156,7 @@ export default {
         projectId: "",   
         expenditureMethodId: "",
         expenditureTypeId: "",
-        expenditurePurposeId: 0,
+        expenditurePurposeId: "",
         expenditurePurposeContent: "",
         expenditureMoney: "",
         remark: "",
@@ -192,6 +192,9 @@ export default {
     },
     cityList() {
       return this.$store.state.expenditureData.city;
+    },
+    expenditureType() {
+      return this.$store.state.expenditureData.expenditurePurposeType.type;
     },
     expenditurePurposeType() {
       console.log("expenditurePurposeType", this.$store.state.expenditureData.expenditurePurposeType.purpose);
