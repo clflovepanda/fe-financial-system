@@ -26,13 +26,28 @@
     </el-table-column>
     <el-table-column align="center" prop="" label="收付款利润率"></el-table-column>
     <el-table-column align="center" prop="" label="项目毛利率/%"></el-table-column>
-    <el-table-column align="center" prop="saleCommisState" label="销售提成发放状态"></el-table-column>
+    <el-table-column align="center" prop="saleCommisState" label="销售提成发放状态">
+      <template slot-scope="scope">
+        <span v-if="scope.row.saleCommisState == 0">未发放</span>
+        <span v-if="scope.row.saleCommisState == 1">部分发放</span>
+        <span v-if="scope.row.saleCommisState == 2">全部发放</span>
+      </template>
+    </el-table-column>
     <el-table-column align="center" prop="settlementState" label="结算状态">
       <template slot-scope="scope">
         {{scope.row.settlementState == 0 ? "未结算" : "已结算"}}
       </template>
     </el-table-column>
-    <el-table-column align="center" prop="state" label="项目状态"></el-table-column>
+    <el-table-column align="center" prop="state" label="项目状态">
+      <template slot-scope="scope">
+        <span v-if="scope.row.state == 1">未开始</span>
+        <span v-if="scope.row.state == 2">进行中</span>
+        <span v-if="scope.row.state == 3">暂停</span>
+        <span v-if="scope.row.state == 4">取消</span>
+        <span v-if="scope.row.state == 5">已完成</span>
+        <span v-if="scope.row.state == 6">已关闭</span>
+      </template>
+    </el-table-column>
     <el-table-column align="center" prop="" width="120" label="操作" v-if="passStatus != 1">
       <template slot-scope="scope">
         <a v-if="passStatus != 1" href="#" @click="audit(scope, 1)">通过</a>

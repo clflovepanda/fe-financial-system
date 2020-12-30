@@ -291,7 +291,12 @@ export default {
          axios.get("/api/expenditure/list?projectId=" + this.createForm.projectId).then(
           (rep) => {
             if (rep && rep.data) {
-              this.$store.commit("projectData/setProjectPay", rep.data.data);
+              if (rep.data.code == 0) {
+                this.$store.commit("projectData/setProjectPay", rep.data.data);
+              } else {
+                this.$message.error(rep.data.msg);
+              }
+              
             }
           },
           () => {}

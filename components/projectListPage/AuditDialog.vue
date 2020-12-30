@@ -187,7 +187,7 @@ export default {
     del(scope) {
       console.log(scope);
       axios.post('/api/expenditure/approval/del',scope.row).then((response) => {
-        if(response.data.code != 0 && response.data.code != 200) {
+        if(response.data.code != 0) {
           this.$message.error(response.data.msg);
         }
       })
@@ -200,8 +200,17 @@ export default {
       }
       axios.post('/api/expenditure/approval', params).then((response) => {
         console.log(response);
-        if(response.data.code != 0 && response.data.code != 200) {
+        if(response.data.code != 0) {
           this.$message.error(response.data.msg);
+        } else {
+          axios.get("/api/expenditure/list?projectId=" + this.$store.state.projectData.viewProjectId).then(
+          (rep) => {
+            if (rep && rep.data) {
+              this.$store.commit("projectData/setProjectPay", rep.data.data);
+              this.showAuditDialog = false;
+            }
+          },
+          () => {});
         }
       })
     },

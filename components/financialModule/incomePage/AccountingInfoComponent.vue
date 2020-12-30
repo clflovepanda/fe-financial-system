@@ -64,7 +64,7 @@ export default {
         '&state=' 
         + this.accountingForm.isAccounting
         axios.get('/api/receivement/accounting'+params).then( (response) => {
-          if(response.data.code === 200){
+          if(response.data.code === 0){
             window.location.reload();
           }else{
             this.$message({

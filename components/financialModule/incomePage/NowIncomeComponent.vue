@@ -160,7 +160,7 @@ export default {
 
       if(this.nowIncomeForm.money&&this.nowIncomeForm.incomeType&&this.nowIncomeForm.projectId&&this.nowIncomeForm.incomeDate){
         axios.post('/api/receivement/addsublog',params).then( (response) => {
-          if(response.data.code==200){
+          if(response.data.code==0){
             window.location.reload();
 
           }

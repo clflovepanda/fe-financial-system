@@ -58,7 +58,7 @@ export default {
     deleteReceiveMent() {
       axios.get('/api/receivement/delete?id='+this.$store.state.dialogSwitchData.incomeDetailValue[0].id).then( (response) => {
         console.log(response.data)
-        if( response.data.code === 200 ){
+        if( response.data.code === 0 ){
           window.location.reload();
         } else {
           this.$message({

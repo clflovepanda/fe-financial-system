@@ -82,7 +82,7 @@
       </el-col>
       <el-col :span="3" :offset="1">
         <el-button type="primary" @click="submitForm">搜索</el-button>
-        <el-button @click="resetForm('ruleForm')">重置</el-button>
+        <el-button @click="resetForm()">重置</el-button>
       </el-col>
     </el-row>
     <el-divider></el-divider>
@@ -152,7 +152,7 @@ export default {
       axios.get("/api/project/list", {
         params: this.ruleForm
       }).then((res) => {
-        if(res.data.code == 200) {
+        if(res.data.code == 0) {
           this.$store.commit("projectData/setProjectList", res.data.data);
         }
       });
@@ -161,8 +161,20 @@ export default {
         location.href = "/";
       }
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
+    resetForm() {
+      console.log("reset");
+      this.ruleForm.projectNo = "";
+      this.ruleForm.projectName = "";
+      this.ruleForm.startDt = "";
+      this.ruleForm.endDt = "";
+      this.ruleForm.state = "";
+      this.ruleForm.managerName = "";
+      this.ruleForm.salesName = "";
+      this.ruleForm.settlementState = "";
+      this.ruleForm.saleCommisState = "";
+      this.ruleForm.userNames = "";
+      this.dateRange = "";
+      
     },
     handleTabClick(tab, event) {
     },

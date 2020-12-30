@@ -180,7 +180,7 @@ export default {
         remark: this.newIncomeDialogForm.remark
       }
       axios.post('/api/receivement/add?flag=1',params).then((response) => {
-        if(response.data.code==200){
+        if(response.data.code==0){
           window.location.reload()
 
         }

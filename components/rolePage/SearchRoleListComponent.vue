@@ -40,7 +40,7 @@
         <el-button type="primary" style="width: 90%" @click="searchRoleList">查询</el-button>
       </el-col>
       <el-col :span="2">
-        <el-button style="width: 90%">重置</el-button>
+        <el-button style="width: 90%" @click="reset">重置</el-button>
       </el-col>
     </el-row>
   </div>
@@ -73,6 +73,11 @@ export default {
   methods: {
       searchRoleList: function() {
           console.log("search role list ...");
+      },
+      reset() {
+        this.roleSearchForm.roleName = "";
+        this.roleSearchForm.roleStatus = "";
+        this.roleSearchForm.createDate = "";
       }
   }
 };

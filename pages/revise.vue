@@ -34,13 +34,13 @@
     </el-row>
     <el-row class="rowSty">
       <el-col :span="4"><span class="labelSty"><i class="redStar">*</i>项目周期：</span></el-col>
-      <el-col :span="6">
+      <el-col :span="6" style="line-height:40px;text-align:left;font-size:18px">
         <el-date-picker
           v-model="rangeDate"
           type="daterange"
           range-separator="~"
-          start-placeholder="开始时间"
-          end-placeholder="结束时间"
+          :start-placeholder="createProductForm.startDate"
+          :end-placeholder="createProductForm.endDate"
           class="inpSty"
           style="width: 100%"
           @change="changeDate"
@@ -189,14 +189,14 @@ export default {
         description: "",
         managerId: "",
         salesId: "",
-        userIds: []
+        userIds: [],
+        projectId: ""
       },
       rangeDate: ""
     };
   },
   computed: {
     getProjectDetailData() {
-      console.log("", this.$store.state.projectData.editProject);
       return this.$store.state.projectData.editProject;
     },
     userList() {
@@ -219,9 +219,6 @@ export default {
     }
   },
   watch:{
-    getProjectDetailData(val, oldVal) {
-
-    }
   },
   methods: {
     submitForm(formName) {
@@ -292,6 +289,42 @@ export default {
     if(this.userList == null || this.userList == "" || this.userList.length == 0) {
       this.$router.push("/projectList");
     }
+    console.log("getProjectDetailData", this.$store.state.projectData.editProject);
+    this.createProductForm.projectId = this.$store.state.projectData.editProject.projectEntities[0].projectId;
+    this.createProductForm.dataSourceIdOne = this.$store.state.projectData.editProject.dataSourceId;
+    this.createProductForm.dataSourceId = this.$store.state.projectData.editProject.projectEntities[0].dataSourceId;
+    this.createProductForm.dataSourceName = this.$store.state.projectData.editProject.projectEntities[0].dataSourceName;
+    this.createProductForm.startDate = this.$store.state.projectData.editProject.projectEntities[0].startDate;
+    this.createProductForm.endDate = this.$store.state.projectData.editProject.projectEntities[0].endDate;
+    this.createProductForm.name = this.$store.state.projectData.editProject.projectEntities[0].name;
+    this.createProductForm.estincome = this.$store.state.projectData.editProject.projectEntities[0].estincome;
+    this.createProductForm.budget = this.$store.state.projectData.editProject.projectEntities[0].budget;
+    this.createProductForm.companyId = this.$store.state.projectData.editProject.companyId;
+    this.createProductForm.description = this.$store.state.projectData.editProject.projectEntities[0].description;
+    //1 销售经理，2项目经理，3成员
+    let managerId = "";
+    let salesId = "";
+    let userIds = [];
+    for (let i = 0 ; i < this.$store.state.projectData.editProject.projectUserEntities.length ; i ++) {
+      if(this.$store.state.projectData.editProject.projectUserEntities[i].type == 1) {
+        salesId = this.$store.state.projectData.editProject.projectUserEntities[i].userId;
+      }
+      if(this.$store.state.projectData.editProject.projectUserEntities[i].type == 2) {
+        managerId = this.$store.state.projectData.editProject.projectUserEntities[i].userId;
+      }
+      if(this.$store.state.projectData.editProject.projectUserEntities[i].type == 3) {
+        userIds.push(this.$store.state.projectData.editProject.projectUserEntities[i].userId);
+      }
+    }
+    console.log("managerId", managerId);
+    console.log("salesId", salesId);
+    console.log("userIds", userIds);
+    this.createProductForm.managerId = managerId;
+    this.createProductForm.salesId = salesId;
+    this.createProductForm.userIds = userIds;
+
+    let workTime = Math.floor((new Date(this.createProductForm.endDate).getTime() - new Date(this.createProductForm.startDate).getTime()) / 86400000) + 1;
+    this.createProductForm.workTime = workTime;
   },
   async asyncData(ctx) {
     if(!CookieUtil.existCookie("user_id")) {
