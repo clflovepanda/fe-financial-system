@@ -621,7 +621,7 @@ export default {
     console.log("city", cityResult);
     ctx.store.commit("expenditureData/setCity", cityResult);
 
-    let revenueResult = await axios.get("/api/revenue/list").then(
+    let revenueResult = await axios.get("/api/revenue/list?projectId=" + ctx.store.state.projectData.viewProjectId).then(
       (rep) => {
         if (rep && rep.data) {
           return rep.data.data;

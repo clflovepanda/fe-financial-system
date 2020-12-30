@@ -120,10 +120,7 @@
         <el-button type="primary" style="width: 90%" @click="addReceivement">添加</el-button>
       </el-col>
       <el-col :span="4">
-        <el-button type="primary" style="width: 90%">重置</el-button>
-      </el-col>
-      <el-col :span="4">
-        <el-button style="width: 90%">返回</el-button>
+        <el-button type="primary" style="width: 90%" @click="reset">重置</el-button>
       </el-col>
     </el-row>
   </el-dialog>
@@ -138,6 +135,9 @@ export default {
         money: "",
         incomeType: "",
         incomeFromType: "",
+        incomeFromName: "",
+        incomeDate: "",
+        remark: ""
       },
       newIncomeDialogShow: false,
     };
@@ -166,6 +166,15 @@ export default {
     },
   },
   methods: {
+    reset() {
+      this.newIncomeDialogForm.account = "";
+      this.newIncomeDialogForm.money = "";
+      this.newIncomeDialogForm.incomeType = "";
+      this.newIncomeDialogForm.incomeFromType = "";
+      this.newIncomeDialogForm.incomeFromName = "";
+      this.newIncomeDialogForm.incomeDate = "";
+      this.newIncomeDialogForm.remark = "";
+    },
     createUser: function () {
       console.log("create user ...");
     },

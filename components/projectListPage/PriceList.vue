@@ -102,13 +102,13 @@ export default {
      beforeAvatarUpload(file) {
         const isJPG = file.type === 'application/msword';
 
-        if (file.type === 'application/msword'||file.type === 'application/vnd.ms-excel') {
-          return true
+        // if (file.type === 'application/msword'||file.type === 'application/vnd.ms-excel') {
+        //   return true
           
-        }else{
-          this.$message.error('请上传正确的文件格式!');          
-          return false;
-        }
+        // }else{
+        //   this.$message.error('请上传正确的文件格式!');          
+        //   return false;
+        // }
      },
      
     requestFile(content){
