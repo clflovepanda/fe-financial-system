@@ -28,7 +28,8 @@ export const state = () => ({
         url: ""
     },
     viewUser: false,
-    hasLogin: false
+    hasLogin: false,
+    userName: ""
 })
 
 export const mutations = {
@@ -62,5 +63,8 @@ export const mutations = {
     },
     setHasLogin(state, newObj) {
         state.hasLogin = newObj;
+    },
+    setUserName(state, newObj) {
+        state.userName = newObj;
     }
 }

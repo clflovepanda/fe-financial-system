@@ -128,14 +128,16 @@
               {{getOutputType(scope.row.expenditureTypeId)}}
             </template>
           </el-table-column>
-          <el-table-column align="center" prop="expenditurePurposeContent" label="用途"></el-table-column>
+          <el-table-column align="center" prop="expenditurePurposeContent" label="用途">
+            <template slot-scope="scope">
+              {{getPurposeContent(scope)}}
+            </template>
+          </el-table-column>
           <el-table-column align="center" prop="beneficiaryUnit" label="收款人单位" width="140"></el-table-column>
           <el-table-column align="center" prop="expenditureMoney" label="金额/元" width="120"></el-table-column>
           <el-table-column align="center" prop="username" label="申请人" width="120"></el-table-column>
           <el-table-column align="center" prop="ctime" label="创建时间" width="170"></el-table-column>
-          <el-table-column align="center" prop="state" label="最新状态" width="140">
-
-          </el-table-column>
+          <el-table-column align="center" prop="state" label="最新状态" width="140"></el-table-column>
           <el-table-column align="center" prop="utime" label="最新状态时间" width="180"></el-table-column>
           <el-table-column align="center" prop="expenditureAuditLogs" label="工作流" width="140">
             <template slot-scope="scope">
@@ -179,6 +181,12 @@ export default {
     };
   },
   computed: {
+    getPurposeContent() {
+      return function(scope) {
+        return scope.row.expenditurePurposeId != null && scope.row.expenditurePurposeId > 0 ? 
+        scope.row.expenditurePurposeName : scope.row.expenditurePurposeContent;
+      }
+    },
     getProjectPay() {
       console.log("project pay component", this.$store.state.projectData.projectPay);
       return this.$store.state.projectData.projectPay;

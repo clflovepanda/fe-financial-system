@@ -19,6 +19,7 @@
 import SearchIncomeStatisticComponent from "~/components/financialModule/incomeStatisticsPage/SearchIncomeStatisticComponent";
 import IncomeStatisticCardComponent from "~/components/financialModule/incomeStatisticsPage/IncomeStatisticCardComponent";
 import CookieUtil from "~/utils/CookieUtil";
+import axios from "axios";
 
 export default {
   methods: {
@@ -31,6 +32,16 @@ export default {
     if(!CookieUtil.existCookie("user_id")) {
       location.href = "/";
     }
+    let result = await axios.get("/api/statistics/receivement").then(
+      (rep) => {
+        if (rep && rep.data) {
+          return rep.data.data;
+        }
+      },
+      () => {}
+    );
+    console.log("statistics receivement", result);
+    ctx.store.commit("statisticData/setIncomeStatistic", result);
   }
 };
 </script>
