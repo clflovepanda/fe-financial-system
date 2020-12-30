@@ -196,8 +196,8 @@ export default {
   },
   computed: {
     getProjectDetailData() {
-      // console.log(this.$store.state.projectData.projectDetail.projectEntities[0]);
-      return this.$store.state.projectData.projectDetail.projectEntities[0];
+      console.log("", this.$store.state.projectData.editProject);
+      return this.$store.state.projectData.editProject;
     },
     userList() {
       return this.$store.state.userData.userListTable.listData;
@@ -220,7 +220,7 @@ export default {
   },
   watch:{
     getProjectDetailData(val, oldVal) {
-      
+
     }
   },
   methods: {
