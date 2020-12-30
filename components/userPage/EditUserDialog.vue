@@ -43,7 +43,7 @@
       <el-col :span="12"
         ><el-input
           placeholder="请输入角色"
-          v-model="editUserForm.roleId"
+          v-model="editUserForm.roleName"
           :disabled="getViewUser"
         ></el-input
       ></el-col>
