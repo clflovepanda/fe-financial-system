@@ -60,7 +60,7 @@
         ></el-input>
       </el-col>
     </el-row>
-    <!-- <el-row class="rowSty">
+    <el-row class="rowSty">
       <el-col :span="4"><span class="labelSty">预计收入金额/元：</span></el-col>
       <el-col :span="6">
         <el-input
@@ -79,7 +79,7 @@
           class="inpSty"
         ></el-input>
       </el-col>
-    </el-row> -->
+    </el-row>
     <el-row class="rowSty">
       <el-col :span="4"><span class="labelSty"><i class="redStar">*</i>项目所属公司：</span></el-col>
       <el-col :span="6">

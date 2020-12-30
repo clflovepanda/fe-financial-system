@@ -545,8 +545,9 @@ export default {
 
       this.dialogMoneyisAllSend = false;
     },
-    handleRevisePro() {
+    handleRevisePro(scope) {
       this.$router.push("/revise");
+
     },
     changeProStatus() {
       this.closeStatus = false;

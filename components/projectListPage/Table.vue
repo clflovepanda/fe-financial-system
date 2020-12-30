@@ -107,6 +107,7 @@ export default {
         console.log("project detail", result);
         ts.generateProjectDetail(result);
         ts.generateProjectFinancial(result);
+        ts.$store.commit("projectData/setEditProject", result);
 
         let expenditureResult = await axios.get("/api/expenditure/list?projectId=" + val.projectId).then(
           (rep) => {

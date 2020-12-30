@@ -1,4 +1,3 @@
-
 export const state = () => ({
     projectList: [],
     viewProjectId: "",
@@ -12,6 +11,8 @@ export const state = () => ({
         userNames: ""
     },
     projectFinancial: { //项目详情页，财务模块数据
+    },
+    editProject: { //编辑项目
     },
     projectPay: [],
     projectDataSource: [],
@@ -63,5 +64,8 @@ export const mutations = {
     },
     setReceivableList(state, newObj) {
         state.receivableList = newObj;
+    },
+    setEditProject(state, newObj) {
+        state.editProject = newObj;
     }
 }
