@@ -275,7 +275,8 @@ export default {
     }
   },
   created() {
-    if (this.$store.state.projectData.viewProjectId == "") {
+    console.log(this.userList);
+    if(this.userList == null || this.userList == "" || this.userList.length == 0) {
       this.$router.push("/projectList");
     }
   },

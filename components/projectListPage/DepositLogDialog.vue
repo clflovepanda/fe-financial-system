@@ -60,7 +60,7 @@ export default {
     }
   },
   computed: {
-    isShowCreatePayDialog() {
+    isShowDepositLogDialog() {
       return this.$store.state.dialogSwitchData.showDepositLogDialog;
     },
     actionLogData() {
@@ -78,7 +78,7 @@ export default {
         this.showDepositLogDialog
       );
     },
-    isShowCreatePayDialog(val, oldVal) {
+    isShowDepositLogDialog(val, oldVal) {
       this.showDepositLogDialog = val;
     },
   },
