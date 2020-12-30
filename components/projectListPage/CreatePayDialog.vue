@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="新增支出" :visible.sync="showCreatePayDialog" width="80%">
+  <el-dialog title="新增支出" :visible.sync="showCreatePayDialog" width="80%" style="z-index: 9999">
     <el-row>
       <el-col :span="4" class="labelSty"><span>公司：</span></el-col>
       <el-col :span="10">
@@ -248,20 +248,27 @@ export default {
         "dialogSwitchData/setCreatePayDialogShow",
         this.showCreatePayDialog
       );
+      console.log("showCreatePayDialog", this.showCreatePayDialog);
+      if(!this.showCreatePayDialog) {
+        this.$store.commit("expenditureData/setRevenueId", "");
+        this.createForm.expenditureMethodId = "";
+        this.createForm.expenditureTypeId = "";
+        this.createForm.expenditurePurposeContent = "";
+        this.disableEdit = false;
+        this.needShowRow = false;
+      }
     },
     isShowCreatePayDialog(val, oldVal) {
       this.showCreatePayDialog = val;
-      if(!this.showCreatePayDialog) {
-        this.$store.commit("expenditureData/setRevenueId", "");
-      }
     },
     revenueId(val, oldVal) {
-      console.log(val);
-      this.createForm.expenditureMethodId = 2;
-      this.createForm.expenditureTypeId = 2;
-      this.createForm.expenditurePurposeContent = "退押金";
-      this.disableEdit = true;
-      this.needShowRow = true;
+      if (val > 0) {
+        this.createForm.expenditureMethodId = 2;
+        this.createForm.expenditureTypeId = 2;
+        this.createForm.expenditurePurposeContent = "退押金";
+        this.disableEdit = true;
+        this.needShowRow = true;
+      }
     }
   },
   methods: {
