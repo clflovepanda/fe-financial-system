@@ -31,8 +31,6 @@
                 class="inpSty"
             ></el-input>
         </el-col>
-    </el-row>
-    <el-row class="rowSty">
         <el-col :span="2" class="labelSty"><span>时间：</span></el-col>
         <el-col :span="7">
             <el-date-picker
@@ -43,6 +41,8 @@
               end-placeholder="结束日期"
             ></el-date-picker>
         </el-col>
+    </el-row>
+    <el-row class="rowSty">
         <el-col :span="2" class="labelSty"><span>状态：</span></el-col>
         <el-col :span="3">
             <el-select v-model="searchForm.state" multiple placeholder="请选择状态" style="width: 100%">
@@ -56,7 +56,7 @@
             </el-select>
         </el-col>
         <el-col :span="2" :offset="1">
-            <el-button type="primary" @click="search()">查询</el-button>
+            <el-button type="primary" @click="search()" style="width: 100%">查询</el-button>
         </el-col>
     </el-row>
   </div>

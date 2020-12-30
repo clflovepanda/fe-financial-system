@@ -67,7 +67,7 @@
           </el-col>
         </el-row>
 
-        <el-row class="money-show">
+        <!-- <el-row class="money-show">
           <el-col :span="4">
             <span>全部押金金额/元：</span>
             <span></span>
@@ -88,7 +88,7 @@
             <span>押金转收入总金额/元：</span>
             <span></span>
           </el-col>
-        </el-row>
+        </el-row> -->
         <el-table :data="listData" border style="width: 100%; margin-top: 20px">
           <el-table-column align="center" type="index" label="序号"></el-table-column>
           <el-table-column align="center" prop="revenueNo" label="押金编号"></el-table-column>
@@ -99,7 +99,11 @@
           <el-table-column align="center" prop="cnyMoney" label="认款金额/元"></el-table-column>
           <el-table-column align="center" prop="username" label="认款人"></el-table-column>
           <el-table-column align="center" prop="ctime" label="认款时间"></el-table-column>
-          <el-table-column align="center" prop="toBeReturned" label="待退回金额/元"></el-table-column>
+          <el-table-column align="center" prop="toBeReturned" label="待退回金额/元">
+            <template slot-scope="scope">
+              {{getMoneyOne(scope.row)}}
+            </template>
+          </el-table-column>
           <el-table-column align="center" prop="returning" label="退回中押金/元"></el-table-column>
           <el-table-column align="center" prop="returned" label="已退回押金/元"></el-table-column>
           <el-table-column align="center" prop="id" label="操作" width="140">
@@ -141,6 +145,17 @@ export default {
       },
       listData: [],
     };
+  },
+  computed: {
+    getMoneyOne(){
+      return function(row) {
+        if(row.toBeReturned == null && row.returning == null && row.returned == null) {
+          return row.cnyMoney;
+        } else {
+          return row.toBeReturned;
+        }
+      }
+    }
   },
   mounted(){
     this.getlistData();
