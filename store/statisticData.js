@@ -1,9 +1,13 @@
 export const state = () => ({
-    projectStatistic: {}
+    projectStatistic: {},
+    incomeStatistic: []
 })
 
 export const mutations = {
     setProjectStatistic(state, newObj) {
         state.projectStatistic = newObj;
+    },
+    setIncomeStatistic(state, newObj) {
+        state.incomeStatistic = newObj;
     }
 }

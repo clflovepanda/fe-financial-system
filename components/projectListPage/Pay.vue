@@ -128,18 +128,24 @@
               {{getOutputType(scope.row.expenditureTypeId)}}
             </template>
           </el-table-column>
-          <el-table-column align="center" prop="expenditurePurposeContent" label="用途"></el-table-column>
+          <el-table-column align="center" prop="expenditurePurposeContent" label="用途">
+            <template slot-scope="scope">
+              {{getPurposeContent(scope)}}
+            </template>
+          </el-table-column>
           <el-table-column align="center" prop="beneficiaryUnit" label="收款人单位" width="140"></el-table-column>
           <el-table-column align="center" prop="expenditureMoney" label="金额/元" width="120"></el-table-column>
           <el-table-column align="center" prop="username" label="申请人" width="120"></el-table-column>
           <el-table-column align="center" prop="ctime" label="创建时间" width="170"></el-table-column>
           <el-table-column align="center" prop="state" label="最新状态" width="140">
-
+            <template slot-scope="scope">
+              {{getRealAuditType(scope.row.state)}}
+            </template>
           </el-table-column>
           <el-table-column align="center" prop="utime" label="最新状态时间" width="180"></el-table-column>
           <el-table-column align="center" prop="expenditureAuditLogs" label="工作流" width="140">
             <template slot-scope="scope">
-              {{getAuditType(scope.row.expenditureTypeId)}}
+              <el-button @click="audit(scope)" type="text" size="small">{{getAuditType(scope.row.state)}}</el-button>
             </template>
           </el-table-column>
           <el-table-column align="center" label="操作" width="140">
@@ -153,6 +159,7 @@
     </el-container>
   </el-container>
   <CreatePayDialog />
+  <AuditDialog />
   </div>
 </template>
 
@@ -160,6 +167,7 @@
 import Table from "~/components/projectListPage/Table.vue";
 import {EnumAccount, EnumOutputType, EnumPayType, EnumAuditType} from "../../utils/EnumUtil"
 import CreatePayDialog from "~/components/projectListPage/CreatePayDialog.vue";
+import AuditDialog from "~/components/projectListPage/AuditDialog.vue";
 import FileSaver from "file-saver";
 import XLSX from "xlsx";
 
@@ -179,6 +187,12 @@ export default {
     };
   },
   computed: {
+    getPurposeContent() {
+      return function(scope) {
+        return scope.row.expenditurePurposeId != null && scope.row.expenditurePurposeId > 0 ? 
+        scope.row.expenditurePurposeName : scope.row.expenditurePurposeContent;
+      }
+    },
     getProjectPay() {
       console.log("project pay component", this.$store.state.projectData.projectPay);
       return this.$store.state.projectData.projectPay;
@@ -194,6 +208,14 @@ export default {
       }
     },
     getAuditType() {
+      return function(value) {
+        if(value < 3) {
+          return "财务审批";
+        }
+        return EnumAuditType.getMsg(value);
+      }
+    },
+    getRealAuditType() {
       return function(value) {
         return EnumAuditType.getMsg(value);
       }
@@ -234,6 +256,17 @@ export default {
     },
     printPay(scope) {
 
+    },
+    audit(scope) {
+      console.log(scope.row);
+      this.$store.commit("expenditureData/setAuditLog", scope.row);
+      let isShow = this.$store.state.dialogSwitchData.auditDialogShow;
+      if (isShow) {
+        this.$store.commit("dialogSwitchData/setAuditDialogShow", false);
+      } else {
+        this.$store.commit("dialogSwitchData/setAuditDialogShow", true);
+      }
+      
     }
   },
   
