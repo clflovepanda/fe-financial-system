@@ -3,7 +3,8 @@ export const state = () => ({
     allExpenditureList: [],
     expenditurePurposeType: [],
     city: [],
-    revenueId: ""
+    revenueId: "",
+    auditLog: {}
 })
 
 export const mutations = {
@@ -21,5 +22,8 @@ export const mutations = {
     },
     setRevenueId(state, newObj) {
         state.revenueId = newObj;
+    },
+    setAuditLog(state, newObj) {
+        state.auditLog = newObj;
     }
 }

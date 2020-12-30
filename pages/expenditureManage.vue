@@ -34,7 +34,15 @@
           <el-table-column align="center" prop="utime" label="最新状态时间" width="180"></el-table-column>
           <el-table-column align="center" prop="expenditureAuditLogs" label="工作流" width="140">
             <template slot-scope="scope">
-              {{getAuditType(scope.row.expenditureTypeId)}}
+              <el-button @click="handleView(scope)" type="text" size="small">{{getAuditType(scope.row.expenditureTypeId)}}</el-button>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" prop="utime" label="操作" width="180">
+            <template slot-scope="scope">
+              <el-button @click="handleView(scope)" type="text" size="small">打印</el-button>
+              <el-button @click="handleView(scope)" type="text" size="small">修改</el-button>
+              <el-button @click="handleView(scope)" type="text" size="small">删除</el-button>
+              <el-button @click="handleView(scope)" type="text" size="small">查看</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -70,7 +78,9 @@ export default {
     },
   },
   methods: {
-    
+    handleView() {
+      
+    }
   },
   async asyncData(ctx) {
     if(!CookieUtil.existCookie("user_id")) {
