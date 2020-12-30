@@ -10,30 +10,30 @@
     <el-table-column align="center" prop="managerName" label="项目经理"></el-table-column>
     <el-table-column align="center" prop="salesName" label="销售经理"></el-table-column>
     <el-table-column align="center" prop="userNames" label="项目成员"></el-table-column>
-    <el-table-column align="center" prop="takeTime" label="花费工时/时" width="120"></el-table-column>
-    <el-table-column align="center" prop="ctime" label="项目创建时间" width="120"></el-table-column>
-    <el-table-column align="center" prop="startDate" label="项目开始时间" width="180"></el-table-column>
-    <el-table-column align="center" prop="endDate" label="项目结束时间" width="180"></el-table-column>
-    <el-table-column align="center" prop="id" label="结算收入/结算支出" width="160">
+    <el-table-column align="center" prop="takeTime" label="花费工时/时"></el-table-column>
+    <el-table-column align="center" prop="ctime" label="项目创建时间"></el-table-column>
+    <el-table-column align="center" prop="startDate" label="项目开始时间"></el-table-column>
+    <el-table-column align="center" prop="endDate" label="项目结束时间"></el-table-column>
+    <el-table-column align="center" prop="id" label="结算收入/结算支出">
       <template slot-scope="scope">
         {{scope.row.settlementIncome}}/{{scope.row.settlementExpenses}}
       </template>
     </el-table-column>
-    <el-table-column align="center" prop="proManager" label="收付款收入/收付款支出" width="170">
+    <el-table-column align="center" prop="proManager" label="收付款收入/收付款支出">
       <template slot-scope="scope">
         {{scope.row.paymentIncome}}/{{scope.row.paymentExpenses}}
       </template>
     </el-table-column>
-    <el-table-column align="center" prop="" label="收付款利润率" width="120"></el-table-column>
-    <el-table-column align="center" prop="" label="项目毛利率/%" width="120"></el-table-column>
-    <el-table-column align="center" prop="saleCommisState" label="销售提成发放状态" width="140"></el-table-column>
+    <el-table-column align="center" prop="" label="收付款利润率"></el-table-column>
+    <el-table-column align="center" prop="" label="项目毛利率/%"></el-table-column>
+    <el-table-column align="center" prop="saleCommisState" label="销售提成发放状态"></el-table-column>
     <el-table-column align="center" prop="settlementState" label="结算状态">
       <template slot-scope="scope">
         {{scope.row.settlementState == 0 ? "未结算" : "已结算"}}
       </template>
     </el-table-column>
     <el-table-column align="center" prop="state" label="项目状态"></el-table-column>
-    <el-table-column align="center" prop="" width="120" label="操作">
+    <el-table-column align="center" prop="" width="120" label="操作" v-if="passStatus != 1">
       <template slot-scope="scope">
         <a v-if="passStatus != 1" href="#" @click="audit(scope, 1)">通过</a>
         <a v-if="passStatus != 1" href="#" @click="audit(scope, 2)">拒绝</a>

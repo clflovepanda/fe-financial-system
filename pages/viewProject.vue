@@ -555,35 +555,15 @@ export default {
       this.han;
     },
   },
+  created() {
+    if (this.$store.state.projectData.viewProjectId == "") {
+      this.$router.push("/projectList");
+    }
+  },
   async asyncData(ctx) {
     if(!CookieUtil.existCookie("user_id")) {
       location.href = "/";
     }
-    // let result = await axios.get("/api/expenditure/list").then(
-    //   (rep) => {
-    //     if (rep && rep.data) {
-    //       return rep.data.data;
-    //     }
-    //   },
-    //   () => {}
-    // );
-    // console.log("pay data", result);
-    // ctx.store.commit("projectData/setProjectPay", result);
-
-    // let quotationResult = await axios.get("/api/quotation/list").then(
-    //   (rep) => {
-    //     if (rep && rep.data) {
-    //       return rep.data.data;
-    //     }
-    //   },
-    //   () => {}
-    // );
-    // console.log("quotation data", quotationResult);
-    // ctx.store.commit("projectData/setQuotationList", quotationResult);
-
-
-
-// console.log('vuex----',ctx.store.state.projectData.viewProjectId)
     //工时分配列表
 
      let result = await axios.get("/api/task/gettaskrelation?projectId="+ctx.store.state.projectData.viewProjectId).then(

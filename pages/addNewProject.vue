@@ -7,7 +7,7 @@
     </el-breadcrumb>
     <el-divider></el-divider>
     <el-row>
-      <el-col :span="4"><span class="labelSty">一级类目：</span></el-col>
+      <el-col :span="4"><span class="labelSty"><i class="redStar">*</i>一级类目：</span></el-col>
       <el-col :span="6">
         <el-select v-model="createProductForm.dataSourceIdOne" placeholder="请选择一级类目" class="inpSty">
           <el-option
@@ -20,7 +20,7 @@
       </el-col>
     </el-row>
     <el-row class="rowSty">
-      <el-col :span="4"><span class="labelSty">二级类目：</span></el-col>
+      <el-col :span="4"><span class="labelSty"><i class="redStar">*</i>二级类目：</span></el-col>
       <el-col :span="6">
         <el-select v-model="createProductForm.dataSourceId" placeholder="请选择一级类目" class="inpSty">
           <el-option
@@ -33,7 +33,7 @@
       </el-col>
     </el-row>
     <el-row class="rowSty">
-      <el-col :span="4"><span class="labelSty">项目周期：</span></el-col>
+      <el-col :span="4"><span class="labelSty"><i class="redStar">*</i>项目周期：</span></el-col>
       <el-col :span="6">
         <el-date-picker
           v-model="rangeDate"
@@ -51,7 +51,7 @@
       </el-col>
     </el-row>
     <el-row class="rowSty">
-      <el-col :span="4"><span class="labelSty">项目名称：</span></el-col>
+      <el-col :span="4"><span class="labelSty"><i class="redStar">*</i>项目名称：</span></el-col>
       <el-col :span="6">
         <el-input
           v-model="createProductForm.name"
@@ -81,7 +81,7 @@
       </el-col>
     </el-row> -->
     <el-row class="rowSty">
-      <el-col :span="4"><span class="labelSty">项目所属公司：</span></el-col>
+      <el-col :span="4"><span class="labelSty"><i class="redStar">*</i>项目所属公司：</span></el-col>
       <el-col :span="6">
         <el-select
           v-model="createProductForm.companyId"
@@ -99,7 +99,7 @@
       </el-col>
     </el-row>
     <el-row class="rowSty">
-      <el-col :span="4"><span class="labelSty">销售经理：</span></el-col>
+      <el-col :span="4"><span class="labelSty"><i class="redStar">*</i>销售经理：</span></el-col>
       <el-col :span="6">
         <el-select
           v-model="createProductForm.salesId"
@@ -117,7 +117,7 @@
       </el-col>
     </el-row>
     <el-row class="rowSty">
-      <el-col :span="4"><span class="labelSty">项目经理：</span></el-col>
+      <el-col :span="4"><span class="labelSty"><i class="redStar">*</i>项目经理：</span></el-col>
       <el-col :span="6">
         <el-select v-model="createProductForm.managerId" placeholder="请选择项目经理" class="inpSty">
           <el-option
@@ -131,7 +131,7 @@
       </el-col>
     </el-row>
     <el-row class="rowSty">
-      <el-col :span="4"><span class="labelSty">项目成员：</span></el-col>
+      <el-col :span="4"><span class="labelSty"><i class="redStar">*</i>项目成员：</span></el-col>
       <el-col :span="6">
         <el-select v-model="createProductForm.userIds" multiple placeholder="请选择项目成员" style="width: 100%">
           <el-option
@@ -145,7 +145,7 @@
       </el-col>
     </el-row>
     <el-row class="rowSty">
-      <el-col :span="4"><span class="labelSty">项目描述：</span></el-col>
+      <el-col :span="4"><span class="labelSty"><i class="redStar"></i>项目描述：</span></el-col>
       <el-col :span="6">
         <el-input
           v-model="createProductForm.description"
@@ -213,6 +213,35 @@ export default {
   methods: {
     submitForm(formName) {
       console.log(this.createProductForm);
+      if(this.createProductForm.dataSourceId == "" || this.createProductForm.dataSourceId == null) {
+        this.$message.error('缺少二级类目');
+        return;
+      }
+      if(this.createProductForm.startDate == "" || this.createProductForm.startDate == null
+      || this.createProductForm.endDate == "" || this.createProductForm.endDate == null) {
+        this.$message.error('缺少项目周期');
+        return;
+      }
+      if(this.createProductForm.name == "" || this.createProductForm.name == null) {
+        this.$message.error('缺少项目名称');
+        return;
+      }
+      if(this.createProductForm.companyId == "" || this.createProductForm.companyId == null) {
+        this.$message.error('缺少项目所属公司');
+        return;
+      }
+      if(this.createProductForm.salesId == "" || this.createProductForm.salesId == null) {
+        this.$message.error('缺少销售经理');
+        return;
+      }
+      if(this.createProductForm.managerId == "" || this.createProductForm.managerId == null) {
+        this.$message.error('缺少项目经理');
+        return;
+      }
+      if(this.createProductForm.userIds == "" || this.createProductForm.userIds == null || this.createProductForm.length == 0) {
+        this.$message.error('缺少项目成员');
+        return;
+      }
       let levelTwo = this.getLevelTwoDataSourceList;
       for (let i = 0 ; i < levelTwo.length ; i ++) {
         if (levelTwo[i].dataSourceId == this.createProductForm.dataSourceId) {
@@ -226,6 +255,12 @@ export default {
         .then(
           (response) => {
             console.log(response);
+            if(response.data.code == 0) {
+              this.$router.push("/projectList");
+            } else {
+              this.$message.error(response.data.msg);
+            }
+            
           },
           () => {}
         );
@@ -237,6 +272,11 @@ export default {
         this.createProductForm.workTime = Math.floor((this.rangeDate[1].getTime() - this.rangeDate[0].getTime()) / 86400000) + 1;
       }
       
+    }
+  },
+  created() {
+    if (this.$store.state.projectData.viewProjectId == "") {
+      this.$router.push("/projectList");
     }
   },
   async asyncData(ctx) {
@@ -292,5 +332,11 @@ export default {
 
 .inpSty {
   width: 100%
+}
+
+.redStar {
+  display:inline-block;
+  color:red;
+  width:10px
 }
 </style>

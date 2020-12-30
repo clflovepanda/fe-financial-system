@@ -22,10 +22,10 @@
           style="width: 100%"
         >
           <el-option
-            v-for="item in incomeTypeList"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
+            v-for="item in gettypeList"
+            :key="item.revenueTypeId"
+            :label="item.revenueTypeName"
+            :value="item.revenueTypeId"
           ></el-option>
         </el-select>
       </el-col>
@@ -120,6 +120,7 @@ export default {
         dataSourceName: '',
         receivementId:'',
       },
+      gettypeList: []
     };
   },
   computed: {
@@ -203,6 +204,17 @@ export default {
 
     },
   },
+  mounted() {
+    axios.get("/api/revenue/gettype").then(
+          (rep) => {
+            console.log(rep);
+            if (rep && rep.data) {
+              this.gettypeList = rep.data.data;
+            }
+          },
+          () => {}
+        );
+  }
 };
 </script>
 <style>

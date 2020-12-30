@@ -175,6 +175,13 @@ export default {
     if(!CookieUtil.existCookie("user_id")) {
       location.href = "/";
     }
+    console.log(ctx);
+    // const loading = this.$loading({
+    //       lock: true,
+    //       text: 'Loading',
+    //       spinner: 'el-icon-loading',
+    //       background: 'rgba(0, 0, 0, 0.7)'
+    //     });
     let result = await axios.get("/api/project/list").then(
       (rep) => {
         if (rep && rep.data) {
@@ -196,6 +203,7 @@ export default {
     );
     console.log("user list", userResult);
     ctx.store.commit("userData/setUserListTable", userResult);
+    // loading.close();
   },
 };
 </script>

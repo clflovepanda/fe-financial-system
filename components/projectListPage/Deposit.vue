@@ -44,12 +44,12 @@
           </el-form-item>
 
 
-          <el-form-item label="请选择认款时间" required class="time">
+          <el-form-item label="认款时间" required class="time">
             <el-date-picker
               v-model="ruleForm.proDate"
               type="daterange"
               range-separator="~"
-              start-placeholder="请选择开始日期"
+              start-placeholder="开始日期"
               end-placeholder="结束日期"
             ></el-date-picker>
           </el-form-item>
@@ -153,9 +153,10 @@ export default {
       axios.get('/api/deposit/detail?revenueId=' + scope.row.id).then((res)=>{
         console.log(res)
         if(res.data.code === 0){
-          console.log(res);
+          this.$store.commit("depositeData/setDepositeLogData", res.data.data.expenditure);
         }
       });
+      this.$store.commit("depositeData/setDepositeSelected", scope.row);
       if (this.$store.state.dialogSwitchData.showDepositLogDialog) {
         this.$store.commit("dialogSwitchData/setShowDepositLogDialog", false);
       } else {
