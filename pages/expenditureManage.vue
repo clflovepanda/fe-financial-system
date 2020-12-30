@@ -90,14 +90,14 @@
               <el-button @click="handleView(scope)" type="text" size="small">{{getAuditType(scope.row.expenditureTypeId)}}</el-button>
             </template>
           </el-table-column>
-          <el-table-column align="center" prop="utime" label="操作" width="180">
+          <!-- <el-table-column align="center" prop="utime" label="操作" width="180">
             <template slot-scope="scope">
               <el-button @click="handleView(scope)" type="text" size="small">打印</el-button>
               <el-button @click="handleView(scope)" type="text" size="small">修改</el-button>
               <el-button @click="handleView(scope)" type="text" size="small">删除</el-button>
               <el-button @click="handleView(scope)" type="text" size="small">查看</el-button>
             </template>
-          </el-table-column>
+          </el-table-column> -->
         </el-table>
 
   </div>
