@@ -21,7 +21,7 @@
     <el-row class="rowSty">
       <el-col :span="4" class="labelSty"><span>支出方式：</span></el-col>
       <el-col :span="10" class="labelSty">
-        <el-radio-group v-model="createForm.expenditureMethodId" @change="changeMethod">
+        <el-radio-group v-model="createForm.expenditureMethodId" @change="changeMethod" :disabled="disableEdit">
           <el-radio :label="1">现金</el-radio>
           <el-radio :label="2">电汇</el-radio>
           <el-radio :label="3">差旅</el-radio>
@@ -86,7 +86,7 @@
     <el-row class="rowSty">
       <el-col :span="4" class="labelSty"><span>支出类型：</span></el-col>
       <el-col :span="10">
-        <el-select v-model="createForm.expenditureTypeId" placeholder="请选择支出类型" class="inpSty">
+        <el-select v-model="createForm.expenditureTypeId" placeholder="请选择支出类型" class="inpSty" :disabled="disableEdit">
           <el-option
             v-for="item in expenditureType"
             :key="item.expenditureTypeId"
@@ -99,7 +99,7 @@
     <el-row class="rowSty">
       <el-col :span="4" class="labelSty"><span>用途：</span></el-col>
       <el-col :span="10">
-        <el-select v-model="createForm.expenditurePurposeId" placeholder="请选择用途" class="inpSty">
+        <el-select v-model="createForm.expenditurePurposeId" placeholder="请选择用途" class="inpSty" :disabled="disableEdit">
           <el-option
             v-for="item in expenditurePurposeType"
             :key="item.expenditurePurposeId"
@@ -113,6 +113,7 @@
           v-model="createForm.expenditurePurposeContent"
           placeholder="其他用途"
            class="inpSty"
+           :disabled="disableEdit"
         ></el-input>
       </el-col>
     </el-row>
@@ -178,7 +179,8 @@ export default {
       levelIds: [],
       sourceIds: [],
       roleName: "",
-      needShowRow: false
+      needShowRow: false,
+      disableEdit: false
     };
   },
   computed: {
@@ -235,6 +237,9 @@ export default {
         }
       }
       return [];
+    },
+    revenueId() {
+      return this.$store.state.expenditureData.revenueId;
     }
   },
   watch: {
@@ -245,9 +250,19 @@ export default {
       );
     },
     isShowCreatePayDialog(val, oldVal) {
-      
       this.showCreatePayDialog = val;
+      if(!this.showCreatePayDialog) {
+        this.$store.commit("expenditureData/setRevenueId", "");
+      }
     },
+    revenueId(val, oldVal) {
+      console.log(val);
+      this.createForm.expenditureMethodId = 2;
+      this.createForm.expenditureTypeId = 2;
+      this.createForm.expenditurePurposeContent = "退押金";
+      this.disableEdit = true;
+      this.needShowRow = true;
+    }
   },
   methods: {
     changeMethod() {
@@ -283,6 +298,9 @@ export default {
       console.log(scope);
     },
   },
+  mounted() {
+    console.log("mounted");
+  }
 };
 </script>
 
