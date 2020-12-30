@@ -9,13 +9,17 @@
         <el-table-column align="center" prop="expenditureTypeEntity.expenditureTypeName" label="方式"></el-table-column>
         <el-table-column align="center" prop="expenditurePurposeContent" label="用途"></el-table-column>
         <el-table-column align="center" prop="expenditureMoney" label="金额"></el-table-column>
-        <el-table-column align="center" prop="createUser" label="申请人"></el-table-column>
+        <el-table-column align="center" prop="username" label="申请人"></el-table-column>
         <el-table-column align="center" label="状态" width="140">
-          <!-- <tempalte>
-            <span>打印</span>
-            <span>修改</span>
-            <span>删除</span>
-          </tempalte> -->
+          <tempalte slot-scope="scope">
+            <span v-if="scope.row.state == 0">未提交</span>
+            <span v-if="scope.row.state == 1">已提交</span>
+            <span v-if="scope.row.state == 2">审核中</span>
+            <span v-if="scope.row.state == 3">被驳回</span>
+            <span v-if="scope.row.state == 4">已支付</span>
+            <span v-if="scope.row.state == 5">作废</span>
+            <span v-if="scope.row.state == 6">平借款</span>
+          </tempalte>
         </el-table-column>
       </el-table>
   </div>

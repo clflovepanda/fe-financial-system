@@ -155,6 +155,14 @@ export default {
           return row.toBeReturned;
         }
       }
+    },
+    getDepositeData() {
+      return this.$store.state.depositeData.depositeData;
+    }
+  },
+  watch: {
+    getDepositeData(val, oldVal) {
+      this.listData = val;
     }
   },
   mounted(){

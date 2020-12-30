@@ -282,25 +282,45 @@ export default {
     createPay() {
       let revenueId = this.$store.state.expenditureData.revenueId;
       let url = "/api/expenditure/add";
+      let isDeposite = false;
       if (revenueId != null && revenueId != "" && revenueId > 0) {
         this.createForm.revenueId = revenueId;
         url += "?flag=deposit";
+        isDeposite = true;
       }
       this.createForm.projectId = this.$store.state.projectData.viewProjectId;
        axios.post(url,this.createForm).then((response) => {
-         axios.get("/api/expenditure/list?projectId=" + this.createForm.projectId).then(
-          (rep) => {
-            if (rep && rep.data) {
-              if (rep.data.code == 0) {
-                this.$store.commit("projectData/setProjectPay", rep.data.data);
-              } else {
-                this.$message.error(rep.data.msg);
-              }
-              
-            }
-          },
-          () => {}
-        );
+         if (isDeposite) {
+          axios.get("/api/deposit/list?projectId=" + this.createForm.projectId).then(
+              (rep) => {
+                if (rep && rep.data) {
+                  if (rep.data.code == 0) {
+                    console.log(rep.data.data);
+                    this.$store.commit("depositeData/setDepositeData", rep.data.data.deposit);
+                  } else {
+                    this.$message.error(rep.data.msg);
+                  }
+                  
+                }
+              },
+              () => {}
+            );
+         } else {
+            axios.get("/api/expenditure/list?projectId=" + this.createForm.projectId).then(
+              (rep) => {
+                if (rep && rep.data) {
+                  if (rep.data.code == 0) {
+                    this.$store.commit("projectData/setProjectPay", rep.data.data);
+                  } else {
+                    this.$message.error(rep.data.msg);
+                  }
+                  
+                }
+              },
+              () => {}
+            );
+         }
+         
         
         this.$store.commit("expenditureData/setRevenueId", 0);
         this.$store.commit("dialogSwitchData/setCreatePayDialogShow", false);

@@ -1,6 +1,7 @@
 export const state = () => ({
     depositeLogData: [],
-    depositeSelected: {}
+    depositeSelected: {},
+    depositeData: []
 })
 
 export const mutations = {
@@ -9,5 +10,8 @@ export const mutations = {
     },
     setDepositeSelected(state, value) {
         state.depositeSelected = value;
+    },
+    setDepositeData(state, value) {
+        state.depositeData = value;
     }
 }
