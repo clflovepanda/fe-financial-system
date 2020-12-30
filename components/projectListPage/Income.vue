@@ -55,7 +55,7 @@
         </el-form>
         <el-divider></el-divider>
 
-        <el-row class="money-show">
+        <!-- <el-row class="money-show">
           <el-col :span="6">
             <span>全部收入/元：</span>
             <span></span>
@@ -72,7 +72,7 @@
             <span>收回押金/元：</span>
             <span></span>
           </el-col>
-        </el-row>
+        </el-row> -->
         <el-table :data="revenueList" border style="width: 100%; margin-top: 20px">
           <el-table-column align="center" prop="id" label="序号" width="120"></el-table-column>
           <el-table-column align="center" prop="revenueNo" label="收入编号"></el-table-column>

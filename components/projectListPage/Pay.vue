@@ -292,7 +292,13 @@ export default {
         return wbout;
     },
     printPay(scope) {
-      this.$store.commit("dialogSwitchData/setPrintPayDialogShow", true);
+      let isShowPrint = this.$store.state.dialogSwitchData.printPayDialogShow;
+      if (isShowPrint) {
+        this.$store.commit("dialogSwitchData/setPrintPayDialogShow", false);
+      } else {
+        this.$store.commit("dialogSwitchData/setPrintPayDialogShow", true);
+      }
+      
     },
     audit(scope) {
       console.log(scope.row);
