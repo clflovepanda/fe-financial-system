@@ -12,7 +12,9 @@ export const state = () => ({
     incomeDetailValue: [],
     receivementListValue: [],
     createPayDialogShow: false,
-    auditDialogShow: false
+    auditDialogShow: false,
+    printPayDialogShow: false,
+    showDepositLogDialog: false
 })
 
 export const mutations = {
@@ -58,5 +60,11 @@ export const mutations = {
     },
     setAuditDialogShow(state, value) {
         state.auditDialogShow = value;
+    },
+    setPrintPayDialogShow(state, value) {
+        state.printPayDialogShow = value;
+    },
+    setShowDepositLogDialog(state, value) {
+        state.showDepositLogDialog = value;
     }
 }

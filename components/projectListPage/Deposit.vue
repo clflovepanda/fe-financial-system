@@ -90,41 +90,36 @@
           </el-col>
         </el-row>
         <el-table :data="listData" border style="width: 100%; margin-top: 20px">
-          <el-table-column align="center" type="index" label="序号" width="120"></el-table-column>
+          <el-table-column align="center" type="index" label="序号"></el-table-column>
           <el-table-column align="center" prop="revenueNo" label="押金编号"></el-table-column>
-          <el-table-column align="center" prop="coName" label="到款账户" width="120"></el-table-column>
+          <el-table-column align="center" prop="coName" label="到款账户"></el-table-column>
           <el-table-column align="center" prop="receivementTypeName" label="到款种类"></el-table-column>
           <el-table-column align="center" prop="remitter" label="汇款方"></el-table-column>
-          <el-table-column align="center" prop="remitter"  label="认款类型">
-            <!-- <template slot-scope="scope">
-              <div>
-                  <span>押金</span>
-              </div>
-                
-            </template> -->
-          </el-table-column>
-          <el-table-column align="center" prop="cnyMoney" label="认款金额/元" width="140"></el-table-column>
-          <el-table-column align="center" prop="username" label="认款人" width="120"></el-table-column>
-          <el-table-column align="center" prop="ctime" label="认款时间" width="170"></el-table-column>
-          <el-table-column align="center" prop="toBeReturned" label="待退回金额/元" width="140"></el-table-column>
-          <el-table-column align="center" prop="returning" label="退回中押金/元" width="180"></el-table-column>
-          <el-table-column align="center" prop="returned" label="已退回押金/元" width="140"></el-table-column>
+          <el-table-column align="center" prop="remitter"  label="认款类型"></el-table-column>
+          <el-table-column align="center" prop="cnyMoney" label="认款金额/元"></el-table-column>
+          <el-table-column align="center" prop="username" label="认款人"></el-table-column>
+          <el-table-column align="center" prop="ctime" label="认款时间"></el-table-column>
+          <el-table-column align="center" prop="toBeReturned" label="待退回金额/元"></el-table-column>
+          <el-table-column align="center" prop="returning" label="退回中押金/元"></el-table-column>
+          <el-table-column align="center" prop="returned" label="已退回押金/元"></el-table-column>
           <el-table-column align="center" prop="id" label="操作" width="140">
             <template slot-scope="scope">
               <el-button  type="text" size="small" :disabled="scope.row.toBeReturned==0" @click="backMoney(scope)">退押金</el-button>
-              <el-button  type="text" size="small">操作记录</el-button>
+              <el-button  type="text" size="small" @click="depositeLog(scope)">操作记录</el-button>
             </template>
           </el-table-column>
         </el-table>
       </el-main>
     </el-container>
     <CreatePayDialog />
+    <DepositLogDialog />
   </el-container>
 </template>
 
 <script>
 import Table from "~/components/projectListPage/Table.vue";
 import CreatePayDialog from "~/components/projectListPage/CreatePayDialog.vue";
+import DepositLogDialog from "~/components/projectListPage/DepositLogDialog.vue";
 import axios from 'axios';
 import FileSaver from "file-saver";
 import XLSX from "xlsx";
@@ -153,6 +148,20 @@ export default {
   },
 
   methods: {
+    depositeLog(scope) {
+      console.log(scope.row);
+      axios.get('/api/deposit/detail?revenueId=' + scope.row.id).then((res)=>{
+        console.log(res)
+        if(res.data.code === 0){
+          console.log(res);
+        }
+      });
+      if (this.$store.state.dialogSwitchData.showDepositLogDialog) {
+        this.$store.commit("dialogSwitchData/setShowDepositLogDialog", false);
+      } else {
+        this.$store.commit("dialogSwitchData/setShowDepositLogDialog", true);
+      }
+    },
     backMoney(scope) {
       console.log("点击退押金", scope.row);
       this.$store.commit("expenditureData/setRevenueId", scope.row.id);

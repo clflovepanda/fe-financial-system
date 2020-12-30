@@ -1,26 +1,9 @@
 <template>
-  <el-dialog title="财务审批" :visible.sync="showAuditDialog" width="80%">
+  <el-dialog title="打印" :visible.sync="showPrintPayDialog" width="80%">
     <el-divider></el-divider>
     <el-row>
-      <el-table :data="auditTable" border style="width: 100%; margin-top: 20px" id="out-table">
-          <el-table-column align="center" prop="auditType" label="当前操作">
-            <template slot-scope="scope">
-              {{getRealAuditType(scope.row.auditType)}}
-            </template>
-          </el-table-column>
-          <el-table-column align="center" prop="ctime" label="操作时间"></el-table-column>
-          <el-table-column align="center" prop="username" label="操作人员"></el-table-column>
-          <el-table-column align="center" prop="remark" label="意见"></el-table-column>
-          <el-table-column align="center" prop="coName" label="操作">
-            <template slot-scope="scope">
-              <el-button @click="del(scope)" type="text" size="small">删除</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-    </el-row>
-    <el-row>
       <el-col :span="24" style="margin: 20px 0px">
-        <div style="border: 1px solid black; text-align:center">
+        <div style="border: 1px solid black; text-align:center" id="payPrintDiv">
           <div style="height:60px; position: relative; text-align: center">
             <div style="margin-top: 20px; border-bottom: 1px solid black; padding-bottom: 10px; line-height: 30px;display:inline-block; height: 40px; font-size: 26px; font-weight: 600; text-align: center; width: 300px">
               支 出 申 请 单
@@ -31,11 +14,11 @@
               2020年 10月 23日
             </div>
           </div>
-          <div style="display: inline-block; width:80%;height: 20px; position: relative">
+          <div style="display: inline-block; width:100%;height: 20px; position: relative">
             <div style="display: inline-block; position: absolute; left: 10px">公司：亚讯</div>
             <div style="display: inline-block; position: absolute; right: 20px">编号：亚讯</div>
           </div>
-          <div style="position:relative; display:inline-block; border: 3px solid black;width:80%">
+          <div style="position:relative; display:inline-block; border: 3px solid black;width:100%">
             <div style="height: 40px;border-bottom: 1px solid black">
               <div style="display: inline-block;position: absolute; left:0px;height:40px;line-height: 40px;font-weight:400;border-right: 1px solid black; width: 15%;">
                 支出款项:
@@ -93,36 +76,19 @@
               </div>
             </div>
           </div>
-          <div style="display: inline-block; width:80%;height: 20px; position: relative'; margin-bottom: 20px">
+          <div style="display: inline-block; width:100%;height: 20px; position: relative; margin-bottom: 20px">
             <div style="display: inline-block; position: absolute; left: 0px; font-weight: 400">财务主管：</div>
             <div style="display: inline-block; position: absolute; left: 20%; font-weight: 400">记账：</div>
             <div style="display: inline-block; position: absolute; left: 40%; font-weight: 400">出纳：</div>
             <div style="display: inline-block; position: absolute; left: 60%; font-weight: 400">审核：</div>
             <div style="display: inline-block; position: absolute; left: 80%; font-weight: 400">制单：</div>
-          </div>
-          
+          </div>          
         </div>
       </el-col>
     </el-row>
-    <el-row class="rowSty">
-      <el-col :span="4" class="labelSty">意见</el-col>
-      <el-col :span="12" class="labelSty">
-        <el-input v-model="auditForm.remark" placeholder="请输入内容" :disabled="editable"></el-input>
-      </el-col>
-    </el-row>
-    <el-row class="rowSty">
-      <el-col :span="4" class="labelSty">审批结果（单选）：</el-col>
-      <el-col :span="12" class="labelSty" style="text-align:left">
-        <el-radio-group v-model="auditForm.auditType" :disabled="editable">
-          <el-radio :label="4">已支付</el-radio>
-          <el-radio :label="5">票据作废</el-radio>
-          <el-radio :label="6">凭借款</el-radio>
-        </el-radio-group>
-      </el-col>
-    </el-row>
-    <el-row class="rowSty">
-      <el-col :span="4" :offset="20">
-        <el-button type="primary" @click="submitAudit" :disabled="editable" >提交</el-button>
+    <el-row>
+      <el-col :span="4">
+        <el-button type="primary" @click="printPay" :disabled="editable" >打印</el-button>
       </el-col>
     </el-row>
   </el-dialog>
@@ -138,7 +104,7 @@ export default {
         auditType: "",
         remark: "",
       },
-      showAuditDialog: false
+      showPrintPayDialog: false
     };
   },
   computed: {
@@ -157,23 +123,30 @@ export default {
       }
       return list;
     },
-    isShowAuditDialog() {
-      return this.$store.state.dialogSwitchData.auditDialogShow;
+    isShowPrintPayDialog() {
+      return this.$store.state.dialogSwitchData.printPayDialogShow;
     }
   },
   watch: {
-    showAuditDialog() {
+    showPringPayDialog() {
       this.$store.commit(
-        "dialogSwitchData/setAuditDialogShow",
-        this.showAuditDialog
+        "dialogSwitchData/setPrintPayDialogShow",
+        this.showPrintPayDialog
       );
     },
-    isShowAuditDialog(val, oldVal) {
-      this.showAuditDialog = val;
+    isShowPrintPayDialog(val, oldVal) {
+      this.showPrintPayDialog = val;
     },
   },
   methods: {
-    
+    printPay() {
+      console.log(document.getElementById("payPrintDiv"));
+      let bdhtml = window.document.body.innerHTML;
+      window.document.body.innerHTML = document.getElementById("payPrintDiv").innerHTML;
+      window.print();
+      window.document.body.innerHTML = bdhtml;
+      window.location.reload();
+    },
     changeMethod() {
       if(this.createForm.expenditureMethodId == 2) {
         this.needShowRow = true;
@@ -183,27 +156,6 @@ export default {
     },
     getLabel: function(scope) {
       console.log(scope);
-    },
-    del(scope) {
-      console.log(scope);
-      axios.post('/api/expenditure/approval/del',scope.row).then((response) => {
-        if(response.data.code != 0 && response.data.code != 200) {
-          this.$message.error(response.data.msg);
-        }
-      })
-    },
-    submitAudit() {
-      let params = {
-        remark: this.auditForm.remark,
-        auditType: this.auditForm.auditType,
-        expenditureId: this.$store.state.expenditureData.auditLog.expenditureId
-      }
-      axios.post('/api/expenditure/approval', params).then((response) => {
-        console.log(response);
-        if(response.data.code != 0 && response.data.code != 200) {
-          this.$message.error(response.data.msg);
-        }
-      })
     },
   },
 };

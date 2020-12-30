@@ -150,7 +150,7 @@
           </el-table-column>
           <el-table-column align="center" label="操作" width="140">
               <template slot-scope="scope">
-                <el-button @click="printPay(scope)" type="text" size="small">查看</el-button>
+                <el-button @click="printPay(scope)" type="text" size="small">打印</el-button>
                 <el-button @click="printPay(scope)" type="text" size="small">查看</el-button>
               </template>
           </el-table-column>
@@ -160,6 +160,7 @@
   </el-container>
   <CreatePayDialog />
   <AuditDialog />
+  <PringPayDialog />
   </div>
 </template>
 
@@ -168,6 +169,7 @@ import Table from "~/components/projectListPage/Table.vue";
 import {EnumAccount, EnumOutputType, EnumPayType, EnumAuditType} from "../../utils/EnumUtil"
 import CreatePayDialog from "~/components/projectListPage/CreatePayDialog.vue";
 import AuditDialog from "~/components/projectListPage/AuditDialog.vue";
+import PringPayDialog from "~/components/projectListPage/PringPayDialog.vue";
 import FileSaver from "file-saver";
 import XLSX from "xlsx";
 
@@ -255,7 +257,7 @@ export default {
         return wbout;
     },
     printPay(scope) {
-
+      this.$store.commit("dialogSwitchData/setPrintPayDialogShow", true);
     },
     audit(scope) {
       console.log(scope.row);
