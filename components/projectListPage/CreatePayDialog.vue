@@ -186,6 +186,9 @@ export default {
   computed: {
     subCityList() {
       let cities = this.$store.state.expenditureData.city;
+      if (cities == null) {
+        cities = []
+      }
       for (let i = 0 ; i < cities.length ; i ++) {
         if (cities[i].provinceId == this.createForm.province) {
           return cities[i].city;
