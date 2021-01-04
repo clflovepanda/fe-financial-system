@@ -38,7 +38,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-row>
+    <!-- <el-row>
       <el-col :span="12" :offset="12">
         <div class="block" style="margin-top: 30px">
           <el-pagination
@@ -52,7 +52,7 @@
           ></el-pagination>
         </div>
       </el-col>
-    </el-row>
+    </el-row> -->
   </div>
 </template>
 

@@ -160,6 +160,14 @@ export default {
         })
         .then(
           (response) => {
+            axios.get("/api/role/get").then(
+              (rep) => {
+                if (rep && rep.data) {
+                  this.$store.commit("roleData/setRoleList", rep.data.data);
+                }
+              },
+              () => {}
+            );
             this.$store.commit("dialogSwitchData/showEditRoleDialog", false);
           },
           () => {}

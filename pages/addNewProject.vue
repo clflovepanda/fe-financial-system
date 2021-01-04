@@ -105,6 +105,7 @@
           v-model="createProductForm.salesId"
           placeholder="请选择销售经理"
           class="inpSty"
+          filterable 
         >
           <el-option
             v-for="item in userList"
@@ -119,7 +120,7 @@
     <el-row class="rowSty">
       <el-col :span="4"><span class="labelSty"><i class="redStar">*</i>项目经理：</span></el-col>
       <el-col :span="6">
-        <el-select v-model="createProductForm.managerId" placeholder="请选择项目经理" class="inpSty">
+        <el-select v-model="createProductForm.managerId" filterable placeholder="请选择项目经理" class="inpSty">
           <el-option
             v-for="item in userList"
             :key="item.userId"
@@ -133,7 +134,7 @@
     <el-row class="rowSty">
       <el-col :span="4"><span class="labelSty"><i class="redStar">*</i>项目成员：</span></el-col>
       <el-col :span="6">
-        <el-select v-model="createProductForm.userIds" multiple placeholder="请选择项目成员" style="width: 100%">
+        <el-select v-model="createProductForm.userIds" multiple filterable placeholder="请选择项目成员" style="width: 100%">
           <el-option
             v-for="item in userList"
             :key="item.userId"
@@ -156,7 +157,8 @@
     </el-row>
     <el-row style="margin-top:30px">
       <el-col :span="6" :offset="2">
-        <el-button type="primary" @click="submitForm()" style="width: 100%">创建项目</el-button>
+        <el-button type="primary" @click="submitForm()" style="width: 40%">创建项目</el-button>
+        <el-button @click="cancelAddProject" style="width: 40%">取消</el-button>
       </el-col>
     </el-row>
   </div>
@@ -272,6 +274,9 @@ export default {
         this.createProductForm.workTime = Math.floor((this.rangeDate[1].getTime() - this.rangeDate[0].getTime()) / 86400000) + 1;
       }
       
+    },
+    cancelAddProject() {
+      this.$router.push("/projectList");
     }
   },
   created() {

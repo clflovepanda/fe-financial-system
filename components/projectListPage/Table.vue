@@ -194,7 +194,8 @@ export default {
         createUserName: "",
         ctime: "",
         auditName: "",
-        auditDate: ""
+        auditDate: "",
+        saleCommisState: "",
       };
       if(detail && detail.projectEntities && detail.projectEntities.length > 0) {
         let projectEntity = detail.projectEntities[0];
@@ -208,6 +209,7 @@ export default {
         projectDetail.description = projectEntity.description;
         projectDetail.status = projectEntity.state;
         projectDetail.dataSourceName = projectEntity.dataSourceName;
+        projectDetail.saleCommisState = projectEntity.saleCommisState;
         if (detail.projectUserEntities && detail.projectUserEntities.length > 0) {
           for (let i = 0 ; i < detail.projectUserEntities.length ; i ++) {
             //1：销售负责人；2：项目负责人；3：项目成员

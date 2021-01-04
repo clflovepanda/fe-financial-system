@@ -14,18 +14,28 @@
               size="small"
               type="success"
               @click="dialogMoneyisSend = true"
+              :disabled="getProjectDetailData.saleCommisState > 0"
               >销售提成1%已发放</el-button
             >
             <el-button
               size="small"
               type="success"
               @click="dialogMoneyisAllSend = true"
+              :disabled="getProjectDetailData.saleCommisState > 1"
               >销售提成已全部发放</el-button
             >
             <el-button size="small" type="warning" @click="handleRevisePro()"
+            :disabled="getProjectDetailData.status == 6"
               >修改项目</el-button
             >
-            <el-button size="small" type="danger"> 关闭项目 </el-button>
+            <el-button size="small" type="danger"
+            @click="dialogProjectClose = true"
+            :class="getProjectDetailData.status == 6 ? 'dis': ''"
+            > 关闭项目 </el-button>
+            <el-button size="small" type="success"
+            @click="reOpenProject"
+            :class="getProjectDetailData.status != 6 ? 'dis': ''"
+            > 开启项目 </el-button>
           </el-col>
         </el-row>
         <div class="project-info-wrap">
@@ -194,7 +204,12 @@
         </div>
       </el-tab-pane>
       <el-tab-pane label="工时分配" name="2">
-        <el-button type="primary" @click="handleAddTime" style="margin-bottom:20px;">新增</el-button>
+        <el-row>
+          <el-col :span="2" :offset="22">
+            <el-button type="primary" @click="handleAddTime" style="margin-bottom:20px;">新增</el-button>
+          </el-col>
+        </el-row>
+        
         <!-- <el-table
           border
           :data="$store.state.projectData.taskTimeList"
@@ -360,18 +375,17 @@
         <el-button @click="dialogMoneyisAllSend = false">取 消</el-button>
       </span>
     </el-dialog>
-    <!-- <el-dialog
+    <el-dialog
       title="关闭项目"
-      :visible.sync="dialogClose"
+      :visible.sync="dialogProjectClose"
       width="30%"
-      :before-close="handleClose"
     >
-      <span class="show-notice">请确认是否已经发放销售全部提成，请谨慎操作</span>
+      <span class="show-notice">关闭项目后，该项目将不能在进行修改项目中所有模块，请谨慎操作</span>
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="handleSureClose()">确认发放</el-button>
-        <el-button @click="dialogClose = false">取 消</el-button>
+        <el-button type="primary" @click="handleSureClose()">确认关闭</el-button>
+        <el-button @click="dialogProjectClose = false">取 消</el-button>
       </span>
-    </el-dialog> -->
+    </el-dialog>
   </div>
 </template>
 
@@ -397,6 +411,7 @@ export default {
       dialogAddTime: false,
       dialogMoneyisSend: false,
       dialogMoneyisAllSend: false,
+      dialogProjectClose: false,
       closeStatus: true,
       projectDetail:{},
       projectFinancial: {},
@@ -538,12 +553,49 @@ export default {
     },
     handleSendMoney() {
       // 发送请求  成功或失败弹窗
-      this.dialogMoneyisSend = false;
+      axios.get("/api/project/distribute_sales_commission", {
+            params: {
+              id: this.$store.state.projectData.viewProjectId,
+              sale_commis_state: 1
+            }
+        }).then(
+            (rep) => {
+                axios.get("/api/project/project_detail?id=" + this.$store.state.projectData.viewProjectId).then(
+                  (rep) => {
+                    if (rep && rep.data) {
+                      this.generateProjectDetail(rep.data.data);
+                      this.$store.commit("projectData/setEditProject", rep.data.data);
+                    }
+                  },
+                  () => {}
+                );
+                this.dialogMoneyisSend = false;
+            },
+            () => {}
+        );
     },
     handleSendAllMoney() {
       // 发送请求  成功或失败弹窗
-
-      this.dialogMoneyisAllSend = false;
+      axios.get("/api/project/distribute_sales_commission", {
+            params: {
+              id: this.$store.state.projectData.viewProjectId,
+              sale_commis_state: 2
+            }
+        }).then(
+            (rep) => {
+                axios.get("/api/project/project_detail?id=" + this.$store.state.projectData.viewProjectId).then(
+                  (rep) => {
+                    if (rep && rep.data) {
+                      this.generateProjectDetail(rep.data.data);
+                      this.$store.commit("projectData/setEditProject", rep.data.data);
+                    }
+                  },
+                  () => {}
+                );
+                this.dialogMoneyisAllSend = false;
+            },
+            () => {}
+        );
     },
     handleRevisePro(scope) {
       this.$router.push("/revise");
@@ -553,7 +605,99 @@ export default {
       this.closeStatus = false;
     },
     handleSureClose() {
-      this.han;
+      axios.get("/api/project/project_state", {
+            params: {
+              id: this.$store.state.projectData.viewProjectId,
+              project_state: 6
+            }
+        }).then(
+            (rep) => {
+                axios.get("/api/project/project_detail?id=" + this.$store.state.projectData.viewProjectId).then(
+                  (rep) => {
+                    if (rep && rep.data) {
+                      this.generateProjectDetail(rep.data.data);
+                      this.$store.commit("projectData/setEditProject", rep.data.data);
+                    }
+                  },
+                  () => {}
+                );
+                this.dialogProjectClose = false;
+            },
+            () => {}
+        );
+    },
+    reOpenProject(){
+      axios.get("/api/project/project_state", {
+            params: {
+              id: this.$store.state.projectData.viewProjectId,
+              project_state: 2
+            }
+        }).then(
+            (rep) => {
+                axios.get("/api/project/project_detail?id=" + this.$store.state.projectData.viewProjectId).then(
+                  (rep) => {
+                    if (rep && rep.data) {
+                      this.generateProjectDetail(rep.data.data);
+                      this.$store.commit("projectData/setEditProject", rep.data.data);
+                    }
+                  },
+                  () => {}
+                );
+                this.dialogMoneyisAllSend = false;
+            },
+            () => {}
+        );
+    },
+    generateProjectDetail(detail) {
+      let projectDetail = {
+        projectName: "",
+        className: "",
+        code: "",
+        date: "",
+        salesName: "",
+        projectLeader: "",
+        userNames: "",
+        company: "",
+        createUserName: "",
+        ctime: "",
+        auditName: "",
+        auditDate: "",
+        saleCommisState: "",
+      };
+      if(detail && detail.projectEntities && detail.projectEntities.length > 0) {
+        let projectEntity = detail.projectEntities[0];
+        projectDetail.projectName = projectEntity.name;
+        projectDetail.className = "";
+        projectDetail.code = projectEntity.code;
+        projectDetail.date = projectEntity.startDate + "~" + projectEntity.endDate;
+        projectDetail.company = projectEntity.company;
+        projectDetail.createUserName = projectEntity.createUserName;
+        projectDetail.ctime = projectEntity.ctime;
+        projectDetail.description = projectEntity.description;
+        projectDetail.status = projectEntity.state;
+        projectDetail.dataSourceName = projectEntity.dataSourceName;
+        projectDetail.saleCommisState = projectEntity.saleCommisState;
+        if (detail.projectUserEntities && detail.projectUserEntities.length > 0) {
+          for (let i = 0 ; i < detail.projectUserEntities.length ; i ++) {
+            //1：销售负责人；2：项目负责人；3：项目成员
+            if(detail.projectUserEntities[i].type == 1) {
+              projectDetail.salesName = detail.projectUserEntities[i].username;
+            }
+            if(detail.projectUserEntities[i].type == 2) {
+              projectDetail.projectLeader = detail.projectUserEntities[i].username;
+            }
+            if(detail.projectUserEntities[i].type == 3) {
+              projectDetail.userNames += detail.projectUserEntities[i].username + "; ";
+            }
+          }
+        }
+        if (detail.projectAuditLog) {
+          projectDetail.auditName = detail.projectAuditLog.createUserName;
+          projectDetail.auditDate = detail.projectAuditLog.ctime;
+          projectDetail.auditState = detail.projectAuditLog.state;
+        }
+      }
+      this.$store.commit("projectData/setProjectDetail", projectDetail);
     },
   },
   created() {
@@ -674,5 +818,9 @@ export default {
 }
 .show-notice {
   color: red;
+}
+
+.dis{
+  display: none;
 }
 </style>
