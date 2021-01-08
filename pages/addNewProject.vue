@@ -52,11 +52,18 @@
     </el-row>
     <el-row class="rowSty">
       <el-col :span="4"><span class="labelSty"><i class="redStar">*</i>项目名称：</span></el-col>
-      <el-col :span="6">
+      <el-col :span="3">
+        <span style="display:inline-block; line-height: 40px">
+          {{projectNamePartOne}}-
+          {{projectNamePartTwo}}-
+          {{projectNamePartThr}}-
+        </span>
+      </el-col>
+      <el-col :span="3">
         <el-input
           v-model="createProductForm.name"
           placeholder="项目名称"
-           class="inpSty"
+          class="inpSty"
         ></el-input>
       </el-col>
     </el-row>
@@ -193,6 +200,38 @@ export default {
     };
   },
   computed: {
+    projectNamePartOne(){
+      if(this.createProductForm.dataSourceId == null || this.createProductForm.dataSourceId == "") {
+        return "年份"
+      }
+      let levelTwo = this.getLevelTwoDataSourceList;
+      for (let i = 0 ; i < levelTwo.length ; i ++) {
+        if (levelTwo[i].dataSourceId == this.createProductForm.dataSourceId) {
+          return levelTwo[i].dataSourceName.substring(0, 4);
+        }
+      }
+    },
+    projectNamePartTwo(){
+      if (this.createProductForm.dataSourceIdOne == null || this.createProductForm.dataSourceIdOne == "") {
+        return "类目";
+      }
+      let levelOne = this.getLevelOneDataSourceList;
+      for (let i = 0 ; i < levelOne.length ; i ++) {
+        if (levelOne[i].dataSourceId == this.createProductForm.dataSourceIdOne) {
+          return levelOne[i].dataSourceName;
+        }
+      }
+    },
+    projectNamePartThr(){
+      if (this.rangeDate == null || this.rangeDate == "") {
+        return "月份";
+      }
+      if (this.rangeDate[0].getMonth() + 1 < 10) {
+        return "0" + (this.rangeDate[0].getMonth() + 1);
+      } else {
+        return this.rangeDate[0].getMonth() + 1;  
+      }
+    },
     userList() {
       return this.$store.state.userData.userListTable.listData;
     },
@@ -250,6 +289,7 @@ export default {
           this.createProductForm.dataSourceName = levelTwo[i].dataSourceName;
         }
       }
+      this.createProductForm.name = this.projectNamePartOne + "-" + this.projectNamePartTwo + "-" + this.projectNamePartThr + "-" + this.createProductForm.name;
       axios
         .post("/api/project/add", {
           project: this.createProductForm,
