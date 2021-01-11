@@ -97,9 +97,9 @@
       <el-col :span="4" :offset="16">
         <el-button type="primary" style="width: 90%" @click="addSubLog()">确认收款</el-button>
       </el-col>
-      <!-- <el-col :span="4">
+      <el-col :span="4">
         <el-button style="width: 90%" @click="goBack">返回到款列表</el-button>
-      </el-col> -->
+      </el-col>
     </el-row>
   </div>
 </template>
@@ -204,7 +204,7 @@ export default {
 
     },
     goBack() {
-      this.$store.commit("dialogSwitchData/showNewIncomeDialog",false);
+      this.$store.commit("dialogSwitchData/showConfirmIncomeDialog",false);
     }
   },
   mounted() {

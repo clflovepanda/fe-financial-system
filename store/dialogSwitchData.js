@@ -31,6 +31,7 @@ export const mutations = {
         state.editRoleDialogShow = value;
     },
     showNewIncomeDialog(state, value) {
+        console.log(value);
         state.newIncomeDialogShow = value;
     },
     showConfirmIncomeDialog(state, value) {

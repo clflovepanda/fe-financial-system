@@ -9,7 +9,7 @@
     <el-row>
       <el-col :span="4"><span class="labelSty"><i class="redStar">*</i>一级类目：</span></el-col>
       <el-col :span="6">
-        <el-select v-model="createProductForm.dataSourceIdOne" placeholder="请选择一级类目" class="inpSty">
+        <el-select v-model="createProductForm.dataSourceIdOne" placeholder="请选择一级类目" class="inpSty" @change="changeLevelOne">
           <el-option
             v-for="item in getLevelOneDataSourceList"
             :key="item.dataSourceId"
@@ -61,13 +61,13 @@
       </el-col>
       <el-col :span="3">
         <el-input
-          v-model="createProductForm.name"
+          v-model="createProductForm.tempName"
           placeholder="项目名称"
           class="inpSty"
         ></el-input>
       </el-col>
     </el-row>
-    <el-row class="rowSty">
+    <!-- <el-row class="rowSty">
       <el-col :span="4"><span class="labelSty">预计收入金额/元：</span></el-col>
       <el-col :span="6">
         <el-input
@@ -86,7 +86,7 @@
           class="inpSty"
         ></el-input>
       </el-col>
-    </el-row>
+    </el-row> -->
     <el-row class="rowSty">
       <el-col :span="4"><span class="labelSty"><i class="redStar">*</i>项目所属公司：</span></el-col>
       <el-col :span="6">
@@ -187,7 +187,7 @@ export default {
         startDate: "",
         endDate: "",
         workTime: "",
-        name: "",
+        tempName: "",
         estincome: "",
         budget: "",
         companyId: "",
@@ -252,6 +252,10 @@ export default {
     }
   },
   methods: {
+    changeLevelOne(){
+      this.createProductForm.dataSourceId = "";
+      this.createProductForm.dataSourceName = "";
+    },
     submitForm(formName) {
       console.log(this.createProductForm);
       if(this.createProductForm.dataSourceId == "" || this.createProductForm.dataSourceId == null) {
@@ -263,7 +267,7 @@ export default {
         this.$message.error('缺少项目周期');
         return;
       }
-      if(this.createProductForm.name == "" || this.createProductForm.name == null) {
+      if(this.createProductForm.tempName == "" || this.createProductForm.tempName == null) {
         this.$message.error('缺少项目名称');
         return;
       }
@@ -289,7 +293,7 @@ export default {
           this.createProductForm.dataSourceName = levelTwo[i].dataSourceName;
         }
       }
-      this.createProductForm.name = this.projectNamePartOne + "-" + this.projectNamePartTwo + "-" + this.projectNamePartThr + "-" + this.createProductForm.name;
+      this.createProductForm.name = this.projectNamePartOne + "-" + this.projectNamePartTwo + "-" + this.projectNamePartThr + "-" + this.createProductForm.tempName;
       axios
         .post("/api/project/add", {
           project: this.createProductForm,

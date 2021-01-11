@@ -41,12 +41,18 @@
     <el-row class="rowSty">
       <el-col :span="4" class="labelSty">角色：</el-col>
       <el-col :span="12"
-        ><el-input
-          placeholder="请输入角色"
-          v-model="editUserForm.roleName"
-          :disabled="getViewUser"
-        ></el-input
-      ></el-col>
+        ><el-select
+          v-model="editUserForm.roleId"
+          placeholder="请选择"
+          style="width: 100%"
+        >
+          <el-option
+            v-for="item in getRoleList"
+            :key="item.roleId"
+            :label="item.roleName"
+            :value="item.roleId"
+          ></el-option>
+        </el-select></el-col>
     </el-row>
     <el-row class="rowSty">
       <el-col :span="4" class="labelSty">账号状态：</el-col>
@@ -135,6 +141,9 @@ export default {
     },
     getViewUser() {
       return this.$store.state.userData.viewUser;
+    },
+    getRoleList() {
+      return this.$store.state.roleData.roleListTable.listData;
     }
   },
   watch: {

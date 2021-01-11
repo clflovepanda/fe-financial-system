@@ -96,7 +96,7 @@
         >
       </el-col>
       <el-col :span="4">
-        <el-button style="width: 90%" @click="resetForm">重置</el-button>
+        <el-button style="width: 90%" @click="resetForm">取消</el-button>
       </el-col>
     </el-row>
   </el-dialog>
@@ -227,6 +227,7 @@ export default {
       this.createDialogForm.part = "";
       this.createDialogForm.password = "";
       this.createDialogForm.repassword = "";
+      this.showCreateUserDialog = false;
     }
   },
 };

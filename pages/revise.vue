@@ -3,13 +3,13 @@
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item class="breadcrumb">位置</el-breadcrumb-item>
       <el-breadcrumb-item class="breadcrumb">项目列表</el-breadcrumb-item>
-      <el-breadcrumb-item class="breadcrumb breadcrumb-actived">新增项目</el-breadcrumb-item>
+      <el-breadcrumb-item class="breadcrumb breadcrumb-actived">修改项目</el-breadcrumb-item>
     </el-breadcrumb>
     <el-divider></el-divider>
     <el-row>
       <el-col :span="4"><span class="labelSty"><i class="redStar">*</i>一级类目：</span></el-col>
       <el-col :span="6">
-        <el-select v-model="createProductForm.dataSourceIdOne" placeholder="请选择一级类目" class="inpSty">
+        <el-select v-model="createProductForm.dataSourceIdOne" placeholder="请选择一级类目" class="inpSty" @change="changeLevelOne">
           <el-option
             v-for="item in getLevelOneDataSourceList"
             :key="item.dataSourceId"
@@ -44,7 +44,6 @@
           class="inpSty"
           style="width: 100%"
           @change="changeDate"
-          :disabled="true"
         ></el-date-picker>
       </el-col>
       <el-col :span="4" :offset="1">
@@ -53,16 +52,22 @@
     </el-row>
     <el-row class="rowSty">
       <el-col :span="4"><span class="labelSty"><i class="redStar">*</i>项目名称：</span></el-col>
-      <el-col :span="6">
+      <el-col :span="3">
+        <span style="display:inline-block; line-height: 40px">
+          {{projectNamePartOne}}-
+          {{projectNamePartTwo}}-
+          {{projectNamePartThr}}-
+        </span>
+      </el-col>
+      <el-col :span="3">
         <el-input
-          v-model="createProductForm.name"
+          v-model="createProductForm.tempName"
           placeholder="项目名称"
-           class="inpSty"
-           :disabled="true"
+          class="inpSty"
         ></el-input>
       </el-col>
     </el-row>
-    <el-row class="rowSty">
+    <!-- <el-row class="rowSty">
       <el-col :span="4"><span class="labelSty">预计收入金额/元：</span></el-col>
       <el-col :span="6">
         <el-input
@@ -83,7 +88,7 @@
           :disabled="true"
         ></el-input>
       </el-col>
-    </el-row>
+    </el-row> -->
     <el-row class="rowSty">
       <el-col :span="4"><span class="labelSty"><i class="redStar">*</i>项目所属公司：</span></el-col>
       <el-col :span="6">
@@ -182,7 +187,7 @@ export default {
         startDate: "",
         endDate: "",
         workTime: "",
-        name: "",
+        tempName: "",
         estincome: "",
         budget: "",
         companyId: "",
@@ -196,6 +201,38 @@ export default {
     };
   },
   computed: {
+    projectNamePartOne(){
+      if(this.createProductForm.dataSourceId == null || this.createProductForm.dataSourceId == "") {
+        return "年份"
+      }
+      let levelTwo = this.getLevelTwoDataSourceList;
+      for (let i = 0 ; i < levelTwo.length ; i ++) {
+        if (levelTwo[i].dataSourceId == this.createProductForm.dataSourceId) {
+          return levelTwo[i].dataSourceName.substring(0, 4);
+        }
+      }
+    },
+    projectNamePartTwo(){
+      if (this.createProductForm.dataSourceIdOne == null || this.createProductForm.dataSourceIdOne == "") {
+        return "类目";
+      }
+      let levelOne = this.getLevelOneDataSourceList;
+      for (let i = 0 ; i < levelOne.length ; i ++) {
+        if (levelOne[i].dataSourceId == this.createProductForm.dataSourceIdOne) {
+          return levelOne[i].dataSourceName;
+        }
+      }
+    },
+    projectNamePartThr(){
+      if (this.rangeDate == null || this.rangeDate == "") {
+        return "月份";
+      }
+      if (this.rangeDate[0].getMonth() + 1 < 10) {
+        return "0" + (this.rangeDate[0].getMonth() + 1);
+      } else {
+        return this.rangeDate[0].getMonth() + 1;  
+      }
+    },
     getProjectDetailData() {
       return this.$store.state.projectData.editProject;
     },
@@ -221,6 +258,10 @@ export default {
   watch:{
   },
   methods: {
+    changeLevelOne(){
+      this.createProductForm.dataSourceId = "";
+      this.createProductForm.dataSourceName = "";
+    },
     submitForm(formName) {
       console.log(this.createProductForm);
       if(this.createProductForm.dataSourceId == "" || this.createProductForm.dataSourceId == null) {
@@ -232,7 +273,7 @@ export default {
         this.$message.error('缺少项目周期');
         return;
       }
-      if(this.createProductForm.name == "" || this.createProductForm.name == null) {
+      if(this.createProductForm.tempName == "" || this.createProductForm.tempName == null) {
         this.$message.error('缺少项目名称');
         return;
       }
@@ -258,6 +299,7 @@ export default {
           this.createProductForm.dataSourceName = levelTwo[i].dataSourceName;
         }
       }
+      this.createProductForm.name = this.projectNamePartOne + "-" + this.projectNamePartTwo + "-" + this.projectNamePartThr + "-" + this.createProductForm.tempName;
       axios
         .post("/api/project/update", {
           project: this.createProductForm,
@@ -277,8 +319,8 @@ export default {
     },
     changeDate() {
       if(this.rangeDate && this.rangeDate != "") {
-        this.createProductForm.startDate = this.rangeDate[0].getTime();
-        this.createProductForm.endDate = this.rangeDate[1].getTime();
+        this.createProductForm.startDate = "" + this.rangeDate[0].getTime();
+        this.createProductForm.endDate = "" + this.rangeDate[1].getTime();
         this.createProductForm.workTime = Math.floor((this.rangeDate[1].getTime() - this.rangeDate[0].getTime()) / 86400000) + 1;
       }
       
@@ -296,7 +338,11 @@ export default {
     this.createProductForm.dataSourceName = this.$store.state.projectData.editProject.projectEntities[0].dataSourceName;
     this.createProductForm.startDate = this.$store.state.projectData.editProject.projectEntities[0].startDate;
     this.createProductForm.endDate = this.$store.state.projectData.editProject.projectEntities[0].endDate;
-    this.createProductForm.name = this.$store.state.projectData.editProject.projectEntities[0].name;
+    let originProjectName = this.$store.state.projectData.editProject.projectEntities[0].name;
+    let firstIdx = originProjectName.indexOf("-");
+    let secondIdx = originProjectName.indexOf("-", firstIdx + 1);
+    this.createProductForm.tempName = originProjectName.substring(secondIdx + 1, originProjectName.length);
+    // this.createProductForm.name = this.$store.state.projectData.editProject.projectEntities[0].name;
     this.createProductForm.estincome = this.$store.state.projectData.editProject.projectEntities[0].estincome;
     this.createProductForm.budget = this.$store.state.projectData.editProject.projectEntities[0].budget;
     this.createProductForm.companyId = this.$store.state.projectData.editProject.companyId;

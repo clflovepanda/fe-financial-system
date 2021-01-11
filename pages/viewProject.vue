@@ -9,7 +9,7 @@
     <el-tabs v-model="activeName" type="card" @tab-click="handleTabClick">
       <el-tab-pane label="项目信息" name="1">
         <el-row class="button-wrap">
-          <el-col :span="10" :offset="14">
+          <el-col :span="12" :offset="12">
             <el-button
               size="small"
               type="success"
@@ -138,7 +138,7 @@
             <span class="info-title">财务统计</span>
             <el-divider></el-divider>
           </el-row>
-          <el-row>
+          <!-- <el-row>
             <el-col :span="10">
               <span class="label-item">预计收入金额/元：</span>
               <span>{{projectFinancial.estincome}}</span>
@@ -147,17 +147,16 @@
               <span class="label-item">预计支出金额/元：</span>
               <span>{{projectFinancial.budget}}</span>
             </el-col>
-          </el-row>
-          <el-divider></el-divider>
+          </el-row> -->
 
           <el-row>
             <el-col :span="10">
               <span class="label-item">实际收入金额/元：</span>
-              <span>{{projectFinancial.actualIncome}}</span>
+              <span>{{getProjectFinancial.actualIncome}}</span>
             </el-col>
             <el-col :span="10">
               <span class="label-item">实际支出金额/元：</span>
-              <span>{{projectFinancial.actualExpenditure}}</span>
+              <span>{{getProjectFinancial.actualExpenditure}}</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>
@@ -165,11 +164,11 @@
           <el-row>
             <el-col :span="10">
               <span class="label-item">预收押金/元：</span>
-              <span>{{projectFinancial.deposit}}</span>
+              <span>{{getProjectFinancial.deposit}}</span>
             </el-col>
             <el-col :span="10">
               <span class="label-item">押金转收入金额/元：</span>
-              <span>{{projectFinancial.deposit}}</span>
+              <span>{{getProjectFinancial.deposit}}</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>
@@ -177,15 +176,15 @@
           <el-row>
             <el-col :span="8">
               <span class="label-item">项目利润/元：</span>
-              <span>{{projectFinancial.profit}}</span>
+              <span>{{getProjectFinancial.profit}}</span>
             </el-col>
             <el-col :span="8">
               <span class="label-item">毛利率/%：</span>
-              <span>{{projectFinancial.rate}}</span>
+              <span>{{getProjectFinancial.rate}}</span>
             </el-col>
             <el-col :span="8">
               <span class="label-item">支出比/%:</span>
-              <span>{{projectFinancial.expenditureRatio}}</span>
+              <span>{{getProjectFinancial.expenditureRatio}}</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>
@@ -193,11 +192,11 @@
           <el-row>
             <el-col :span="10">
               <span class="label-item">结算收入金额/元：</span>
-              <span>{{projectFinancial.settlement}}</span>
+              <span>{{getProjectFinancial.settlement}}</span>
             </el-col>
             <el-col :span="10">
               <span class="label-item">应收收入/元：</span>
-              <span>{{projectFinancial.receivable}}</span>
+              <span>{{getProjectFinancial.receivable}}</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>
@@ -206,7 +205,7 @@
       <el-tab-pane label="工时分配" name="2">
         <el-row>
           <el-col :span="2" :offset="22">
-            <el-button type="primary" @click="handleAddTime" style="margin-bottom:20px;">新增</el-button>
+            <el-button type="primary" @click="handleAddTime" style="margin-bottom:20px;">新增工时</el-button>
           </el-col>
         </el-row>
         
@@ -430,7 +429,7 @@ export default {
       return this.$store.state.projectData.projectDetail;
     },
     getProjectFinancial() {
-      console.log(this.$store.state.projectData.projectFinancial);
+      console.log("getProjectFinancial", this.$store.state.projectData.projectFinancial);
       return this.$store.state.projectData.projectFinancial;
     },
   },

@@ -47,7 +47,8 @@
     ]" style="width:360px">
           <el-input v-model="form.name" autocomplete="off" style="width:360px"></el-input>
         </el-form-item>
-        <el-form-item label="上传报价单" :label-width="formLabelWidth">
+        <el-form-item label="上传报价单" :label-width="formLabelWidth" :rules="[
+      { required: true}]">
           <el-upload
             class="upload-demo"
             drag
