@@ -154,6 +154,10 @@ export default {
         this.$message.error("两次输入的密码不一致");
         return;
       }
+      if (this.createDialogForm.password == null || this.createDialogForm.password == "") {
+        this.$message.error("密码不能为空");
+        return;
+      }
       if (
         this.createDialogForm.userName == null ||
         this.createDialogForm.userName == ""
@@ -197,9 +201,14 @@ export default {
         })
         .then(
           (response) => {
+            if(response.data.code != 0) {
+              this.$message.error(response.data.msg);
+              return;
+            }
             this.$store.commit("dialogSwitchData/showCreateUserDialog", false);
             axios.get("/api/user/list").then(
               (rep) => {
+                console.log(rep);
                 if (rep && rep.data) {
                   this.$store.commit("userData/setUserListTable", rep.data.data);
                 }

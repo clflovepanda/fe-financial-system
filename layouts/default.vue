@@ -4,7 +4,7 @@
       <HeaderBar />
     </el-header>
     <el-container>
-      <el-aside width="200px">
+      <el-aside width="200px" :class="[hasLogin ? '' : 'hiddenMenu']">
         <Menu />
       </el-aside>
       <el-main>
@@ -14,6 +14,22 @@
   </el-container>
 </template>
 
+<script>
+import CookieUtil from "../utils/CookieUtil";
+
+export default {
+  computed: {
+    hasLogin() {
+      if(!CookieUtil.existCookie("user_id")) {
+        this.$store.commit("userData/setHasLogin", false);
+      } else {
+        this.$store.commit("userData/setHasLogin", true);
+      }
+      return this.$store.state.userData.hasLogin;
+    }
+  }
+}
+</script>
 
 
 <style>
@@ -70,5 +86,9 @@ html {
 .button--grey:hover {
   color: #fff;
   background-color: #35495e;
+}
+
+.hiddenMenu {
+  display: none;
 }
 </style>

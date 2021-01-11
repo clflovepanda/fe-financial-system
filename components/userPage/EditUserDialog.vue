@@ -113,6 +113,9 @@ export default {
         state: "",
         roleName: "",
         roleId: "",
+        password: "",
+        repassword: ""
+
       },
       showEditUserDialog: false,
     };
@@ -157,6 +160,10 @@ export default {
   methods: {
     editUser: function () {
       console.log("edit user ...", this.editUserForm);
+      if (editUserForm.password != editUserForm.repassword) {
+        this.$message.error('两次输入的密码不一致');
+        return;
+      }
       axios
         .post("/api/user/update", {
           user: {
@@ -166,6 +173,7 @@ export default {
             state: this.editUserForm.state,
             roleId: [this.editUserForm.roleId],
             depId: this.editUserForm.depId,
+            password: this.editUserForm.password
           },
         })
         .then(

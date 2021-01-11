@@ -103,11 +103,19 @@ export default {
                   message: "登录成功",
                   type: "success",
                 });
+                if (this.remember) {
+                  CookieUtil.setCookie("isMem", true, 30);
+                  CookieUtil.setCookie("memUser", this.account, 30);
+                  CookieUtil.setCookie("memPwd", this.password, 30);
+                } else {
+                  CookieUtil.setCookie("isMem", false, -1);
+                  CookieUtil.setCookie("memUser", this.account, -1);
+                  CookieUtil.setCookie("memPwd", this.password, -1);
+                }
                 let allUser = await NetReqUser.getAllUser();
                 this.$store.commit("rootData/setUserList", allUser);
                 let projectList = await NetReqUser.getAllProject();
-                console.log(projectList);
-                this.$router.push("/user");
+                this.$router.push("/projectList");
                 this.$store.commit("userData/setHasLogin", true);
               })();
             } else {
@@ -131,6 +139,22 @@ export default {
         () => {}
       );
     },
+  },
+  mounted(){
+    let isMem = CookieUtil.getCookie("isMem");
+    if (isMem != null && isMem != "" && isMem) {
+      this.remember = true;
+      let memUser = CookieUtil.getCookie("memUser");
+      let memPwd = CookieUtil.getCookie("memPwd");
+      console.log("+++", memUser, memPwd);
+      if(memUser != null && memUser != "") {
+        this.account = memUser;
+        this.password = memPwd;
+      }
+    } else {
+      console.log("没有保存用户名和密码");
+      this.remember = false;
+    }
   },
   async asyncData(ctx) {
     if(CookieUtil.existCookie("user_id")) {
