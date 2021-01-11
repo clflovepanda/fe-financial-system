@@ -46,7 +46,7 @@ export const mutations = {
     },
     setIncomeListTable(state, newObj) {
         state.incomeListTable.listData = newObj.data;
-        state.incomeListTable.total = newObj.total;
+        state.incomeListTable.total = newObj.count;
     },
     setRevenueList(state, newObj) {
         state.revenueList = newObj;

@@ -60,7 +60,7 @@
           </el-col>
         </el-row>
     <el-divider></el-divider>
-    <el-table :data="getAllPay" border style="width: 100%; margin-top: 20px" id="out-table">
+    <el-table :data="getAllPay.list" border style="width: 100%; margin-top: 20px" id="out-table">
           <el-table-column align="center" prop="expenditureId" label="序号"></el-table-column>
           <el-table-column align="center" prop="numbering" label="支出编号"></el-table-column>
           <el-table-column align="center" prop="coName" label="公司" width="120"></el-table-column>
@@ -99,6 +99,21 @@
             </template>
           </el-table-column> -->
         </el-table>
+        <el-row>
+          <el-col :span="12" :offset="12">
+            <div class="block" style="margin-top: 30px">
+              <el-pagination
+                background
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page.sync="currentPage"
+                :page-size="5"
+                layout="total, prev, pager, next, jumper"
+                :total="getAllPay.total"
+              ></el-pagination>
+            </div>
+          </el-col>
+        </el-row>
 
   </div>
 </template>
@@ -120,6 +135,7 @@ export default {
         username: "",
         state: ""
       },
+      currentPage: 1
     }
   },
   computed: {
@@ -148,6 +164,20 @@ export default {
     },
   },
   methods: {
+    handleSizeChange() {},
+    handleCurrentChange(page) {
+      this.currentPage = page;
+      // this.getlistData(page);
+      axios.get("/api/expenditure/list?limit=5&offset=" + page).then(
+        (rep) => {
+          if (rep && rep.data) {
+            console.log("expenditure", rep.data);
+            this.$store.commit("expenditureData/setAllExpenditureList", rep.data);
+          }
+        },
+        () => {}
+      );
+    },
     handleView() {
       
     },
@@ -178,10 +208,10 @@ export default {
     if(!CookieUtil.existCookie("user_id")) {
       location.href = "/";
     }
-    let expenditureResult = await axios.get("/api/expenditure/list").then(
+    let expenditureResult = await axios.get("/api/expenditure/list?limit=5&offset=1").then(
       (rep) => {
         if (rep && rep.data) {
-          return rep.data.data;
+          return rep.data;
         }
       },
       () => {}

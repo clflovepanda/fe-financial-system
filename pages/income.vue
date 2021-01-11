@@ -61,8 +61,9 @@ export default {
       () => {}
     );
     if(!result || result == null) {
-      result = [];
+      result = {};
     }
+    console.log("income list", result);
     ctx.store.commit("incomeData/setIncomeListTable", result);
   }
 };

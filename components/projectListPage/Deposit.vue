@@ -113,6 +113,21 @@
             </template>
           </el-table-column>
         </el-table>
+        <el-row>
+          <el-col :span="12" :offset="12">
+            <div class="block" style="margin-top: 30px">
+              <el-pagination
+                background
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page.sync="currentPage"
+                :page-size="5"
+                layout="total, prev, pager, next, jumper"
+                :total="total"
+              ></el-pagination>
+            </div>
+          </el-col>
+        </el-row>
       </el-main>
     </el-container>
     <CreatePayDialog />
@@ -144,6 +159,8 @@ export default {
       rules: {
       },
       listData: [],
+      total: 0,
+      currentPage: 1
     };
   },
   computed: {
@@ -166,11 +183,16 @@ export default {
     }
   },
   mounted(){
-    this.getlistData();
+    this.getlistData(1);
 
   },
 
   methods: {
+    handleSizeChange() {},
+    handleCurrentChange(page) {
+      this.currentPage = page;
+      this.getlistData(page);
+    },
     depositeLog(scope) {
       console.log(scope.row);
       axios.get('/api/deposit/detail?revenueId=' + scope.row.id).then((res)=>{
@@ -195,7 +217,7 @@ export default {
     showCreatePayDialog() {
       this.$store.commit("dialogSwitchData/setCreatePayDialogShow", true);
     },
-    getlistData(){
+    getlistData(page){
       let startDt = this.ruleForm.proDate[0]?new Date(this.ruleForm.proDate[0]).getTime():''
       let endDt = this.ruleForm.proDate[1]?new Date(this.ruleForm.proDate[1]).getTime():''
       let project = ''
@@ -213,10 +235,12 @@ export default {
        + "&createUser=" + this.ruleForm.createUser 
        + "&startDt=" + startDt
        + "&endDt=" + endDt
+       + "&limit=5&offset=" + page
       axios.get('/api/deposit/list' + message).then((res)=>{
         console.log(res)
         if(res.data.code === 0){
           this.listData = res.data.data.deposit;
+          this.total = res.data.data.count;
         }
       })
 

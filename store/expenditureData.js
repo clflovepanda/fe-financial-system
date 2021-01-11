@@ -1,6 +1,6 @@
 export const state = () => ({
     expenditureList: [],
-    allExpenditureList: [],
+    allExpenditureList: {},
     expenditurePurposeType: [],
     city: [],
     revenueId: "",
@@ -12,7 +12,8 @@ export const mutations = {
         state.expenditureList = newObj;
     },
     setAllExpenditureList(state, newObj) {
-        state.allExpenditureList = newObj;
+        state.allExpenditureList.list = newObj.data;
+        state.allExpenditureList.total = newObj.count;
     },
     setExpenditurePurposeType(state, newObj) {
         state.expenditurePurposeType = newObj;

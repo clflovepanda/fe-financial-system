@@ -47,7 +47,7 @@
             background
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            :current-page.sync="incomeListTable.currentPage"
+            :current-page.sync="currentPage"
             :page-size="10"
             layout="total, prev, pager, next, jumper"
             :total="incomeListTable.total"
@@ -63,16 +63,31 @@ import axios from 'axios'
 export default {
   data() {
     return {
+      currentPage: 1
     };
   },
   computed: {
     incomeListTable() {
+      console.log("incomeListTable", this.$store.state.incomeData.incomeListTable);
       return this.$store.state.incomeData.incomeListTable;
     }
   },
   methods: {
     handleSizeChange() {},
-    handleCurrentChange() {},
+    handleCurrentChange(page) {
+      this.currentPage = page;
+      axios.get("/api/receivement/list?offset=" + page + "&limit=5").then(
+        (rep) => {
+          if (rep && rep.data) {
+            if(!rep.data || rep.data == null) {
+              return;
+            }
+            this.$store.commit("incomeData/setIncomeListTable", rep.data);
+          }
+        },
+        () => {}
+      );
+    },
     handleClick(scope) {
       console.log(scope);
     },
