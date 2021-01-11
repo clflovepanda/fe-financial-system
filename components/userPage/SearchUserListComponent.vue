@@ -142,7 +142,6 @@ export default {
        + "&endDt=" + endDt;
       axios.get("/api/user/list" + params).then(
         (res) => {
-          console.log("搜索结果", res.data.data);
           this.$store.commit("userData/setUserListTable", res.data.data);
         },
         () => {}

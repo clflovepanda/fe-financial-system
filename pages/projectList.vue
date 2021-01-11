@@ -80,8 +80,8 @@
           ></el-option>
         </el-select>
       </el-col>
-      <el-col :span="3" :offset="1">
-        <el-button type="primary" @click="submitForm">搜索</el-button>
+      <el-col :span="4" :offset="1">
+        <el-button type="primary" @click="submitForm">查询</el-button>
         <el-button @click="resetForm()">重置</el-button>
       </el-col>
     </el-row>
