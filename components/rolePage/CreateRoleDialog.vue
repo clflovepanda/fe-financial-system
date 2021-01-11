@@ -146,6 +146,10 @@ export default {
         })
         .then(
           (response) => {
+            if (response.data.code != 0) {
+              this.$message.error(response.data.msg);
+              return;
+            }
             this.$store.commit("dialogSwitchData/showCreateRoleDialog", false);
             axios.get("/api/role/get").then(
               (rep) => {
