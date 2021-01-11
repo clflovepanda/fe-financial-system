@@ -23,12 +23,11 @@ export default {
   computed: {
     userName() {
       if (CookieUtil.existCookie("user_name")) {
-        this.$store.commit("userData/setUserName", CookieUtil.getCookie("user_name"));
+        this.$store.commit("userData/setUserName",decodeURI(CookieUtil.getCookie("user_name")));
       }
       return this.$store.state.userData.userName;
     },
     hasLogin() {
-      console.log("=====");
       if (!CookieUtil.existCookie("user_id")) {
         this.$store.commit("userData/setHasLogin", false);
       } else {

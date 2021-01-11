@@ -187,7 +187,8 @@ export default {
     if(!CookieUtil.existCookie("user_id")) {
       location.href = "/";
     }
-    console.log(ctx);
+    console.log("decode username", decodeURI(CookieUtil.getCookie("user_name")));
+    ctx.store.commit("userData/setUserName", decodeURI(CookieUtil.getCookie("user_name")));
     // const loading = this.$loading({
     //       lock: true,
     //       text: 'Loading',
