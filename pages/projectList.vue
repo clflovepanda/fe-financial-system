@@ -205,6 +205,58 @@ export default {
     console.log("project list", result);
     ctx.store.commit("projectData/setProjectList", result);
 
+    let projectPassListResult = await axios.get("/api/project/list?auditing_state=1&limit=5&offset=1").then(
+      (rep) => {
+        if (rep && rep.data) {
+          return {
+            data: rep.data.data,
+            count: rep.data.count
+          };
+        }
+      },
+      () => {}
+    );
+    console.log("project pass list", projectPassListResult);
+    if(projectPassListResult == null) {
+      projectPassListResult = {
+        data: [],
+        total: 0
+      }
+    }
+    let tempPass = {
+      list: projectPassListResult.data,
+      total: projectPassListResult.count,
+      pageSize: 5,
+      pageNum: 1,
+    }
+    ctx.store.commit("projectData/setProjectPassList", tempPass);
+
+    let projectRejectListResult = await axios.get("/api/project/list?auditing_state=2&limit=10&offset=1").then(
+      (rep) => {
+        if (rep && rep.data) {
+          return {
+            data: rep.data.data,
+            count: rep.data.count
+          };
+        }
+      },
+      () => {}
+    );
+    console.log("project reject list", projectRejectListResult);
+    if (projectRejectListResult == null) {
+      projectRejectListResult = {
+        data: [],
+        total: 0
+      }
+    }
+    let tempReject = {
+      list: projectRejectListResult.data,
+      total: projectRejectListResult.count,
+      pageSize: 5,
+      pageNum: 1
+    }
+    ctx.store.commit("projectData/setProjectRejectList", tempReject);
+
     let userResult = await axios.get("/api/user/list").then(
       (rep) => {
         if (rep && rep.data) {

@@ -1,5 +1,6 @@
 <template>
-  <el-table :data="getProjectList" border style="width: 100%; margin-top: 20px">
+<div>
+  <el-table :data="getNewProjectList" border style="width: 100%; margin-top: 20px">
     <el-table-column align="center" fixed prop="projectId" label="序号" width="120"></el-table-column>
     <el-table-column align="center" prop="code" label="项目编号"></el-table-column>
     <el-table-column align="center" prop="fullname" label="项目名称">
@@ -55,6 +56,21 @@
       </template>
     </el-table-column>
   </el-table>
+  <el-row style="margin-top:20px">
+    <el-col :span="24" style="text-align:right">
+      <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="currentPage"
+      :page-sizes="[5, 10, 50]"
+      :page-size="5"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="getTotal">
+    </el-pagination>
+    </el-col>
+  </el-row>
+  
+</div>
 </template>
 
 <script>
@@ -65,6 +81,7 @@ export default {
   props: ["passStatus"],
   data() {
     return {
+      currentPage: 1
     };
   },
   computed: {
@@ -82,9 +99,69 @@ export default {
           }
         });
       }
+    },
+    getNewProjectList() {
+      if(this.passStatus) {
+        return this.$store.state.projectData.projectPassTable.list;
+      } else {
+        return this.$store.state.projectData.projectRejectTable.list;
+      }
+    },
+    getTotal() {
+      if(this.passStatus) {
+        return this.$store.state.projectData.projectPassTable.total;
+      } else {
+        return this.$store.state.projectData.projectRejectTable.total;
+      }
     }
   },
   methods: {
+    handleCurrentChange(data){
+      if (this.passStatus) {
+        this.$store.commit("projectData/setProjectPassPageAndSize", {pageNum: data});
+        let temp = {
+          pageSize: this.$store.state.projectData.projectPassTable.pageSize,
+          pageNum: this.$store.state.projectData.projectPassTable.pageNum
+        }
+        axios.get("/api/project/list?auditing_state=1&limit=" + temp.pageSize + "&offset=" + temp.pageNum).then(
+          (rep) => {
+            if (rep && rep.data) {
+              let tempPass = {
+                list: rep.data.data,
+                total: rep.data.count,
+                pageSize: temp.pageSize,
+                pageNum: temp.pageNum,
+              }
+              this.$store.commit("projectData/setProjectPassList", tempPass);
+            }
+          },
+          () => {}
+        );
+      } else {
+        this.$store.commit("projectData/setProjectRejectPageAndSize", {pageNum: data});
+        let temp = {
+          pageSize: this.$store.state.projectData.projectRejectTable.pageSize,
+          pageNum: this.$store.state.projectData.projectRejectTable.pageNum
+        }
+        axios.get("/api/project/list?auditing_state=2&limit=" + temp.pageSize + "&offset=" + temp.pageNum).then(
+          (rep) => {
+            if (rep && rep.data) {
+              let tempReject = {
+                list: rep.data.data,
+                total: rep.data.count,
+                pageSize: temp.pageSize,
+                pageNum: temp.pageNum,
+              }
+              this.$store.commit("projectData/setProjectRejectList", tempReject);
+            }
+          },
+          () => {}
+        );
+      }
+    },
+    handleSizeChange(data){
+      console.log(data);
+    },
     audit(scope, state) {
       let param = {
         id: scope.row.projectId,

@@ -10,7 +10,6 @@ export const state = () => ({
     },
     incomeListTable: {
         listData: [],
-        currentPage: 1,
         total: 10,
     },
     revenueList: [
@@ -46,9 +45,8 @@ export const mutations = {
         state.remark = newObj.remark;
     },
     setIncomeListTable(state, newObj) {
-        state.incomeListTable.listData = newObj;
-        state.incomeListTablecurrentPage = 1;
-        state.incomeListTable.total = newObj.length;
+        state.incomeListTable.listData = newObj.data;
+        state.incomeListTable.total = newObj.total;
     },
     setRevenueList(state, newObj) {
         state.revenueList = newObj;

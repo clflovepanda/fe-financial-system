@@ -1,5 +1,17 @@
 export const state = () => ({
     projectList: [],
+    projectPassTable: {
+        list: [],
+        pageSize: 5,
+        pageNum: 1,
+        total: 0
+    },
+    projectRejectTable: {
+        list: [],
+        pageSize: 5,
+        pageNum: 1,
+        total: 0
+    },
     viewProjectId: "",
     projectDetail: { //项目详情页，项目详情数据
         projectName: "",
@@ -29,6 +41,28 @@ export const state = () => ({
 export const mutations = {
     setProjectList(state, newObj) {
         state.projectList = newObj;
+    },
+    setProjectPassList(state, newObj) {
+        state.projectPassTable = newObj;
+    },
+    setProjectRejectList(state, newObj) {
+        state.projectRejectTable = newObj;
+    },
+    setProjectPassPageAndSize(state, newObj) {
+        if (newObj.pageSize) {
+            state.projectPassTable.pageSize = newObj.pageSize;
+        }
+        if (newObj.pageNum) {
+            state.projectPassTable.pageNum = newObj.pageNum;
+        }
+    },
+    setProjectRejectPageAndSize(state, newObj) {
+        if (newObj.pageSize) {
+            state.projectRejectTable.pageSize = newObj.pageSize;
+        }
+        if (newObj.pageNum) {
+            state.projectRejectTable.pageNum = newObj.pageNum;
+        }
     },
     setViewProjectId(state, newObj) {
         state.viewProjectId = newObj;

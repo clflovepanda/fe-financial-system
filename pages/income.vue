@@ -52,10 +52,10 @@ export default {
     if(!CookieUtil.existCookie("user_id")) {
       location.href = "/";
     }
-    let result = await axios.get("/api/receivement/list").then(
+    let result = await axios.get("/api/receivement/list?offset=1&limit=5").then(
       (rep) => {
         if (rep && rep.data) {
-          return rep.data.data;
+          return rep.data;
         }
       },
       () => {}
