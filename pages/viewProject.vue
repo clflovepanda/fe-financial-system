@@ -270,7 +270,7 @@
         <Pay />
       </el-tab-pane>
       <el-tab-pane label="押金" name="5">
-        <Deposit />
+        <Deposit :projectDetail="true"/>
       </el-tab-pane>
       <el-tab-pane label="报价单" name="6">
         <PriceList />

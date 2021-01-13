@@ -43,7 +43,6 @@
             <el-input v-model="ruleForm.createUser" placeholder="请输入查找认款人"></el-input>
           </el-form-item>
 
-
           <el-form-item label="认款时间" required class="time">
             <el-date-picker
               v-model="ruleForm.proDate"
@@ -144,6 +143,7 @@ import FileSaver from "file-saver";
 import XLSX from "xlsx";
 
 export default {
+  props: ["projectDetail"],
   data() {
     return {
       ruleForm: {
@@ -243,7 +243,6 @@ export default {
           this.total = res.data.data.count;
         }
       })
-
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
@@ -257,28 +256,31 @@ export default {
     handleAddPay() {},
     handleExcel() {
       console.log("导出Excel");
-      /* 从表生成工作簿对象 */
-        var wb = XLSX.utils.table_to_book(document.querySelector("#out-table"));
-        /* 获取二进制字符串作为输出 */
-        var wbout = XLSX.write(wb, {
-            bookType: "xlsx",
-            bookSST: true,
-            type: "array"
-        });
-        try {
-            FileSaver.saveAs(
-            //Blob 对象表示一个不可变、原始数据的类文件对象。
-            //Blob 表示的不一定是JavaScript原生格式的数据。
-            //File 接口基于Blob，继承了 blob 的功能并将其扩展使其支持用户系统上的文件。
-            //返回一个新创建的 Blob 对象，其内容由参数中给定的数组串联组成。
-            new Blob([wbout], { type: "application/octet-stream" }),
-            //设置导出文件名称
-            "sheetjs.xlsx"
-            );
-        } catch (e) {
-            if (typeof console !== "undefined") console.log(e, wbout);
+      let startDt = this.ruleForm.proDate[0]?new Date(this.ruleForm.proDate[0]).getTime():''
+      let endDt = this.ruleForm.proDate[1]?new Date(this.ruleForm.proDate[1]).getTime():''
+      let project = ''
+      if(this.$route.name != 'depositmanage'){
+        project = '&projectId=' + this.$store.state.projectData.viewProjectId
+      }
+      let message = 
+       "?revenueNo=" + this.ruleForm.revenueNo 
+       + project
+       + "&projectName=" + this.ruleForm.projectName 
+       + "&projectNo=" + this.ruleForm.projectNo 
+       + "&companyId=" + this.ruleForm.companyId 
+       + "&receivementTypeId=" + this.ruleForm.receivementTypeId 
+       + "&remitter=" + this.ruleForm.remitter 
+       + "&createUser=" + this.ruleForm.createUser 
+       + "&startDt=" + startDt
+       + "&endDt=" + endDt;
+      //  window.location = "/api/export/deposit" + message;
+      axios.get('/api/export/deposit' + message).then((res)=>{
+        if(res.data.code === 0){
+          console.log("export deposit", res.data.url);
+          window.location = res.data.url;
         }
-        return wbout;
+      })
+      
     },
   },
 };
@@ -290,7 +292,7 @@ export default {
   vertical-align: top;
 }
 .deposit .time .el-form-item__label{
-    width:130px !important;
+    width:80px !important;
 }
 .deposit .time .el-form-item__content{
     margin-left:140px;

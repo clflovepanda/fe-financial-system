@@ -160,7 +160,7 @@
           </el-table-column>
           <el-table-column align="center" label="操作" width="140">
               <template slot-scope="scope">
-                <el-button @click="printPay(scope)" type="text" size="small">打印</el-button>
+                <el-button @click="printPay(scope)" type="text" size="small" :disabled="scope.row.state<=3">打印</el-button>
                 <!-- <el-button @click="printPay(scope)" type="text" size="small">查看</el-button> -->
               </template>
           </el-table-column>
@@ -250,14 +250,14 @@ export default {
       axios.get("/api/expenditure/list", {
         params: this.ruleForm
       }).then(
-          (rep) => {
-            if (rep && rep.data) {
-              console.log("pay data", rep.data.data);
-              this.$store.commit("projectData/setProjectPay", rep.data.data);
-            }
-          },
-          () => {}
-        );
+        (rep) => {
+          if (rep && rep.data) {
+            console.log("pay data", rep.data.data);
+            this.$store.commit("projectData/setProjectPay", rep.data.data);
+          }
+        },
+        () => {}
+      );
     },
     reset() {},
     handleFindClick() {
@@ -268,30 +268,29 @@ export default {
       this.$store.commit("dialogSwitchData/setCreatePayDialogShow", true);
     },
     handleExcel() {
-        /* 从表生成工作簿对象 */
-        var wb = XLSX.utils.table_to_book(document.querySelector("#out-table"));
-        /* 获取二进制字符串作为输出 */
-        var wbout = XLSX.write(wb, {
-            bookType: "xlsx",
-            bookSST: true,
-            type: "array"
-        });
-        try {
-            FileSaver.saveAs(
-            //Blob 对象表示一个不可变、原始数据的类文件对象。
-            //Blob 表示的不一定是JavaScript原生格式的数据。
-            //File 接口基于Blob，继承了 blob 的功能并将其扩展使其支持用户系统上的文件。
-            //返回一个新创建的 Blob 对象，其内容由参数中给定的数组串联组成。
-            new Blob([wbout], { type: "application/octet-stream" }),
-            //设置导出文件名称
-            "sheetjs.xlsx"
-            );
-        } catch (e) {
-            if (typeof console !== "undefined") console.log(e, wbout);
+      this.ruleForm.projectId = this.$store.state.projectData.viewProjectId;
+      if (this.daterange != "") {
+          let st = this.dateRange[0];
+          let et = this.dateRange[1];
+          this.ruleForm.startDt = st.getTime();
+          this.ruleForm.endDt = et.getTime();
         }
-        return wbout;
+      axios.get("/api/export/expenditure", {
+        params: this.ruleForm
+      }).then(
+        (rep) => {
+          if (rep && rep.data) {
+            console.log("export excel expenditure", rep.data);
+            window.location = rep.data.url;
+          }
+        },
+        () => {}
+      );
     },
     printPay(scope) {
+      console.log("即将打印的数据", scope);
+      let printTemp = scope.row;
+      this.$store.commit("projectData/setPringTemp", printTemp);
       let isShowPrint = this.$store.state.dialogSwitchData.printPayDialogShow;
       if (isShowPrint) {
         this.$store.commit("dialogSwitchData/setPrintPayDialogShow", false);

@@ -149,11 +149,39 @@ export default {
         this.ruleForm.startDt = st.getTime();
         this.ruleForm.endDt = et.getTime();
       }
+      this.ruleForm.auditing_state = 1;
+      this.ruleForm.limit=5;
+      this.ruleForm.offset=1;
       axios.get("/api/project/list", {
-        params: this.ruleForm
+        params: this.ruleForm,
       }).then((res) => {
         if(res.data.code == 0) {
-          this.$store.commit("projectData/setProjectList", res.data.data);
+          console.log("search project result", res.data.data);
+          let tempPass = {
+            list: res.data.data,
+            total: res.data.count,
+            pageSize: 5,
+            pageNum: 1,
+          }
+          this.$store.commit("projectData/setProjectPassList", tempPass);
+        }
+      });
+
+      this.ruleForm.auditing_state = 2;
+      this.ruleForm.limit=5;
+      this.ruleForm.offset=1;
+      axios.get("/api/project/list", {
+        params: this.ruleForm,
+      }).then((res) => {
+        if(res.data.code == 0) {
+          console.log("search project result", res.data.data);
+          let tempPass = {
+            list: res.data.data,
+            total: res.data.count,
+            pageSize: 5,
+            pageNum: 1,
+          }
+          this.$store.commit("projectData/setProjectRejectList", tempPass);
         }
       });
 
@@ -189,22 +217,16 @@ export default {
     }
     console.log("decode username", decodeURI(CookieUtil.getCookie("user_name")));
     ctx.store.commit("userData/setUserName", decodeURI(CookieUtil.getCookie("user_name")));
-    // const loading = this.$loading({
-    //       lock: true,
-    //       text: 'Loading',
-    //       spinner: 'el-icon-loading',
-    //       background: 'rgba(0, 0, 0, 0.7)'
-    //     });
-    let result = await axios.get("/api/project/list").then(
-      (rep) => {
-        if (rep && rep.data) {
-          return rep.data.data;
-        }
-      },
-      () => {}
-    );
-    console.log("project list", result);
-    ctx.store.commit("projectData/setProjectList", result);
+    // let result = await axios.get("/api/project/list").then(
+    //   (rep) => {
+    //     if (rep && rep.data) {
+    //       return rep.data.data;
+    //     }
+    //   },
+    //   () => {}
+    // );
+    // console.log("project list", result);
+    // ctx.store.commit("projectData/setProjectList", result);
 
     let projectPassListResult = await axios.get("/api/project/list?auditing_state=1&limit=5&offset=1").then(
       (rep) => {

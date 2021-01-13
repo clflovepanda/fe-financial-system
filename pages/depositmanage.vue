@@ -9,7 +9,7 @@
       >
     </el-breadcrumb>
     <el-divider></el-divider>
-    <Deposit />
+    <Deposit :projectDetail="false"/>
 
   </div>
 </template>

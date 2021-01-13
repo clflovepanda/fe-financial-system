@@ -67,7 +67,6 @@ export default {
       return this.$store.state.depositeData.depositeLogData;
     },
     depositLogData() {
-      console.log("aaa", this.$store.state.depositeData.depositeSelected);
       return [this.$store.state.depositeData.depositeSelected];
     }
   },
