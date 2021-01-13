@@ -138,6 +138,7 @@ export default {
           () => {}
         );
       } else {
+        console.log("拒绝");
         this.$store.commit("projectData/setProjectRejectPageAndSize", {pageNum: data});
         let temp = {
           pageSize: this.$store.state.projectData.projectRejectTable.pageSize,
@@ -165,7 +166,7 @@ export default {
     audit(scope, state) {
       let param = {
         id: scope.row.projectId,
-        audit_state: state
+        auditing_state: state
       }
       axios.get("/api/project/project_audit", {
         params: param

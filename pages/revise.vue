@@ -338,10 +338,12 @@ export default {
     this.createProductForm.dataSourceName = this.$store.state.projectData.editProject.projectEntities[0].dataSourceName;
     this.createProductForm.startDate = this.$store.state.projectData.editProject.projectEntities[0].startDate;
     this.createProductForm.endDate = this.$store.state.projectData.editProject.projectEntities[0].endDate;
+    this.rangeDate = [new Date(this.createProductForm.startDate), new Date(this.createProductForm.endDate)];
     let originProjectName = this.$store.state.projectData.editProject.projectEntities[0].name;
     let firstIdx = originProjectName.indexOf("-");
     let secondIdx = originProjectName.indexOf("-", firstIdx + 1);
-    this.createProductForm.tempName = originProjectName.substring(secondIdx + 1, originProjectName.length);
+    let thirdIdx = originProjectName.indexOf("-", secondIdx + 1);
+    this.createProductForm.tempName = originProjectName.substring(thirdIdx + 1, originProjectName.length);
     // this.createProductForm.name = this.$store.state.projectData.editProject.projectEntities[0].name;
     this.createProductForm.estincome = this.$store.state.projectData.editProject.projectEntities[0].estincome;
     this.createProductForm.budget = this.$store.state.projectData.editProject.projectEntities[0].budget;

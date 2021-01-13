@@ -180,10 +180,10 @@ export default {
         return;
       }
       if (
-        this.createDialogForm.part == null ||
-        this.createDialogForm.part == ""
+        this.createDialogForm.accountStatus == null ||
+        this.createDialogForm.accountStatus == ""
       ) {
-        this.$message.error("部门不能为空");
+        this.$message.error("账号状态不能为空");
         return;
       }
       axios
