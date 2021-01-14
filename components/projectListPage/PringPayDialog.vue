@@ -469,7 +469,7 @@
         <div style="border: 1px solid black; text-align:center" id="payPrintDiv3">
           <div style="height:60px; position: relative; text-align: center">
             <div style="margin-top: 20px; padding-bottom: 10px; line-height: 30px;display:inline-block; height: 40px; font-size: 26px; font-weight: 600; text-align: center; width: 600px">
-              {{printData.coName}} 公司开发票联系单——应收单
+              {{printData.unitname}} 公司开发票联系单——应收单
               <!-- <div style="display:inline-block;font-weight:100;font-size:14px;position:absolute; right: 20px;">{{printData.numbering}}</div> -->
             </div>
           </div>
@@ -479,8 +479,8 @@
             </div>
           </div> -->
           <div style="display: inline-block; width:100%;height: 20px; position: relative">
-            <div style="display: inline-block; position: absolute; left: 10px">编号：{{printData.name}}</div>
-            <div style="display: inline-block; position: absolute; right: 20px">普票???</div>
+            <div style="display: inline-block; position: absolute; left: 10px">编号：{{printData.invoiceNo}}</div>
+            <div style="display: inline-block; position: absolute; right: 20px">{{printData.invoiceType}}</div>
           </div>
           <div style="position:relative; display:inline-block; border: 3px solid black;width:100%">
             <div style="height: 40px;border-bottom: 1px solid black">
@@ -488,7 +488,7 @@
                 单位全称
               </div>
               <div style="display: inline-block;position: absolute; left:15%;height:40px;line-height: 40px; width: 85%;text-align:left;padding-left:20px">
-                <!-- {{getPurposeContent(printData)}} -->
+                {{printData.unitname}}
               </div>
             </div>
 
@@ -497,7 +497,7 @@
                 发票金额
               </div>
               <div style="display: inline-block;position: absolute; left:15%;top: 0px;height:40px;line-height: 40px; width: 35%;text-align:left;padding-left:20px;border-bottom:1px solid black;border-right: 1px solid black;">
-                ￥{{printData.expenditureMoney}}
+                ￥{{printData.cnyMoney}}
               </div>
               <div style="display: inline-block;position: absolute; left:15%;top:40px;height:40px;line-height: 40px; width: 75%;text-align:left;padding-left:20px;border-bottom:1px solid black;">
                 (大写){{printData.moneyCapital}}
@@ -506,7 +506,7 @@
                 服务项目
               </div>
               <div style="display: inline-block;position: absolute; left:65%;top: 0px;height:40px;line-height: 40px; width: 35%;text-align:left;padding-left:20px;border-bottom:1px solid black;border-right: 1px solid black;">
-                ???
+                {{printData.revenueTypeName}}
               </div>
             </div>
 
@@ -558,8 +558,13 @@ export default {
       return this.$store.state.projectData.printTemp;
     },
     getShowRow() {
-      return 4;
-      return this.$store.state.projectData.printTemp.expenditureMethodId;
+      if (this.$store.state.projectData.printTemp.expenditureMethodId == 2) {
+        return 2;
+      } else if (this.$store.state.projectData.printTemp.expenditureMethodId == 3) {
+        return 3;
+      } else {
+        return 4;
+      }
     },
     getLevelTwo() {
       return function(projectName) {
@@ -620,6 +625,8 @@ export default {
         idName = "payPrintDiv";
       } else if (this.$store.state.projectData.printTemp.expenditureMethodId == 3) {
         idName = "payPrintDiv2";
+      } else {
+        idName = "payPrintDiv3";
       }
       let bdhtml = window.document.body.innerHTML;
       window.document.body.innerHTML = document.getElementById(idName).innerHTML;

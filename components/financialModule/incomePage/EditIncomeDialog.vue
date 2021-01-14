@@ -178,7 +178,8 @@ export default {
       axios.post('/api/receivement/add?flag=2',params).then((response) => {
         if(response.data.code==0){
           window.location.reload()
-
+        } else {
+          this.$message.error(response.data.msg);
         }
       })
 

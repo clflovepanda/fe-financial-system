@@ -25,8 +25,8 @@
         {{scope.row.paymentIncome}}/{{scope.row.paymentExpenses}}
       </template>
     </el-table-column>
-    <el-table-column align="center" prop="" label="收付款利润率"></el-table-column>
-    <el-table-column align="center" prop="" label="项目毛利率/%"></el-table-column>
+    <el-table-column align="center" prop="paymentProfit" label="收付款利润率"></el-table-column>
+    <el-table-column align="center" prop="projectRate" label="项目毛利率/%"></el-table-column>
     <el-table-column align="center" prop="saleCommisState" label="销售提成发放状态">
       <template slot-scope="scope">
         <span v-if="scope.row.saleCommisState == 0">未发放</span>
@@ -246,7 +246,7 @@ export default {
         console.log("settlement data", settlementResult);
         ts.$store.commit("projectData/setSettlementList", settlementResult);
 
-        let receivableResult = await axios.get("/api/receivable/list?projectId=" + val.projectId).then(
+        let receivableResult = await axios.get("/api/invoice/list?projectId=" + val.projectId).then(
           (rep) => {
             if (rep && rep.data) {
               return rep.data.data;

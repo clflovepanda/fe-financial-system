@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="[hasLogin ? 'hiddenMenu' : '']">
     <el-row>
       <el-col :span="12" :offset="6">
         <el-row class="rowContent">
@@ -78,6 +78,14 @@ export default {
     validate() {
       return this.$store.state.userData.validateCode;
     },
+    hasLogin() {
+      if(!CookieUtil.existCookie("user_id")) {
+        this.$store.commit("userData/setHasLogin", false);
+      } else {
+        this.$store.commit("userData/setHasLogin", true);
+      }
+      return this.$store.state.userData.hasLogin;
+    }
   },
   methods: {
     onInput() {
@@ -194,5 +202,8 @@ export default {
 .leftLabel {
   text-align: left;
   line-height: 40px;
+}
+.hiddenMenu {
+  display: none;
 }
 </style>

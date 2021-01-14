@@ -131,12 +131,14 @@
         <el-button type="primary" @click="invoiceAdd('form')">确 定</el-button>
       </div>
     </el-dialog>
+    <PringPayDialog />
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import CookieUtil from "~/utils/CookieUtil";
+import PringPayDialog from "~/components/projectListPage/PringPayDialog";
 export default {
   data(){
     return {
@@ -252,8 +254,16 @@ export default {
         this.invoiceType = type.invoiceId
       }
     },
-    printPay() {
-
+    printPay(scope) {
+      console.log("即将打印的数据", scope);
+      let printTemp = scope.row;
+      this.$store.commit("projectData/setPringTemp", printTemp);
+      let isShowPrint = this.$store.state.dialogSwitchData.printPayDialogShow;
+      if (isShowPrint) {
+        this.$store.commit("dialogSwitchData/setPrintPayDialogShow", false);
+      } else {
+        this.$store.commit("dialogSwitchData/setPrintPayDialogShow", true);
+      }
     },
     changeDate(val){
       console.log(val)

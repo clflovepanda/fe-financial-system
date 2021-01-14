@@ -100,7 +100,7 @@
         >
       </el-col>
       <el-col :span="4">
-        <el-button style="width: 90%">重置</el-button>
+        <el-button style="width: 90%" @click="closeDialog">取消</el-button>
       </el-col>
     </el-row>
   </el-dialog>
@@ -167,9 +167,12 @@ export default {
     },
   },
   methods: {
+    closeDialog() {
+      this.showEditUserDialog = false;
+    },
     editUser: function () {
       console.log("edit user ...", this.editUserForm);
-      if (editUserForm.password != editUserForm.repassword) {
+      if (this.editUserForm.password != this.editUserForm.repassword) {
         this.$message.error('两次输入的密码不一致');
         return;
       }

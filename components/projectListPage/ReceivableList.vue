@@ -8,19 +8,19 @@
               <span>应收单编号</span>
             </el-col>
             <el-col :span="3">
-              <el-input v-model="ruleForm.receivableNo" placeholder="请输入应收单编号"></el-input>
+              <el-input v-model="ruleForm.invoiceNo" placeholder="请输入应收单编号"></el-input>
             </el-col>
             <el-col :span="2" :offset="1" class="labelSty">
               <span>单位名称</span>
             </el-col>
             <el-col :span="3">
-              <el-input v-model="ruleForm.compnayName" placeholder="请输入单位名称"></el-input>
+              <el-input v-model="ruleForm.unitname" placeholder="请输入单位名称"></el-input>
             </el-col>
             <el-col :span="2" :offset="1" class="labelSty">
               <span>应税务劳务名称</span>
             </el-col>
             <el-col :span="3">
-              <el-input v-model="ruleForm.taxableServiceName" placeholder="请输入应税务劳务名称"></el-input>
+              <el-input v-model="ruleForm.revenueTypeName" placeholder="请输入应税务劳务名称"></el-input>
             </el-col>
           </el-row>
           <el-row class="rowSty">
@@ -38,7 +38,7 @@
             </el-col>
             <el-col :span="3">
               <el-button type="primary" @click="searchReceivable()">查询</el-button>
-              <el-button @click="resetForm('ruleForm')">重置</el-button>
+              <el-button @click="resetForm()">重置</el-button>
             </el-col>
           </el-row>
           <el-row>
@@ -50,13 +50,13 @@
             </el-col>
           </el-row>
           <el-table :data="getReceivableList" border style="width: 100%; margin-top: 20px">
-            <el-table-column align="center" prop="receivableId" label="序号" width="120"></el-table-column>
-            <el-table-column align="center" prop="receivableNo" label="应收单编号"></el-table-column>
-            <el-table-column align="center" prop="companyName" label="单位名称" width="120"></el-table-column>
-            <el-table-column align="center" prop="taxableServiceName" label="应税劳务名称" width="120"></el-table-column>
-            <el-table-column align="center" prop="invoiceType" label="金额/元"></el-table-column>
+            <el-table-column align="center" prop="revenueId" label="序号" width="120"></el-table-column>
+            <el-table-column align="center" prop="invoiceNo" label="应收单编号"></el-table-column>
+            <el-table-column align="center" prop="unitname" label="单位名称" width="120"></el-table-column>
+            <el-table-column align="center" prop="revenueTypeName" label="应税劳务名称" width="120"></el-table-column>
+            <el-table-column align="center" prop="cnyMoney" label="金额/元"></el-table-column>
             <el-table-column align="center" prop="username" label="经办人"></el-table-column>
-            <el-table-column align="center" prop="applyDatetime" label="申请时间"></el-table-column>
+            <el-table-column align="center" prop="createDatetime" label="申请时间"></el-table-column>
             <el-table-column align="center" label="操作" width="140">
               <!-- <tempalte>
             <span>打印</span>
@@ -151,9 +151,9 @@ export default {
     };
     return {
       ruleForm: {
-        receivableNo: "",
-        compnayName: "",
-        taxableServiceName: "",
+        invoiceNo: "",
+        unitname: "",
+        revenueTypeName: "",
         username: "",
       },
       dataRange: "",
@@ -216,9 +216,22 @@ export default {
     },
   },
   methods: {
+    resetForm() {
+      this.dataRange = "";
+      this.ruleForm = {
+        invoiceNo: "",
+        unitname: "",
+        revenueTypeName: "",
+        username: "",
+      }
+    },
     searchReceivable() {
+      let st = this.dataRange[0];
+      let et = this.dataRange[1];
+      this.ruleForm.startDt = st.getTime();
+      this.ruleForm.endDt = et.getTime();
       axios
-        .get("/api/receivable/list", {
+        .get("/api/invoice/list", {
           params: this.ruleForm,
         })
         .then(
@@ -243,7 +256,7 @@ export default {
               this.$message.success("保存成功！");
               axios
                 .get(
-                  "/api/receivable/list?projectId=" +
+                  "/api/invoice/list?projectId=" +
                     this.$store.state.projectData.viewProjectId
                 )
                 .then((rep) => {
