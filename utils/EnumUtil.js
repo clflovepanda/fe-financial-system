@@ -1,10 +1,9 @@
 let EnumAccount = {
     list: [
         { value: 1, label: "亚讯" },
-        { value: 2, label: "医通捷" },
         { value: 3, label: "新锐" },
         { value: 4, label: "医点通" },
-        { value: 5, label: "现金到款" },
+        { value: 6, label: "其它公司" },
     ],
     getMsg(value) {
         for (let i = 0; i < this.list.length; i++) {

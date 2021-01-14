@@ -8,7 +8,7 @@
               <span>应收单编号</span>
             </el-col>
             <el-col :span="3">
-              <el-input v-model="ruleForm.invoiceNo" placeholder="请输入应收单编号"></el-input>
+              <el-input v-model="ruleForm.invoiceId" placeholder="请输入应收单编号"></el-input>
             </el-col>
             <el-col :span="2" :offset="1" class="labelSty">
               <span>单位名称</span>
@@ -58,11 +58,10 @@
             <el-table-column align="center" prop="username" label="经办人"></el-table-column>
             <el-table-column align="center" prop="createDatetime" label="申请时间"></el-table-column>
             <el-table-column align="center" label="操作" width="140">
-              <!-- <tempalte>
-            <span>打印</span>
-            <span>修改</span>
-            <span>删除</span>
-          </tempalte> -->
+              <template slot-scope="scope">
+                <el-button @click="printPay(scope)" type="text" size="small" :disabled="scope.row.state<=3">打印</el-button>
+                <el-button @click="del(scope)" type="text" size="small">删除</el-button>
+              </template>
             </el-table-column>
           </el-table>
         </el-main>
@@ -125,11 +124,13 @@
         <el-button type="primary" @click="addQuotation">保 存</el-button>
       </div>
     </el-dialog>
+    <PringPayDialog />
   </div>
 </template>
 
 <script>
 import Table from "~/components/projectListPage/Table.vue";
+import PringPayDialog from "~/components/projectListPage/PringPayDialog.vue";
 import axios from "axios";
 
 export default {
@@ -304,6 +305,50 @@ export default {
           () => {}
         );
     },
+    printPay(scope) {
+      console.log("即将打印的数据", scope);
+      let printTemp = scope.row;
+      this.$store.commit("projectData/setPringTemp", printTemp);
+      let isShowPrint = this.$store.state.dialogSwitchData.printPayDialogShow;
+      if (isShowPrint) {
+        this.$store.commit("dialogSwitchData/setPrintPayDialogShow", false);
+      } else {
+        this.$store.commit("dialogSwitchData/setPrintPayDialogShow", true);
+      }
+      
+    },
+    del(scope) {
+      axios.get("/api/invoice/del?invoiceId=" + scope.row.invoiceId).then(
+          (rep) => {
+            if (rep && rep.data) {
+              let st = this.dataRange[0];
+              let et = this.dataRange[1];
+              if (st) {
+                this.ruleForm.startDt = st.getTime();
+              }
+              if (et) {
+                this.ruleForm.endDt = et.getTime();
+              }
+              axios
+                .get("/api/invoice/list", {
+                  params: this.ruleForm,
+                })
+                .then(
+                  (rep) => {
+                    if (rep && rep.data) {
+                      this.$store.commit(
+                        "projectData/setReceivableList",
+                        rep.data.data
+                      );
+                    }
+                  },
+                  () => {}
+                );
+            }
+          },
+          () => {}
+        );
+    }
   },
 };
 </script>

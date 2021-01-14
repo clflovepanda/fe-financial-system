@@ -172,15 +172,19 @@ export default {
         params: param
       }).then(
           (rep) => {
-            if (rep && rep.data) {
+            if (rep && rep.data && rep.data.code == 0) {
               axios.get("/api/project/list").then(
                 (resp) => {
                   if (resp && resp.data) {
                     this.$store.commit("projectData/setProjectList", resp .data.data);
+                  } else {
+                    this.$message.error(resp.data.msg);
                   }
                 },
                 () => {}
               );
+            } else {
+              this.$message.error(rep.data.msg);
             }
           },
           () => {}
