@@ -13,7 +13,7 @@
       <el-col :span="22" :offset="1">
         <h2>已认款列表</h2>
         <el-row>
-          <ConfirmIncomeListTableComponent />
+          <ConfirmIncomeListTableComponent @closeDialog="childEvent"/>
         </el-row>
       </el-col>
     </el-row>
@@ -61,6 +61,10 @@ export default {
     createUser: function () {
       console.log("create user ...");
     },
+    childEvent(data) {
+      console.log(data);
+      this.confirmedIncomeDialogShow = false;
+    }
   },
 };
 </script>

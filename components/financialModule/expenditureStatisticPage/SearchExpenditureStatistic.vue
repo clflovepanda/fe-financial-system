@@ -154,13 +154,18 @@ export default {
             this.searchExpenditureForm.startDt = st.getTime();
             this.searchExpenditureForm.endDt = et.getTime();
         }
-        axios.get("/api/statistics/expenditure", {
+        axios.get("/api/statistics/expenditure?limit=5&offset=1", {
             params: this.searchExpenditureForm
         }).then(
             (rep) => {
                 if (rep && rep.data) {
-                    console.log("statistics expenditure", rep.data.data);
-                    this.$store.commit("expenditureData/setExpenditureList", rep.data.data);
+                    console.log("statistics expenditure", rep.data);
+                    let temp = {
+                        list: rep.data.data,
+                        total: rep.data.count
+                    }
+                    this.$store.commit("expenditureData/setExpenditureList", temp);
+                    this.$store.commit("expenditureData/setSearchParams", this.searchExpenditureForm);
                 }
             },
             () => {}

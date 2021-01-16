@@ -28,16 +28,20 @@ export default {
     if(!CookieUtil.existCookie("user_id")) {
       location.href = "/";
     }
-    let result = await axios.get("/api/statistics/expenditure").then(
+    let result = await axios.get("/api/statistics/expenditure?limit=5&offset=1").then(
       (rep) => {
         if (rep && rep.data) {
-          return rep.data.data;
+          return rep.data;
         }
       },
       () => {}
     );
-    console.log("statistics expenditure", result);
-    ctx.store.commit("expenditureData/setExpenditureList", result);
+    let temp = {
+      list: result.data,
+      total: result.count
+    }
+    console.log("statistics expenditure", temp);
+    ctx.store.commit("expenditureData/setExpenditureList", temp);
 
     let getparentdatasourceResult = await axios.get("/api/role/getparentdatasource").then(
       (rep) => {

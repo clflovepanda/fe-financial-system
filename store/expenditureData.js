@@ -1,5 +1,8 @@
 export const state = () => ({
-    expenditureList: [],
+    expenditureList: {
+        list: [],
+        total: 0
+    },
     allExpenditureList: {
         list: [],
         total: 0
@@ -7,12 +10,17 @@ export const state = () => ({
     expenditurePurposeType: [],
     city: [],
     revenueId: "",
-    auditLog: {}
+    auditLog: {},
+    searchParams: {}
 })
 
 export const mutations = {
+    setSearchParams(state, newObj) {
+        state.searchParams = newObj;
+    },
     setExpenditureList(state, newObj) {
-        state.expenditureList = newObj;
+        state.expenditureList.list = newObj.list;
+        state.expenditureList.total = newObj.total;
     },
     setAllExpenditureList(state, newObj) {
         state.allExpenditureList.list = newObj.data;

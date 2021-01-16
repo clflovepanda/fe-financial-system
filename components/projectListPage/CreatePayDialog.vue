@@ -32,11 +32,13 @@
     <el-row :class="[needShowRow ? 'showRow' : 'disShowRow']" >
       <el-col :span="4" class="labelSty"><span>收款人单位（全称）：</span></el-col>
       <el-col :span="10">
-        <el-input
+        <el-autocomplete
           v-model="createForm.beneficiary_unit"
+          :fetch-suggestions="querySearchAsync"
+          @select="handleSelect"
           placeholder="请输入收款人单位全称"
            class="inpSty"
-        ></el-input>
+        ></el-autocomplete>
       </el-col>
     </el-row>
     <el-row :class="[needShowRow ? 'showRow' : 'disShowRow']">
@@ -275,6 +277,27 @@ export default {
     }
   },
   methods: {
+    handleSelect(obj) {
+      console.log(obj);
+      this.createForm.beneficiary_number = obj.data.beneficiaryNumber;
+      this.createForm.beneficiary_bank = obj.data.beneficiaryBank;
+      this.createForm.province = obj.data.province;
+      this.createForm.city = obj.data.city;
+    },
+    querySearchAsync(queryString, cb) {
+      console.log("search ... ... ");
+       axios.get("/api/expenditure/getbeneficiary?keyWords=" + queryString).then(
+          (rep) => {
+            let arr = [];
+            for (let i = 0 ; i < rep.data.data.length ; i ++) {
+              arr.push({value: rep.data.data[i].beneficiaryUnit, data: rep.data.data[i]});
+            }
+            console.log(arr);
+            cb(arr);
+          },
+          () => {}
+       )
+    },
     changeMethod() {
       if(this.createForm.expenditureMethodId == 2) {
         this.needShowRow = true;

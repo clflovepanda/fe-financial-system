@@ -54,13 +54,29 @@ export default {
     },
     delsublog(scope) {
       axios.get("/api/receivement/delsublog?id=" + scope.row.id).then(
-          (rep) => {
-            if (rep && rep.data) {
-              console.log(rep);
+        (rep) => {
+          if (rep && rep.data) {
+            if (rep.data.code != 0) {
+              this.$message.error(rep.data.msg);
+            } else {
+              let tempParam = JSON.parse(JSON.stringify(this.$store.state.incomeData.searchParams));
+              tempParam.limit = 5;
+              tempParam.offset = 1;
+              axios({
+                method: 'get',
+                url: '/api/receivement/list',
+                params: tempParam,
+                dataType: "json",
+                contentType: "application/json",
+              }).then((response) => {
+                this.$store.commit('incomeData/setIncomeListTable',response.data)
+                this.$emit("closeDialog", false);
+              },() => {})
             }
-          },
-          () => {}
-        );
+          }
+        },
+        () => {}
+      );
     }
   }
 };

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table :data="getExpenditureTable" border style="width: 100%; margin-top: 20px">
+    <el-table :data="getExpenditureTableList" border style="width: 100%; margin-top: 20px">
         <el-table-column align="center" prop="expenditureId" label="序号" width="120"></el-table-column>
         <el-table-column align="center" prop="coName" label="公司"></el-table-column>
         <el-table-column align="center" prop="numbering" label="编号" width="120"></el-table-column>
@@ -22,22 +22,68 @@
           </tempalte>
         </el-table-column>
       </el-table>
+      <el-row>
+      <el-col :span="12" :offset="12">
+        <div class="block" style="margin-top: 30px">
+          <el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page.sync="currentPage"
+            :page-size="5"
+            layout="total, prev, pager, next, jumper"
+            :total="getExpenditureTableTotal"
+          ></el-pagination>
+        </div>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
-
+import axios from "axios";
 export default {
   data() {
-    return {};
+    return {
+      currentPage: 1,
+    };
   },
   computed: {
-      getExpenditureTable() {
-          return this.$store.state.expenditureData.expenditureList;
-      }
+    getExpenditureTableList() {
+        return this.$store.state.expenditureData.expenditureList.list;
+    },
+    getExpenditureTableTotal() {
+        return this.$store.state.expenditureData.expenditureList.total;
+    },
   },
-  watch: {},
+  watch: {
+    // getExpenditureTableList(val) {
+    //   this.currentPage = 1;
+    // }
+  },
   methods: {
+    handleSizeChange() {},
+    handleCurrentChange(page) {
+      let params = JSON.parse(JSON.stringify(this.$store.state.expenditureData.searchParams));
+      params.limit = 5;
+      params.offset = page;
+      axios.get("/api/statistics/expenditure", {
+        params: params
+      }).then(
+        (rep) => {
+          if (rep && rep.data) {
+            let temp = {
+              list: rep.data.data,
+              total: rep.data.count
+            }
+            console.log("statistics expenditure", temp);
+            this.$store.commit("expenditureData/setExpenditureList", temp);
+          }
+        },
+        () => {}
+      );
+    },
+
   },
   mounted() {
   },
