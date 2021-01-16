@@ -72,21 +72,39 @@ export default {
       return this.$store.state.incomeData.incomeListTable;
     }
   },
+  watch: {
+    incomeListTable() {
+      this.currentPage = 1;
+    }
+  },
   methods: {
     handleSizeChange() {},
     handleCurrentChange(page) {
       this.currentPage = page;
-      axios.get("/api/receivement/list?offset=" + page + "&limit=5").then(
-        (rep) => {
-          if (rep && rep.data) {
-            if(!rep.data || rep.data == null) {
-              return;
-            }
-            this.$store.commit("incomeData/setIncomeListTable", rep.data);
-          }
-        },
-        () => {}
-      );
+      let tempParam = JSON.parse(JSON.stringify(this.$store.state.incomeData.searchParams));
+      tempParam.limit = 5;
+      tempParam.offset = page;
+      axios({
+        method: 'get',
+        url: '/api/receivement/list',
+        params: tempParam,
+        dataType: "json",
+        contentType: "application/json",
+      }).then((response) => {
+        console.log(response);
+        this.$store.commit('incomeData/setIncomeListTable',response.data)
+      },() => {})
+      // axios.get("/api/receivement/list?offset=" + page + "&limit=5").then(
+      //   (rep) => {
+      //     if (rep && rep.data) {
+      //       if(!rep.data || rep.data == null) {
+      //         return;
+      //       }
+      //       this.$store.commit("incomeData/setIncomeListTable", rep.data);
+      //     }
+      //   },
+      //   () => {}
+      // );
     },
     handleClick(scope) {
       console.log(scope);

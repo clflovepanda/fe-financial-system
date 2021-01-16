@@ -21,7 +21,6 @@
          <span v-if="scope.row.state==2">部分认款</span>
          <span v-if="scope.row.state==3">待做账</span>
          <span v-if="scope.row.state==4">已做账</span>
-
       </template>
       </el-table-column>
     </el-table>

@@ -1,6 +1,9 @@
 export const state = () => ({
     expenditureList: [],
-    allExpenditureList: {},
+    allExpenditureList: {
+        list: [],
+        total: 0
+    },
     expenditurePurposeType: [],
     city: [],
     revenueId: "",

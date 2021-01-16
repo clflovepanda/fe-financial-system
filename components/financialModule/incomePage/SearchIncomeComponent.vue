@@ -134,7 +134,10 @@ export default {
         remitter:this.incomeSearchForm.incomeFromName,
         startDt:this.incomeSearchForm.incomeDate?new Date(this.incomeSearchForm.incomeDate[0]).getTime():'',
         endDt:this.incomeSearchForm.incomeDate?new Date(this.incomeSearchForm.incomeDate[1]).getTime():'',
+        limit:5,
+        offset:1
       }
+      this.$store.commit('incomeData/setSearchParams', params);
       axios({
         method: 'get',
         url: '/api/receivement/list',
@@ -142,15 +145,9 @@ export default {
         dataType: "json",
         contentType: "application/json",
       }).then((response) => {
-        this.$store.commit('incomeData/setIncomeListTable',response.data.data)
+        console.log(response);
+        this.$store.commit('incomeData/setIncomeListTable',response.data)
       },() => {})
-
-      // axios.get("/api/receivement/list").then(
-      //   (response) => {
-      //     console.log(response);
-      //   },
-      //   () => {}
-      // );
     },
     reset() {
       this.incomeSearchForm.account = "";

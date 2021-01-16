@@ -743,6 +743,19 @@ export default {
             },
             () => {}
           );
+          axios.get("/api/deposit/list?projectId=" + this.printData.projectId).then(
+            (rep) => {
+              if (rep && rep.data) {
+                if (rep.data.code == 0) {
+                  console.log(rep.data.data);
+                  this.$store.commit("depositeData/setDepositeData", rep.data.data.deposit);
+                } else {
+                  this.$message.error(rep.data.msg);
+                }
+              }
+            },
+            () => {}
+          );
         }
       })
     },

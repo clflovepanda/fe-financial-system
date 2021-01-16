@@ -107,8 +107,8 @@
           <el-table-column align="center" prop="returned" label="已退回押金/元"></el-table-column>
           <el-table-column align="center" prop="id" label="操作" width="140">
             <template slot-scope="scope">
-              <el-button  type="text" size="small" :disabled="scope.row.returned>0" @click="backMoney(scope)">退押金</el-button>
-              <el-button  type="text" size="small" @click="depositeLog(scope)">操作记录</el-button>
+              <el-button  type="text" size="small" :disabled="scope.row.returned>0 || scope.row.receivementTypeName == '收回押金'" @click="backMoney(scope)">退押金</el-button>
+              <el-button  type="text" size="small" :disabled="scope.row.receivementTypeName == '收回押金'" @click="depositeLog(scope)">操作记录</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -218,6 +218,9 @@ export default {
       this.$store.commit("dialogSwitchData/setCreatePayDialogShow", true);
     },
     getlistData(page){
+      if(!page) {
+        page = 1;
+      }
       let startDt = this.ruleForm.proDate[0]?new Date(this.ruleForm.proDate[0]).getTime():''
       let endDt = this.ruleForm.proDate[1]?new Date(this.ruleForm.proDate[1]).getTime():''
       let project = ''
@@ -248,7 +251,6 @@ export default {
       this.$refs[formName].resetFields();
       this.getlistData();
     },
-
     handleFindClick() {
       this.getlistData();
       console.log("查询项目");

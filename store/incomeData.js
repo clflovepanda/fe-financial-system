@@ -32,10 +32,14 @@ export const state = () => ({
         { value: 1, label: "企业" },
         { value: 2, label: "个人" },
         { value: 3, label: "未知" },
-    ]
+    ],
+    searchParams: {}
 })
 
 export const mutations = {
+    setSearchParams(state, newObj) {
+        state.searchParams = newObj;
+    },
     setSearchIncomeForm(state, newObj) {
         state.searchIncomeForm.account = newObj.account;
         state.incomeType = newObj.incomeType;

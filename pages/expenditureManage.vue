@@ -60,7 +60,7 @@
           </el-col>
         </el-row>
     <el-divider></el-divider>
-    <el-table :data="getAllPay.list" border style="width: 100%; margin-top: 20px" id="out-table">
+    <el-table :data="getAllPayList" border style="width: 100%; margin-top: 20px" id="out-table">
           <el-table-column align="center" prop="expenditureId" label="序号"></el-table-column>
           <el-table-column align="center" prop="numbering" label="支出编号"></el-table-column>
           <el-table-column align="center" prop="coName" label="公司" width="120"></el-table-column>
@@ -109,7 +109,7 @@
                 :current-page.sync="currentPage"
                 :page-size="5"
                 layout="total, prev, pager, next, jumper"
-                :total="getAllPay.total"
+                :total="getAllPayCount"
               ></el-pagination>
             </div>
           </el-col>
@@ -139,8 +139,11 @@ export default {
     }
   },
   computed: {
-    getAllPay() {
-      return this.$store.state.expenditureData.allExpenditureList;
+    getAllPayList() {
+      return this.$store.state.expenditureData.allExpenditureList.list;
+    },
+    getAllPayCount() {
+      return this.$store.state.expenditureData.allExpenditureList.total;
     },
     getOutputType() {
       return function(value) {
@@ -163,30 +166,43 @@ export default {
       }
     },
   },
+  watch:{
+    getAllPayList(val) {
+      console.log("支付列表有变化", val);
+    }
+  },
   methods: {
     handleSizeChange() {},
     handleCurrentChange(page) {
       this.currentPage = page;
-      // this.getlistData(page);
-      axios.get("/api/expenditure/list?limit=5&offset=" + page).then(
-        (rep) => {
-          if (rep && rep.data) {
-            console.log("expenditure", rep.data);
-            this.$store.commit("expenditureData/setAllExpenditureList", rep.data);
+      this.ruleForm.limit = 5;
+      this.ruleForm.offset = this.currentPage;
+      axios.get('/api/expenditure/list', {
+        params: this.ruleForm
+      }).then( (response) => {
+          if(response.data.code == 0){
+            console.log(response.data);
+            this.$store.commit("expenditureData/setAllExpenditureList", response.data);
+          }else{
+            this.$message({
+              message: response.data.msg,
+              type: "error",
+            });
           }
-        },
-        () => {}
-      );
+        })
     },
     handleView() {
       
     },
     submitForm() {
+      this.ruleForm.limit = 5;
+      this.ruleForm.offset = 1;
       axios.get('/api/expenditure/list', {
         params: this.ruleForm
       }).then( (response) => {
           if(response.data.code == 0){
-            this.$store.commit("expenditureData/setAllExpenditureList", response.data.data);
+            console.log(response.data);
+            this.$store.commit("expenditureData/setAllExpenditureList", response.data);
           }else{
             this.$message({
               message: response.data.msg,
