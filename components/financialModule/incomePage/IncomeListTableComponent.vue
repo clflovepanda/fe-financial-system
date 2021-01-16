@@ -48,7 +48,7 @@
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :current-page.sync="currentPage"
-            :page-size="10"
+            :page-size="5"
             layout="total, prev, pager, next, jumper"
             :total="incomeListTable.total"
           ></el-pagination>

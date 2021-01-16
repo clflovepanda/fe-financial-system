@@ -1,7 +1,7 @@
 <template>
   <el-dialog title="打印" :visible.sync="showPrintPayDialog" width="80%">
     <el-divider></el-divider>
-    <el-row :class="[getShowRow != 2 ? 'dis' : '' ]">
+    <el-row :class="[getShowRow != 1 ? 'dis' : '' ]">
       <el-col :span="24" style="margin: 20px 0px">
         <div style="border: 1px solid black; text-align:center" id="payPrintDiv">
           <div style="height:60px; position: relative; text-align: center">
@@ -544,12 +544,9 @@
 import axios from "axios";
 import {EnumAccount, EnumAuditType} from "../../utils/EnumUtil";
 export default {
+  props: ["showVis"],
   data() {
     return {
-      auditForm: {
-        auditType: "",
-        remark: "",
-      },
       showPrintPayDialog: false
     };
   },
@@ -558,7 +555,9 @@ export default {
       return this.$store.state.projectData.printTemp;
     },
     getShowRow() {
-      if (this.$store.state.projectData.printTemp.expenditureMethodId == 2) {
+      if (this.$store.state.projectData.printTemp.expenditureMethodId == 1) {
+        return 1;
+      } else if (this.$store.state.projectData.printTemp.expenditureMethodId == 2) {
         return 2;
       } else if (this.$store.state.projectData.printTemp.expenditureMethodId == 3) {
         return 3;
@@ -591,32 +590,27 @@ export default {
         scope.expenditurePurposeName : scope.expenditurePurposeContent;
       }
     },
-    getRealAuditType() {
-      return function(value) {
-        return EnumAuditType.getMsg(value);
-      }
-    },
-    auditTable() {
-      let list = [];
-      if (this.$store.state.expenditureData.auditLog.expenditureAuditLogs) {
-        list = this.$store.state.expenditureData.auditLog.expenditureAuditLogs;
-      }
-      return list;
-    },
     isShowPrintPayDialog() {
       return this.$store.state.dialogSwitchData.printPayDialogShow;
     }
   },
   watch: {
-    showPrintPayDialog() {
-      this.$store.commit(
-        "dialogSwitchData/setPrintPayDialogShow",
-        this.showPrintPayDialog
-      );
+    showVis(val) {
+      if(this.showPrintPayDialog == false) {
+        this.showPrintPayDialog = true;
+      } else {
+        this.showPrintPayDialog = false;
+      }
     },
-    isShowPrintPayDialog(val, oldVal) {
-      this.showPrintPayDialog = val;
-    },
+    // showPrintPayDialog() {
+    //   this.$store.commit(
+    //     "dialogSwitchData/setPrintPayDialogShow",
+    //     this.showPrintPayDialog
+    //   );
+    // },
+    // isShowPrintPayDialog(val, oldVal) {
+    //   this.showPrintPayDialog = val;
+    // },
   },
   methods: {
     printPay() {

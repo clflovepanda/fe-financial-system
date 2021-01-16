@@ -170,7 +170,7 @@
   </el-container>
   <CreatePayDialog />
   <AuditDialog />
-  <PringPayDialog />
+  <PringPayDialog :showVis="showVis"/>
   </div>
 </template>
 
@@ -200,7 +200,8 @@ export default {
         endDt: "",
         projectId: ""
       },
-      daterange: ""
+      daterange: "",
+      showVis: 0
     };
   },
   computed: {
@@ -292,16 +293,18 @@ export default {
       let printTemp = scope.row;
       this.$store.commit("projectData/setPringTemp", printTemp);
       let isShowPrint = this.$store.state.dialogSwitchData.printPayDialogShow;
-      if (isShowPrint) {
-        this.$store.commit("dialogSwitchData/setPrintPayDialogShow", false);
-      } else {
-        this.$store.commit("dialogSwitchData/setPrintPayDialogShow", true);
-      }
+      this.showVis = this.showVis + 1;
+      // if (isShowPrint) {
+      //   this.$store.commit("dialogSwitchData/setPrintPayDialogShow", false);
+      // } else {
+      //   this.$store.commit("dialogSwitchData/setPrintPayDialogShow", true);
+      // }
       
     },
     audit(scope) {
       console.log(scope.row);
       this.$store.commit("expenditureData/setAuditLog", scope.row);
+      this.$store.commit("projectData/setPringTemp", scope.row);
       let isShow = this.$store.state.dialogSwitchData.auditDialogShow;
       if (isShow) {
         this.$store.commit("dialogSwitchData/setAuditDialogShow", false);

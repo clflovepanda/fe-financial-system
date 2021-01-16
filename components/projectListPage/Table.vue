@@ -41,9 +41,9 @@
     </el-table-column>
     <el-table-column align="center" prop="state" label="项目状态">
       <template slot-scope="scope">
-        <span v-if="scope.row.state == 1">未开始</span>
-        <span v-if="scope.row.state == 2">进行中</span>
-        <span v-if="scope.row.state == 3">暂停</span>
+        <span v-if="scope.row.state == 1">待审核</span>
+        <span v-if="scope.row.state == 2">已生效</span>
+        <span v-if="scope.row.state == 3">已驳回</span>
         <span v-if="scope.row.state == 4">取消</span>
         <span v-if="scope.row.state == 5">已完成</span>
         <span v-if="scope.row.state == 6">已关闭</span>

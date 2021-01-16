@@ -14,6 +14,11 @@
       <el-table-column prop="dataSourceName" label="项目二级类型"></el-table-column>
       <el-table-column prop="revenueTypeName" label="收入类型"></el-table-column>
       <el-table-column prop="remark" label="备注"></el-table-column>
+      <el-table-column prop="remark" label="操作">
+        <template slot-scope="scope">
+          <el-button type="text" @click="delsublog(scope)">删除</el-button>
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
@@ -47,6 +52,16 @@ export default {
         true
       );
     },
+    delsublog(scope) {
+      axios.get("/api/receivement/delsublog?id=" + scope.row.id).then(
+          (rep) => {
+            if (rep && rep.data) {
+              console.log(rep);
+            }
+          },
+          () => {}
+        );
+    }
   }
 };
 </script>

@@ -124,7 +124,7 @@
         <el-button type="primary" @click="addQuotation">保 存</el-button>
       </div>
     </el-dialog>
-    <PringPayDialog />
+    <!-- <PringPayDialog /> -->
   </div>
 </template>
 
