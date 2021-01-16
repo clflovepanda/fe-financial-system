@@ -70,9 +70,9 @@
 
     <el-dialog title="新增应收单" :visible.sync="dialogFormVisible">
       <el-form :model="form" style="width:360px" ref="form" :rules="rules">
-        <el-form-item label="公司：" :label-width="formLabelWidth" prop="companyName" style="width:360px">
-          <el-select v-model="form.companyName" placeholder="请选择" style="width:360px">
-            <el-option v-for="item in $store.state.incomeData.accountList" :key="item.value" :label="item.label" :value="item.label">
+        <el-form-item label="公司：" :label-width="formLabelWidth" prop="companyId" style="width:360px">
+          <el-select v-model="form.companyId" placeholder="请选择" style="width:360px">
+            <el-option v-for="item in $store.state.incomeData.accountList" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
@@ -85,10 +85,10 @@
         </el-form-item>
 
         <el-form-item label="单位名称：" :label-width="formLabelWidth" prop="org" style="width:360px">
-          <el-input v-model="form.org" autocomplete="off" style="width:360px"></el-input>
+          <el-input v-model="form.unitname" autocomplete="off" style="width:360px"></el-input>
         </el-form-item>
-        <el-form-item label="纳税人识别码：" :label-width="formLabelWidth" prop="taxpayerNo" style="width:360px">
-          <el-input v-model="form.taxpayerNo" autocomplete="off" style="width:360px"></el-input>
+        <el-form-item label="纳税人识别码：" :label-width="formLabelWidth" prop="taxpayerIdentityNumber" style="width:360px">
+          <el-input v-model="form.taxpayerIdentityNumber" autocomplete="off" style="width:360px"></el-input>
         </el-form-item>
 
         <el-form-item label="地址：" :label-width="formLabelWidth" prop="address" style="width:360px">
@@ -97,25 +97,25 @@
         <el-form-item label="电话：" :label-width="formLabelWidth" prop="phone" style="width:360px">
           <el-input v-model="form.phone" autocomplete="off" style="width:360px"></el-input>
         </el-form-item>
-        <el-form-item label="开户行：" :label-width="formLabelWidth" prop="openBank" style="width:360px">
-          <el-input v-model="form.openBank" autocomplete="off" style="width:360px"></el-input>
+        <el-form-item label="开户行：" :label-width="formLabelWidth" prop="openingBank" style="width:360px">
+          <el-input v-model="form.openingBank" autocomplete="off" style="width:360px"></el-input>
         </el-form-item>
-        <el-form-item label="账号：" :label-width="formLabelWidth" prop="account" style="width:360px">
-          <el-input v-model="form.account" autocomplete="off" style="width:360px"></el-input>
+        <el-form-item label="账号：" :label-width="formLabelWidth" prop="accountNumber" style="width:360px">
+          <el-input v-model="form.accountNumber" autocomplete="off" style="width:360px"></el-input>
         </el-form-item>
 
         <el-form-item label="应税劳务名称：" :label-width="formLabelWidth" prop="taxableServiceName" style="width:360px">
-          <el-select v-model="form.taxableServiceName" placeholder="请选择应税劳务名称" style="width:360px">
-            <el-option v-for="item in gettypeList" :key="item.revenueTypeId" :label="item.revenueTypeName" :value="item.revenueTypeName"></el-option>
+          <el-select v-model="form.revenueTypeId" placeholder="请选择应税劳务名称" style="width:360px">
+            <el-option v-for="item in gettypeList" :key="item.revenueTypeId" :label="item.revenueTypeName" :value="item.revenueTypeId"></el-option>
           </el-select>
         </el-form-item>
 
-        <el-form-item label="开票金额/元" :label-width="formLabelWidth" style="width:360px" prop="invoieAmount">
-          <el-input v-model="form.invoieAmount" autocomplete="off" style="width:360px"></el-input>
+        <el-form-item label="开票金额/元" :label-width="formLabelWidth" style="width:360px" prop="cnyMoney">
+          <el-input v-model="form.cnyMoney" autocomplete="off" style="width:360px"></el-input>
         </el-form-item>
 
-        <el-form-item label="备注：" :label-width="formLabelWidth" style="width:360px" prop="remark">
-          <el-input v-model="form.remark" type="textarea" :rows="2" autocomplete="off" style="width:360px"></el-input>
+        <el-form-item label="备注：" :label-width="formLabelWidth" style="width:360px" prop="comment">
+          <el-input v-model="form.comment" type="textarea" :rows="2" autocomplete="off" style="width:360px"></el-input>
         </el-form-item>
 
       </el-form>
@@ -124,7 +124,7 @@
         <el-button type="primary" @click="addQuotation">保 存</el-button>
       </div>
     </el-dialog>
-    <!-- <PringPayDialog /> -->
+    <PringPayDialog :showVis="showVis"/>
   </div>
 </template>
 
@@ -151,6 +151,7 @@ export default {
       }
     };
     return {
+      showVis: 0,
       ruleForm: {
         invoiceNo: "",
         unitname: "",
@@ -162,52 +163,51 @@ export default {
       formLabelWidth: "200px",
       dialogFormVisible: false,
       form: {
-        remark: "",
-        invoieAmount: "",
-        taxableServiceName: "",
-        account: "",
-        openBank: "",
-        phone: "",
+        companyId: "",
+        invoiceType: "",//发票类型
+        unitname: "",//单位名称
+        taxpayerIdentityNumber: "",//纳税人识别号
         address: "",
-        taxpayerNo: "",
-        org: "",
-        invoiceType: "",
-        companyName: "",
+        phone: "",
+        openingBank: "",//开户行
+        accountNumber: "",//账号
+        revenueTypeId: "",//应税劳务名称
+        cnyMoney: "",//金额
+        comment: "",
         projectId: this.$store.state.projectData.viewProjectId,
-        dataSource: this.$store.state.projectData.projectDetail.dataSourceName,
       },
       gettypeList: [],
       rules: {
-        remark: { required: true, message: "请输入备注", trigger: "blur" },
-        invoieAmount: {
+        comment: { required: true, message: "请输入备注", trigger: "blur" },
+        cnyMoney: {
           required: true,
           message: "请输入开票金额/元",
           trigger: "blur",
         },
-        taxableServiceName: {
+        revenueTypeId: {
           required: true,
           message: "请选择应税劳务名称",
           trigger: "blur",
         },
-        account: { required: true, message: "请输入账号", trigger: "blur" },
-        openBank: { required: true, message: "请输入开户行", trigger: "blur" },
+        accountNumber: { required: true, message: "请输入账号", trigger: "blur" },
+        openingBank: { required: true, message: "请输入开户行", trigger: "blur" },
         phone: [
             { required: true, message: "请输入电话", trigger: "blur" },
             { validator: checkPhone, trigger: 'blur' }
           ],
         address: { required: true, message: "请输入地址", trigger: "blur" },
-        taxpayerNo: {
+        taxpayerIdentityNumber: {
           required: true,
           message: "请输入纳税人识别码",
           trigger: "blur",
         },
-        org: { required: true, message: "请输入单位名称", trigger: "blur" },
+        unitname: { required: true, message: "请输入单位名称", trigger: "blur" },
         invoiceType: {
           required: true,
           message: "请选择发票类型",
           trigger: "blur",
         },
-        companyName: { required: true, message: "请选择公司", trigger: "blur" },
+        companyId: { required: true, message: "请选择公司", trigger: "blur" },
       },
     };
   },
@@ -249,9 +249,10 @@ export default {
     },
     handleAddPay() {},
     addQuotation() {
+      console.log("新增应收单", this.form);
       this.$refs["form"].validate((valid) => {
         if (valid) {
-          axios.post("/api/receivable/add", this.form).then((res) => {
+          axios.post("/api/invoice/add", this.form).then((res) => {
             if (res.data.code == 0) {
               this.dialogFormVisible = false;
               this.$message.success("保存成功！");
@@ -281,19 +282,18 @@ export default {
     handleExcel() {
       this.dialogFormVisible = true;
       (this.form = {
-        remark: "",
-        invoieAmount: "",
-        texableServiceName: "",
-        account: "",
-        openBank: "",
-        phone: "",
+        companyId: "",
+        invoiceType: "",//发票类型
+        unitname: "",//单位名称
+        taxpayerIdentityNumber: "",//纳税人识别号
         address: "",
-        taxpayerNo: "",
-        org: "",
-        invoiceType: "",
-        companyName: "",
+        phone: "",
+        openingBank: "",//开户行
+        accountNumber: "",//账号
+        revenueTypeId: "",//应税劳务名称
+        cnyMoney: "",//金额
+        comment: "",
         projectId: this.$store.state.projectData.viewProjectId,
-        dataSource: this.$store.state.projectData.projectDetail.dataSourceName,
       }),
         axios.get("/api/revenue/gettype").then(
           (rep) => {
@@ -308,6 +308,7 @@ export default {
     printPay(scope) {
       console.log("即将打印的数据", scope);
       let printTemp = scope.row;
+      this.showVis = this.showVis + 1;
       this.$store.commit("projectData/setPringTemp", printTemp);
       let isShowPrint = this.$store.state.dialogSwitchData.printPayDialogShow;
       if (isShowPrint) {

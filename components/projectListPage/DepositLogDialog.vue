@@ -90,13 +90,39 @@ export default {
       }
     },
     del(scope) {
+      console.log("删除 押金 操作记录", scope);
       axios.get('/api/deposit/del?expenditureId=' + scope.row.expenditureId).then((res)=>{
         if(res.data.code == 0){
-          axios.get('/api/deposit/detail?revenueId=' + scope.row.id).then((res2)=>{
-            if(res2.data.code == 0){
-              this.$store.commit("depositeData/setDepositeLogData", res2.data.data.expenditure);
-            }
-          });
+          axios.get("/api/deposit/list?projectId=" + scope.row.projectId).then(
+            (rep) => {
+              if (rep && rep.data) {
+                if (rep.data.code == 0) {
+                  console.log(rep.data.data);
+                  this.$store.commit("depositeData/setDepositeData", rep.data.data.deposit);
+                } else {
+                  this.$message.error(rep.data.msg);
+                }
+                
+              }
+            },
+            () => {}
+          );
+          axios.get("/api/expenditure/list?projectId=" + scope.row.projectId).then(
+            (rep) => {
+              if (rep && rep.data) {
+                if (rep.data.code == 0) {
+                  this.$store.commit("projectData/setProjectPay", rep.data.data);
+                } else {
+                  this.$message.error(rep.data.msg);
+                }
+                
+              }
+            },
+            () => {}
+          );
+          this.showDepositLogDialog = false;
+        } else {
+          this.$message.error(res.data.msg);
         }
       });
     }
