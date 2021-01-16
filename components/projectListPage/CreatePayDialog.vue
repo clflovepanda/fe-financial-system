@@ -308,6 +308,19 @@ export default {
               },
               () => {}
             );
+            axios.get("/api/expenditure/list?projectId=" + this.createForm.projectId).then(
+              (rep) => {
+                if (rep && rep.data) {
+                  if (rep.data.code == 0) {
+                    this.$store.commit("projectData/setProjectPay", rep.data.data);
+                  } else {
+                    this.$message.error(rep.data.msg);
+                  }
+                  
+                }
+              },
+              () => {}
+            );
          } else {
             axios.get("/api/expenditure/list?projectId=" + this.createForm.projectId).then(
               (rep) => {

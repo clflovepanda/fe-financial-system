@@ -497,54 +497,85 @@
           </div>
           <div style="display: inline-block; width:100%;height: 20px; position: relative">
             <div style="display: inline-block; position: absolute; left: 10px">公司：{{printData.coName}}</div>
-            <div style="display: inline-block; position: absolute; right: 20px">编号：{{printData.invoiceType}}</div>
+            <div style="display: inline-block; position: absolute; right: 20px">编号：{{getLevelTwo(printData.name)}}</div>
           </div>
           <div style="position:relative; display:inline-block; border: 3px solid black;width:100%">
             <div style="height: 40px;border-bottom: 1px solid black">
               <div style="display: inline-block;position: absolute; left:0px;height:40px;line-height: 40px;font-weight:400;border-right: 1px solid black; width: 15%;">
-                单位全称
+                收款人单位全称
               </div>
               <div style="display: inline-block;position: absolute; left:15%;height:40px;line-height: 40px; width: 85%;text-align:left;padding-left:20px">
-                {{printData.unitname}}
+                {{printData.beneficiaryUnit}}
+              </div>
+            </div>
+            <div style="height: 40px;border-bottom: 1px solid black">
+              <div style="display: inline-block;position: absolute; left:0px;height:40px;line-height: 40px;font-weight:400;border-right: 1px solid black; width: 15%;">
+                收款人账号
+              </div>
+              <div style="display: inline-block;position: absolute; left:15%;height:40px;line-height: 40px; width: 85%;text-align:left;padding-left:20px">
+                {{printData.beneficiaryNumber}}
               </div>
             </div>
 
-            <div style="position: relative; height: 80px;border-bottom: 1px solid black">
-              <div style="display: inline-block;position: absolute; left:0px;height:80px;line-height: 80px;font-weight:400; width: 15%;border-right: 1px solid black">
-                发票金额
+            <div style="position: relative; height: 40px;border-bottom: 1px solid black">
+              <div style="display: inline-block;position: absolute; left:0px;height:40px;line-height: 40px;font-weight:400; width: 15%;border-right: 1px solid black">
+                汇入地点
               </div>
               <div style="display: inline-block;position: absolute; left:15%;top: 0px;height:40px;line-height: 40px; width: 35%;text-align:left;padding-left:20px;border-bottom:1px solid black;border-right: 1px solid black;">
-                ￥{{printData.cnyMoney}}
-              </div>
-              <div style="display: inline-block;position: absolute; left:15%;top:40px;height:40px;line-height: 40px; width: 75%;text-align:left;padding-left:20px;border-bottom:1px solid black;">
-                (大写){{printData.moneyCapital}}
+                {{printData.provinceName}}省 {{printData.cityName}}市/县
               </div>
               <div style="display: inline-block;position: absolute; left:50%;top: 0px;height:40px;line-height: 40px; width: 15%;text-align:left;padding-left:20px;border-bottom:1px solid black;border-right: 1px solid black;">
-                服务项目
+                汇入行名称
               </div>
               <div style="display: inline-block;position: absolute; left:65%;top: 0px;height:40px;line-height: 40px; width: 35%;text-align:left;padding-left:20px;border-bottom:1px solid black;border-right: 1px solid black;">
-                {{printData.revenueTypeName}}
+                {{printData.beneficiaryBank}}
               </div>
             </div>
 
-            <div style="height: 40px;border-bottom: 1px solid black">
-              <div style="display: inline-block;position: absolute; left:0px;height:40px;line-height: 40px;font-weight:400; width: 15%; border-right: 1px solid black">
-                总经理签字
+            <div style="position:relative; height: 60px;border-bottom: 1px solid black">
+              <div style="display:inline-block; position:absolute; left: 0px; top: 0px; width: 15%; line-height: 60px; border-right: 1px solid black">
+                电汇金额
               </div>
-              <div style="display: inline-block;position: absolute; left:15%;height:40px;line-height: 40px; width: 35%;text-align:left;padding-left:20px;border-bottom:1px solid black;border-right: 1px solid black">
+              <div style="display: inline-block;position: absolute; left:15%;height:30px;line-height: 30px;font-weight:400; width: 10%;">
+                人民币
+              </div>
+              <div style="display: inline-block;position: absolute; left:15%;top: 30px; height:30px;line-height: 30px;font-weight:400; width: 10%;">
+                (大写)
+              </div>
+              <div style="display: inline-block;position: absolute; left:25%;height:60px;line-height: 60px; width: 25%;text-align:left; border-right: 1px solid black">
+                 {{printData.moneyCapital}}
+              </div>
+              <div style="display: inline-block;position: absolute; left:50%;height:30px;line-height: 30px;font-weight:400; width: 10%;">
+                人民币
+              </div>
+              <div style="display: inline-block;position: absolute; left:50%;top: 30px; height:30px;line-height: 30px;font-weight:400; width: 10%;">
+                (小写)
+              </div>
+              <div style="display: inline-block;position: absolute; left:60%;height:60px;line-height: 60px; width: 20%;text-align:left;">
+                ￥:{{printData.expenditureMoney}}
+              </div>
+            </div>
+
+            <div style="height: 80px;border-bottom: 1px solid black">
+              <div style="display: inline-block;position: absolute; left:0px;height:80px;line-height: 80px;font-weight:400; width: 15%;">
+                部门主管：
+              </div>
+              <div style="display: inline-block;position: absolute; left:15%;height:80px;line-height: 80px; width: 20%;text-align:left;padding-left:20px;border-right: 1px solid black">
                 
               </div>
-              <div style="display: inline-block;position: absolute; left:50%;height:40px;line-height: 40px;font-weight:400; width: 15%; border-right: 1px solid black">
-                主管签字
+              <div style="display: inline-block;position: absolute; left:35%;height:80px;line-height: 80px;font-weight:400; width: 15%;">
+                领导批示：
               </div>
-              <div style="display: inline-block;position: absolute; left:65%;height:40px;line-height: 40px; width: 35%;text-align:left;padding-left:20px;border-bottom:1px solid black;">
+              <div style="display: inline-block;position: absolute; left:50%;height:50px;line-height: 80px; width: 30%;text-align:left;padding-left:20px;">
                 
               </div>
             </div>
           </div>
           <div style="display: inline-block; width:100%;height: 20px; position: relative; margin-bottom: 20px">
             <div style="display: inline-block; position: absolute; left: 0px; font-weight: 400">申请人：{{printData.username}}</div>
-            <div style="display: inline-block; position: absolute; left: 20%; font-weight: 400">申请日期：{{printData.ctime}}</div>
+            <div style="display: inline-block; position: absolute; left: 25%; font-weight: 400">出纳：</div>
+            <div style="display: inline-block; position: absolute; left: 50%; font-weight: 400">审核人：</div>
+            <div style="display: inline-block; position: absolute; left: 75%; font-weight: 400">会计：</div>
           </div>          
         </div>
       </el-col>
@@ -672,6 +703,16 @@ export default {
       axios.post('/api/expenditure/approval/del',scope.row).then((response) => {
         if(response.data.code != 0) {
           this.$message.error(response.data.msg);
+        } else {
+          axios.get("/api/expenditure/list?projectId=" + this.printData.projectId).then(
+            (rep) => {
+              if (rep && rep.data) {
+                this.$store.commit("projectData/setProjectPay", rep.data.data);
+                this.showAuditDialog = false;
+              }
+            },
+            () => {}
+          );
         }
       })
     },
@@ -686,7 +727,7 @@ export default {
         if(response.data.code != 0) {
           this.$message.error(response.data.msg);
         } else {
-          axios.get("/api/expenditure/list?projectId=" + this.$store.state.projectData.viewProjectId).then(
+          axios.get("/api/expenditure/list?projectId=" + this.printData.projectId).then(
           (rep) => {
             if (rep && rep.data) {
               this.$store.commit("projectData/setProjectPay", rep.data.data);
@@ -694,6 +735,14 @@ export default {
             }
           },
           () => {});
+          axios.get("/api/revenue/list?projectId=" + this.printData.projectId).then(
+            (rep) => {
+              if (rep && rep.data) {
+                this.$store.commit("incomeData/setRevenueList", rep.data.data);
+              }
+            },
+            () => {}
+          );
         }
       })
     },
