@@ -28,6 +28,20 @@ let UserNetUtil = {
             result = {}
         }
         return result;
+    },
+    getNowUserRole() {
+        let result = axios.get("/api/role/getmenu").then(
+            (rep) => {
+                if (rep && rep.data) {
+                    return rep.data.data;
+                }
+            },
+            () => {}
+        );
+        if (result == null) {
+            result = {}
+        }
+        return result;
     }
 }
 

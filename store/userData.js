@@ -29,10 +29,14 @@ export const state = () => ({
     },
     viewUser: false,
     hasLogin: false,
-    userName: ""
+    userName: "",
+    nowUserRole: []
 })
 
 export const mutations = {
+    setNowUserRole(state, newObj) {
+        state.nowUserRole = newObj;
+    },
     setValidateCode(state, newObj) {
         state.validateCode.id = newObj.id;
         state.validateCode.url = newObj.url;

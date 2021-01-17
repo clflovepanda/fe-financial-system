@@ -18,6 +18,7 @@
 import axios from 'axios';
 import Deposit from "~/components/projectListPage/Deposit.vue";
 import CookieUtil from "~/utils/CookieUtil";
+import NetReqUser from "../network/NetReqUser";
 
 export default {
 
@@ -28,6 +29,9 @@ export default {
     if(!CookieUtil.existCookie("user_id")) {
       location.href = "/";
     }
+    let nowUserRole = await NetReqUser.getNowUserRole();
+    console.log("当前用户角色列表", nowUserRole);
+    ctx.store.commit("userData/setNowUserRole", nowUserRole);
     let useTypeResult = await axios.get("/api/expenditure/gettype").then(
       (rep) => {
         if (rep && rep.data) {

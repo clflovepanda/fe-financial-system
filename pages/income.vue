@@ -41,6 +41,7 @@ import ConfirmDeleteIncomeDialog from "~/components/financialModule/incomePage/C
 import ConfirmedIncomeListDialog from "~/components/financialModule/incomePage/ConfirmedIncomeListDialog";
 import axios from "axios"
 import CookieUtil from "~/utils/CookieUtil";
+import NetReqUser from "../network/NetReqUser";
 
 export default {
   methods: {
@@ -52,6 +53,9 @@ export default {
     if(!CookieUtil.existCookie("user_id")) {
       location.href = "/";
     }
+    let nowUserRole = await NetReqUser.getNowUserRole();
+    console.log("当前用户角色列表", nowUserRole);
+    ctx.store.commit("userData/setNowUserRole", nowUserRole);
     let result = await axios.get("/api/receivement/list?offset=1&limit=5").then(
       (rep) => {
         if (rep && rep.data) {

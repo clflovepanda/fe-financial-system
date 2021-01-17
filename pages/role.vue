@@ -27,6 +27,7 @@ import CreateRoleDialog from "~/components/rolePage/CreateRoleDialog";
 import EditRoleDialog from "~/components/rolePage/EditRoleDialog";
 import axios from "axios";
 import CookieUtil from "~/utils/CookieUtil";
+import NetReqUser from "../network/NetReqUser";
 
 export default {
   methods: {
@@ -39,6 +40,9 @@ export default {
     if(!CookieUtil.existCookie("user_id")) {
       location.href = "/";
     }
+    let nowUserRole = await NetReqUser.getNowUserRole();
+    console.log("当前用户角色列表", nowUserRole);
+    ctx.store.commit("userData/setNowUserRole", nowUserRole);
     console.log("初始化UserPage数据");
     let result = await axios.get("/api/role/get").then(
       (rep) => {

@@ -399,6 +399,7 @@ import ReceivableList from "~/components/projectListPage/ReceivableList.vue";
 import ProjectSettlement from "~/components/projectListPage/ProjectSettlement.vue";
 import axios from "axios";
 import CookieUtil from "~/utils/CookieUtil";
+import NetReqUser from "../network/NetReqUser";
 
 export default {
   data() {
@@ -708,8 +709,10 @@ export default {
     if(!CookieUtil.existCookie("user_id")) {
       location.href = "/";
     }
+    let nowUserRole = await NetReqUser.getNowUserRole();
+    console.log("当前用户角色列表", nowUserRole);
+    ctx.store.commit("userData/setNowUserRole", nowUserRole);
     //工时分配列表
-
      let result = await axios.get("/api/task/gettaskrelation?projectId="+ctx.store.state.projectData.viewProjectId).then(
       (rep) => {
         if (rep && rep.data) {

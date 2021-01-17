@@ -139,9 +139,9 @@
           <el-table-column align="center" label="操作" width="180">
               <template slot-scope="scope">
                 <el-button @click="printPay(scope)" type="text" size="small" :disabled="scope.row.state>3">打印</el-button>
-                <el-button @click="printPay(scope)" type="text" size="small" :disabled="scope.row.state>3">修改</el-button>
-                <el-button @click="printPay(scope)" type="text" size="small" :disabled="scope.row.state>3">删除</el-button>
-                <el-button @click="printPay(scope)" type="text" size="small">查看</el-button>
+                <el-button @click="editPay(scope)" type="text" size="small" :disabled="scope.row.state>3">修改</el-button>
+                <el-button @click="delPay(scope)" type="text" size="small" :disabled="scope.row.state>3">删除</el-button>
+                <el-button @click="viewPay(scope)" type="text" size="small">查看</el-button>
                 <!-- <el-button @click="printPay(scope)" type="text" size="small">查看</el-button> -->
               </template>
           </el-table-column>
@@ -149,7 +149,7 @@
       </el-main>
     </el-container>
   </el-container>
-  <CreatePayDialog />
+  <CreatePayDialog :showCreatPay="showCreatePay" :editObj="editObj" :showType="showType"/>
   <AuditDialog />
   <PringPayDialog :showVis="showVis"/>
   </div>
@@ -182,7 +182,10 @@ export default {
         projectId: ""
       },
       daterange: "",
-      showVis: 0
+      showVis: 0,
+      showCreatePay: 0,
+      editObj: {},
+      showType: 1, //1创建，2修改，3删除
     };
   },
   computed: {
@@ -246,8 +249,9 @@ export default {
       console.log("查询项目");
     },
     showCreatePayDialog() {
-      console.log("haha");
-      this.$store.commit("dialogSwitchData/setCreatePayDialogShow", true);
+      this.showType = 1;
+      this.showCreatePay += 1;
+      // this.$store.commit("dialogSwitchData/setCreatePayDialogShow", true);
     },
     handleExcel() {
       this.ruleForm.projectId = this.$store.state.projectData.viewProjectId;
@@ -280,7 +284,19 @@ export default {
       // } else {
       //   this.$store.commit("dialogSwitchData/setPrintPayDialogShow", true);
       // }
-      
+    },
+    editPay(scope) {
+      this.showType = 2;
+      this.showCreatePay += 1;
+      this.editObj = scope.row;
+    },
+    delPay(scope) {
+      console.log("删除", scope.row);
+    },
+    viewPay(scope) {
+      this.showType = 3;
+      this.showCreatePay += 1;
+      this.editObj = scope.row;
     },
     audit(scope) {
       console.log(scope.row);

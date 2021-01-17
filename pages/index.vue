@@ -125,6 +125,9 @@ export default {
                 let projectList = await NetReqUser.getAllProject();
                 this.$router.push("/projectList");
                 this.$store.commit("userData/setHasLogin", true);
+                let nowUserRole = await NetReqUser.getNowUserRole();
+                console.log("当前用户角色列表", nowUserRole);
+                this.$store.commit("userData/setNowUserRole", nowUserRole);
               })();
             } else {
               this.$message.error(response.data.msg);

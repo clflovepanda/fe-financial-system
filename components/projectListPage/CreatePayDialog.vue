@@ -7,6 +7,7 @@
               v-model="createForm.companyId"
               placeholder="请选择公司"
               class="inpSty"
+              :disabled="showType == 3"
               >
               <el-option
                   v-for="item in companyList"
@@ -21,7 +22,7 @@
     <el-row class="rowSty">
       <el-col :span="4" class="labelSty"><span>支出方式：</span></el-col>
       <el-col :span="10" class="labelSty">
-        <el-radio-group v-model="createForm.expenditureMethodId" @change="changeMethod" :disabled="disableEdit">
+        <el-radio-group v-model="createForm.expenditureMethodId" @change="changeMethod" :disabled="disableEdit || showType == 3">
           <el-radio :label="1">现金</el-radio>
           <el-radio :label="2">电汇</el-radio>
           <el-radio :label="3">差旅</el-radio>
@@ -38,6 +39,7 @@
           @select="handleSelect"
           placeholder="请输入收款人单位全称"
            class="inpSty"
+           :disabled="showType == 3"
         ></el-autocomplete>
       </el-col>
     </el-row>
@@ -48,6 +50,7 @@
           v-model="createForm.beneficiary_number"
           placeholder="请输入收款人账号"
            class="inpSty"
+           :disabled="showType == 3"
         ></el-input>
       </el-col>
     </el-row>
@@ -55,7 +58,7 @@
       <el-col :span="4" class="labelSty"><span>地点：</span></el-col>
       <el-col :span="10">
         <!--province   city-->
-        <el-select v-model="createForm.province" placeholder="请选择省份" class="inpSty">
+        <el-select v-model="createForm.province" placeholder="请选择省份" class="inpSty" :disabled="showType == 3">
           <el-option
             v-for="item in cityList"
             :key="item.provinceId"
@@ -65,7 +68,7 @@
         </el-select>
       </el-col>
       <el-col :span="6" :offset="1">
-        <el-select v-model="createForm.city" placeholder="请选择城市" class="inpSty">
+        <el-select v-model="createForm.city" placeholder="请选择城市" class="inpSty" :disabled="showType == 3">
           <el-option
             v-for="item in subCityList"
             :key="item.cityId"
@@ -82,13 +85,14 @@
           v-model="createForm.beneficiary_bank"
           placeholder="请输入汇入行名称"
            class="inpSty"
+           :disabled="showType == 3"
         ></el-input>
       </el-col>
     </el-row>
     <el-row class="rowSty">
       <el-col :span="4" class="labelSty"><span>支出类型：</span></el-col>
       <el-col :span="10">
-        <el-select v-model="createForm.expenditureTypeId" placeholder="请选择支出类型" class="inpSty" :disabled="disableEdit">
+        <el-select v-model="createForm.expenditureTypeId" placeholder="请选择支出类型" class="inpSty" :disabled="disableEdit || showType == 3">
           <el-option
             v-for="item in expenditureType"
             :key="item.expenditureTypeId"
@@ -101,7 +105,7 @@
     <el-row class="rowSty">
       <el-col :span="4" class="labelSty"><span>用途：</span></el-col>
       <el-col :span="10">
-        <el-select v-model="createForm.expenditurePurposeId" placeholder="请选择用途" class="inpSty" :disabled="disableEdit">
+        <el-select v-model="createForm.expenditurePurposeId" placeholder="请选择用途" class="inpSty" :disabled="disableEdit || showType == 3">
           <el-option
             v-for="item in expenditurePurposeType"
             :key="item.expenditurePurposeId"
@@ -115,7 +119,7 @@
           v-model="createForm.expenditurePurposeContent"
           placeholder="其他用途"
            class="inpSty"
-           :disabled="disableEdit"
+           :disabled="disableEdit || showType == 3"
         ></el-input>
       </el-col>
     </el-row>
@@ -126,6 +130,7 @@
           v-model="createForm.expenditureMoney"
           placeholder="请输入支出金额"
            class="inpSty"
+           :disabled="showType == 3"
         ></el-input>
       </el-col>
     </el-row>
@@ -136,13 +141,15 @@
           type="textarea"
           :rows="4"
           placeholder="请输入备注"
-          v-model="createForm.remark">
+          v-model="createForm.remark"
+          :disabled="showType == 3">
         </el-input>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="4" :offset="20">
-        <el-button type="primary" @click="createPay()">创建</el-button>
+        <el-button type="primary" @click="createPay()" :class="[showType == 3 ? 'dis': '']">创建</el-button>
+        <el-button @click="showCreatePayDialog = false">返回支出列表</el-button>
       </el-col>
     </el-row>
   </el-dialog>
@@ -152,7 +159,7 @@
 import axios from "axios";
 import {EnumAccount} from "../../utils/EnumUtil";
 export default {
-  props: ["editObj"],
+  props: ["editObj", "showCreatPay", "showType"],
   data() {
     return {
       createForm: {
@@ -226,9 +233,9 @@ export default {
     roleList() {
       return this.$store.state.roleData.roleStatusList;
     },
-    isShowCreatePayDialog() {
-      return this.$store.state.dialogSwitchData.createPayDialogShow;
-    },
+    // isShowCreatePayDialog() {
+    //   return this.$store.state.dialogSwitchData.createPayDialogShow;
+    // },
     getRoleList() {
       return this.$store.state.roleData.roleListTable.listData;
     },
@@ -249,12 +256,67 @@ export default {
     }
   },
   watch: {
+    showCreatPay() {
+      if(this.showCreatePayDialog == true) {
+        this.showCreatePayDialog = false;
+      } else {
+        this.showCreatePayDialog = true;
+      }
+      console.log("show type", this.showType);
+      if(this.showType == 1) {
+        this.createForm.companyId = "";
+        this.createForm.projectId = "";   
+        this.createForm.expenditureMethodId = "";
+        this.createForm.expenditureTypeId = "";
+        this.createForm.expenditurePurposeId = "";
+        this.createForm.expenditurePurposeContent = "";
+        this.createForm.expenditureMoney = "";
+        this.createForm.remark = "";
+        this.createForm.beneficiary_unit = "";
+        this.createForm.beneficiary_number = "";
+        this.createForm.province = "";
+        this.createForm.city = "";
+        this.createForm.beneficiary_bank = "";
+      } else if(this.showType == 2) {
+        console.log("修改支出", this.editObj);
+        this.createForm.companyId = this.editObj.companyId;
+        this.createForm.projectId = this.editObj.projectId;   
+        this.createForm.expenditureMethodId = this.editObj.expenditureMethodId;
+        this.createForm.expenditureTypeId = this.editObj.expenditureTypeId;
+        this.createForm.expenditurePurposeId = this.editObj.expenditurePurposeId;
+        this.createForm.expenditurePurposeContent = this.editObj.expenditurePurposeContent;
+        this.createForm.expenditureMoney = this.editObj.expenditureMoney;
+        this.createForm.remark = this.editObj.remark;
+        this.createForm.beneficiary_unit = this.editObj.beneficiaryUnit;
+        this.createForm.beneficiary_number = this.editObj.beneficiaryNumber;
+        this.createForm.province = this.editObj.province;
+        this.createForm.city = this.editObj.city;
+        this.createForm.beneficiary_bank = this.editObj.beneficiaryBank;
+        this.changeMethod();
+      } else if(this.showType == 3) {
+        console.log("显示支出", this.editObj);
+        this.createForm.companyId = this.editObj.companyId;
+        this.createForm.projectId = this.editObj.projectId;   
+        this.createForm.expenditureMethodId = this.editObj.expenditureMethodId;
+        this.createForm.expenditureTypeId = this.editObj.expenditureTypeId;
+        this.createForm.expenditurePurposeId = this.editObj.expenditurePurposeId;
+        this.createForm.expenditurePurposeContent = this.editObj.expenditurePurposeContent;
+        this.createForm.expenditureMoney = this.editObj.expenditureMoney;
+        this.createForm.remark = this.editObj.remark;
+        this.createForm.beneficiary_unit = this.editObj.beneficiaryUnit;
+        this.createForm.beneficiary_number = this.editObj.beneficiaryNumber;
+        this.createForm.province = this.editObj.province;
+        this.createForm.city = this.editObj.city;
+        this.createForm.beneficiary_bank = this.editObj.beneficiaryBank;
+        this.changeMethod();
+      }
+    },
     showCreatePayDialog() {
-      this.$store.commit(
-        "dialogSwitchData/setCreatePayDialogShow",
-        this.showCreatePayDialog
-      );
-      console.log("showCreatePayDialog", this.showCreatePayDialog);
+      // this.$store.commit(
+      //   "dialogSwitchData/setCreatePayDialogShow",
+      //   this.showCreatePayDialog
+      // );
+      // console.log("showCreatePayDialog", this.showCreatePayDialog);
       if(!this.showCreatePayDialog) {
         this.$store.commit("expenditureData/setRevenueId", "");
         this.createForm.expenditureMethodId = "";
@@ -264,9 +326,9 @@ export default {
         this.needShowRow = false;
       }
     },
-    isShowCreatePayDialog(val, oldVal) {
-      this.showCreatePayDialog = val;
-    },
+    // isShowCreatePayDialog(val, oldVal) {
+    //   this.showCreatePayDialog = val;
+    // },
     revenueId(val, oldVal) {
       if (val > 0) {
         this.createForm.expenditureMethodId = 2;
@@ -393,5 +455,9 @@ export default {
 .disShowRow {
   display: none;
   margin-top: 10px;
+}
+
+.dis {
+  display: none;
 }
 </style>
