@@ -578,7 +578,7 @@
             </div>
           </div> -->
           <div style="display: inline-block; width:100%;height: 20px; position: relative">
-            <div style="display: inline-block; position: absolute; left: 10px">编号：{{printData.invoiceNo}}</div>
+            <div style="display: inline-block; position: absolute; left: 10px">编号：{{printData.projectName}}</div>
             <div style="display: inline-block; position: absolute; right: 20px">{{printData.invoiceType}}</div>
           </div>
           <div style="position:relative; display:inline-block; border: 3px solid black;width:100%">

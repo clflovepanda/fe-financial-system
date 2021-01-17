@@ -136,9 +136,12 @@
               <el-button @click="audit(scope)" type="text" size="small">{{getAuditType(scope.row.state)}}</el-button>
             </template>
           </el-table-column>
-          <el-table-column align="center" label="操作" width="140">
+          <el-table-column align="center" label="操作" width="180">
               <template slot-scope="scope">
                 <el-button @click="printPay(scope)" type="text" size="small" :disabled="scope.row.state>3">打印</el-button>
+                <el-button @click="printPay(scope)" type="text" size="small" :disabled="scope.row.state>3">修改</el-button>
+                <el-button @click="printPay(scope)" type="text" size="small" :disabled="scope.row.state>3">删除</el-button>
+                <el-button @click="printPay(scope)" type="text" size="small">查看</el-button>
                 <!-- <el-button @click="printPay(scope)" type="text" size="small">查看</el-button> -->
               </template>
           </el-table-column>

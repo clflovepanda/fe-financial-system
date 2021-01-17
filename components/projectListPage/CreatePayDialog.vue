@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="新增支出" :visible.sync="showCreatePayDialog" width="80%" style="z-index: 9999">
+  <el-dialog title="支出" :visible.sync="showCreatePayDialog" width="80%" style="z-index: 9999">
     <el-row>
       <el-col :span="4" class="labelSty"><span>公司：</span></el-col>
       <el-col :span="10">
@@ -152,6 +152,7 @@
 import axios from "axios";
 import {EnumAccount} from "../../utils/EnumUtil";
 export default {
+  props: ["editObj"],
   data() {
     return {
       createForm: {
