@@ -172,20 +172,58 @@ export default {
         params: param
       }).then(
           (rep) => {
-            if (rep && rep.data && rep.data.code == 0) {
-              axios.get("/api/project/list").then(
-                (resp) => {
-                  if (resp && resp.data) {
-                    this.$store.commit("projectData/setProjectList", resp .data.data);
-                  } else {
-                    this.$message.error(resp.data.msg);
+            axios.get("/api/project/list?auditing_state=1&limit=5&offset=1").then(
+              (rep) => {
+                if (rep && rep.data) {
+                  let projectPassListResult = {
+                    data: rep.data.data,
+                    count: rep.data.count
+                  };
+                  console.log("project pass list", projectPassListResult);
+                  if(projectPassListResult == null) {
+                    projectPassListResult = {
+                      data: [],
+                      total: 0
+                    }
                   }
-                },
-                () => {}
-              );
-            } else {
-              this.$message.error(rep.data.msg);
-            }
+                  let tempPass = {
+                    list: projectPassListResult.data,
+                    total: projectPassListResult.count,
+                    pageSize: 5,
+                    pageNum: 1,
+                  }
+                  this.$store.commit("projectData/setProjectPassList", tempPass);
+
+                }
+              },
+              () => {}
+            );
+            
+            axios.get("/api/project/list?auditing_state=2&limit=10&offset=1").then(
+              (rep) => {
+                if (rep && rep.data) {
+                  let projectRejectListResult = {
+                    data: rep.data.data,
+                    count: rep.data.count
+                  };
+                  console.log("project reject list", projectRejectListResult);
+                  if (projectRejectListResult == null) {
+                    projectRejectListResult = {
+                      data: [],
+                      total: 0
+                    }
+                  }
+                  let tempReject = {
+                    list: projectRejectListResult.data,
+                    total: projectRejectListResult.count,
+                    pageSize: 5,
+                    pageNum: 1
+                  }
+                  this.$store.commit("projectData/setProjectRejectList", tempReject);
+                }
+              },
+              () => {}
+            );
           },
           () => {}
         );

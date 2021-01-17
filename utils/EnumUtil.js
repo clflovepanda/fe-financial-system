@@ -69,9 +69,13 @@ let EnumIncomeFromType = {
 
 let EnumOutputType = {
     list: [
-        { value: 1, label: "普通支出" },
-        { value: 2, label: "退押金" },
-        { value: 3, label: "押金及费用" },
+        { value: 1, label: "IT费用" },
+        { value: 2, label: "执行费用" },
+        { value: 3, label: "搭建费用" },
+        { value: 4, label: "市场费用" },
+        { value: 5, label: "主场费用" },
+        { value: 6, label: "招商费用" },
+        { value: 7, label: "其它费用" },
     ],
     getMsg(value) {
         for (let i = 0; i < this.list.length; i++) {

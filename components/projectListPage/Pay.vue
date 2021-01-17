@@ -102,28 +102,6 @@
           </el-col>
         </el-row>
 
-        <!-- <el-row class="money-show">
-          <el-col :span="4">
-            <span>已提交总计/元：</span>
-            <span></span>
-          </el-col>
-          <el-col :span="4">
-            <span>未财务审批/元:</span>
-            <span></span>
-          </el-col>
-          <el-col :span="4">
-            <span>已支付总计/元：</span>
-            <span></span>
-          </el-col>
-          <el-col :span="4">
-            <span>票据作废总计/元：</span>
-            <span></span>
-          </el-col>
-          <el-col :span="4">
-            <span>平借款总计/元：</span>
-            <span></span>
-          </el-col>
-        </el-row> -->
         <el-table :data="getProjectPay" border style="width: 100%; margin-top: 20px" id="out-table">
           <el-table-column align="center" prop="expenditureId" label="序号"></el-table-column>
           <el-table-column align="center" prop="numbering" label="支出编号"></el-table-column>
@@ -160,7 +138,7 @@
           </el-table-column>
           <el-table-column align="center" label="操作" width="140">
               <template slot-scope="scope">
-                <el-button @click="printPay(scope)" type="text" size="small" :disabled="scope.row.state<=3">打印</el-button>
+                <el-button @click="printPay(scope)" type="text" size="small" :disabled="scope.row.state>3">打印</el-button>
                 <!-- <el-button @click="printPay(scope)" type="text" size="small">查看</el-button> -->
               </template>
           </el-table-column>
