@@ -8,6 +8,9 @@
     <el-divider></el-divider>
     <SearchProjectStatistic />
     <el-divider></el-divider>
+    <el-row>
+      <el-button :class="[checkNowUserRole('statistic_project_export') ? '':'disRoleMenu']">导出Excel</el-button>
+    </el-row>
     <ProjectTable />
   </div>
 </template>
@@ -20,6 +23,13 @@ import axios from "axios";
 import NetReqUser from "../network/NetReqUser";
 
 export default {
+  computed:{
+    checkNowUserRole(){
+      return function(name) {
+        return this.$store.state.userData.nowUserRole.indexOf(name) > -1;
+      }
+    },
+  },
   methods: {
     // showNewIncomeDialog: function () {
     //   this.$store.commit("dialogSwitchData/showNewIncomeDialog", true);

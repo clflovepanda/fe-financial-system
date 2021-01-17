@@ -60,7 +60,7 @@
         </el-form>
         <el-divider></el-divider>
 
-        <el-row>
+        <el-row :class="[(projectDetail && checkNowUserRole('project_deposit_export') || !projectDetail && checkNowUserRole('deposit_export')) ? '':'disRoleMenu']">
           <el-col :span="4" :offset="20">
             <el-button type="primary" @click="handleExcel()">导出excel</el-button>
           </el-col>
@@ -107,8 +107,8 @@
           <el-table-column align="center" prop="returned" label="已退回押金/元"></el-table-column>
           <el-table-column align="center" prop="id" label="操作" width="140">
             <template slot-scope="scope">
-              <el-button  type="text" size="small" :disabled="scope.row.returned>0 || scope.row.receivementTypeName == '收回押金'" @click="backMoney(scope)">退押金</el-button>
-              <el-button  type="text" size="small" :disabled="scope.row.receivementTypeName == '收回押金'" @click="depositeLog(scope)">操作记录</el-button>
+              <el-button  type="text" size="small" :disabled="scope.row.returned>0 || scope.row.receivementTypeName == '收回押金'" @click="backMoney(scope)" :class="[(projectDetail && checkNowUserRole('project_deposit_add') || !projectDetail && checkNowUserRole('deposit_add')) ? '':'disRoleMenu']">退押金</el-button>
+              <el-button  type="text" size="small" :disabled="scope.row.receivementTypeName == '收回押金'" @click="depositeLog(scope)" :class="[(projectDetail && checkNowUserRole('project_deposit_detail') || !projectDetail && checkNowUserRole('deposit_detail')) ? '':'disRoleMenu']">操作记录</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -164,6 +164,11 @@ export default {
     };
   },
   computed: {
+    checkNowUserRole(){
+      return function(name) {
+        return this.$store.state.userData.nowUserRole.indexOf(name) > -1;
+      }
+    },
     getMoneyOne(){
       return function(row) {
         if(row.toBeReturned == null && row.returning == null && row.returned == null) {

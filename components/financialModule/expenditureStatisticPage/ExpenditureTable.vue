@@ -11,7 +11,7 @@
         <el-table-column align="center" prop="expenditureMoney" label="金额"></el-table-column>
         <el-table-column align="center" prop="username" label="申请人"></el-table-column>
         <el-table-column align="center" label="状态" width="140">
-          <tempalte slot-scope="scope">
+          <template slot-scope="scope">
             <span v-if="scope.row.state == 0">未提交</span>
             <span v-if="scope.row.state == 1">已提交</span>
             <span v-if="scope.row.state == 2">审核中</span>
@@ -19,7 +19,7 @@
             <span v-if="scope.row.state == 4">已支付</span>
             <span v-if="scope.row.state == 5">作废</span>
             <span v-if="scope.row.state == 6">平借款</span>
-          </tempalte>
+          </template>
         </el-table-column>
       </el-table>
       <el-row>

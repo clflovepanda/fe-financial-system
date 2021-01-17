@@ -36,7 +36,7 @@
     </el-row>
     <el-row style="margin-top:20px">
       <el-col :span="4">
-        <el-button type="primary" @click="addinvoice('add')">添加</el-button>
+        <el-button type="primary" @click="addinvoice('add')" :class="[checkNowUserRole('invoice_add') ? '':'disRoleMenu']">添加</el-button>
       </el-col>
     </el-row>
     <el-table
@@ -54,11 +54,10 @@
       <el-table-column prop="createDatetime" label="时间"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-                <el-button @click="printPay(scope)" type="text" size="small">打印</el-button>
-                <el-button @click="addinvoice(scope.row)" type="text" size="small">修改</el-button>
-                <el-button @click="delInvoice(scope.row)" type="text" size="small">删除</el-button>
-
-              </template>
+          <el-button @click="printPay(scope)" type="text" size="small" :class="[checkNowUserRole('invoice_print') ? '':'disRoleMenu']">打印</el-button>
+          <el-button @click="addinvoice(scope.row)" type="text" size="small" :class="[checkNowUserRole('invoice_update') ? '':'disRoleMenu']">修改</el-button>
+          <el-button @click="delInvoice(scope.row)" type="text" size="small" :class="[checkNowUserRole('invoice_del') ? '':'disRoleMenu']">删除</el-button>
+        </template>
       </el-table-column>
     </el-table>
     <el-dialog title="添加/修改发票应收" :visible.sync="dialogFormVisible" :before-close="cancelInvoice">
@@ -316,6 +315,11 @@ export default {
   
   },
    computed: {
+    checkNowUserRole(){
+      return function(name) {
+        return this.$store.state.userData.nowUserRole.indexOf(name) > -1;
+      }
+    },
     accountList() {
       return this.$store.state.incomeData.accountList;
     },

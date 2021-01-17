@@ -16,6 +16,7 @@
           type="primary"
           style="width: 90%"
           @click="showCreateUserDialog"
+          v-if="checkNowUserRole('user_add')"
           >新建用户</el-button
         >
       </el-col>
@@ -37,6 +38,11 @@ import NetReqUser from "../network/NetReqUser";
 
 export default {
   computed: {
+    checkNowUserRole(){
+      return function(name) {
+        return this.$store.state.userData.nowUserRole.indexOf(name) > -1;
+      }
+    },
     getRoleList() {
       return this.$store.state.roleData.roleListTable.listData;
     }

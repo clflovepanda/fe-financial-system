@@ -16,7 +16,7 @@
       <el-table-column prop="remark" label="备注"></el-table-column>
       <el-table-column prop="remark" label="操作">
         <template slot-scope="scope">
-          <el-button type="text" @click="delsublog(scope)">删除</el-button>
+          <el-button type="text" @click="delsublog(scope)" :class="[checkNowUserRole('receivement_delsublog') ? '':'disRoleMenu']">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -31,10 +31,14 @@ export default {
     };
   },
   computed: {
-     incomeListTable() {
-
+    incomeListTable() {
       return this.$store.state.dialogSwitchData.receivementListValue;
-    }
+    },
+    checkNowUserRole(){
+      return function(name) {
+        return this.$store.state.userData.nowUserRole.indexOf(name) > -1;
+      }
+    },
   },
   methods: {
     handleSizeChange() {},

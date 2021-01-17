@@ -24,10 +24,13 @@
             >查看</el-button
           > -->
           <el-button type="text" size="small" @click="handleEdit(scope)"
-            >编辑</el-button
+            v-if="checkNowUserRole('role_update')">编辑</el-button
           >
           <el-button type="text" size="small" @click="ban(scope)"
-            >禁用</el-button
+            v-if="checkNowUserRole('role_change') && scope.row.state == 1">禁用</el-button
+          >
+          <el-button type="text" size="small" @click="ban(scope)"
+            v-if="checkNowUserRole('role_change') && scope.row.state != 1">启用</el-button
           >
         </template>
       </el-table-column>
@@ -62,6 +65,11 @@ export default {
     };
   },
   computed: {
+    checkNowUserRole(){
+      return function(name) {
+        return this.$store.state.userData.nowUserRole.indexOf(name) > -1;
+      }
+    },
     roleListTable() {
       console.log("user component", this.$store.state.roleData.roleListTable);
       return this.$store.state.roleData.roleListTable;
@@ -78,6 +86,7 @@ export default {
       axios.get("/api/role/getbyroleid?roleId=" + scope.row.roleId).then(
         (rep) => {
           if (rep && rep.data) {
+            console.log("当前修改的role", rep.data.data);
             this.$store.commit("roleData/setNowSelectRole", rep.data.data);
           }
         },

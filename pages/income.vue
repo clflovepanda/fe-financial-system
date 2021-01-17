@@ -16,6 +16,7 @@
           type="primary"
           style="width: 90%"
           @click="showNewIncomeDialog"
+           :class="[checkNowUserRole('receivement_add') ? '':'disRoleMenu']"
           >新增到款</el-button
         >
       </el-col>
@@ -44,6 +45,13 @@ import CookieUtil from "~/utils/CookieUtil";
 import NetReqUser from "../network/NetReqUser";
 
 export default {
+  computed:{
+    checkNowUserRole(){
+      return function(name) {
+        return this.$store.state.userData.nowUserRole.indexOf(name) > -1;
+      }
+    },
+  },
   methods: {
     showNewIncomeDialog: function () {
       this.$store.commit("dialogSwitchData/showNewIncomeDialog", true);

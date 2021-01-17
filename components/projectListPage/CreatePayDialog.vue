@@ -277,6 +277,7 @@ export default {
         this.createForm.province = "";
         this.createForm.city = "";
         this.createForm.beneficiary_bank = "";
+        this.createForm.expenditureId = "";
       } else if(this.showType == 2) {
         console.log("修改支出", this.editObj);
         this.createForm.companyId = this.editObj.companyId;
@@ -292,6 +293,7 @@ export default {
         this.createForm.province = this.editObj.province;
         this.createForm.city = this.editObj.city;
         this.createForm.beneficiary_bank = this.editObj.beneficiaryBank;
+        this.createForm.expenditureId = this.editObj.expenditureId;
         this.changeMethod();
       } else if(this.showType == 3) {
         console.log("显示支出", this.editObj);
@@ -376,6 +378,9 @@ export default {
         this.createForm.revenueId = revenueId;
         url += "?flag=deposit";
         isDeposite = true;
+      }
+      if(this.showType == 2) {
+        url = "/api/expenditure/update";
       }
       this.createForm.projectId = this.$store.state.projectData.viewProjectId;
        axios.post(url,this.createForm).then((response) => {

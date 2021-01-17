@@ -60,6 +60,9 @@
           </el-col>
         </el-row>
     <el-divider></el-divider>
+    <el-row :class="[checkNowUserRole('expenditure_export') ? '':'disRoleMenu']">
+      <el-button type="primary" >导出Excel</el-button>
+    </el-row>
     <el-table :data="getAllPayList" border style="width: 100%; margin-top: 20px" id="out-table">
           <el-table-column align="center" prop="expenditureId" label="序号"></el-table-column>
           <el-table-column align="center" prop="numbering" label="支出编号"></el-table-column>
@@ -85,19 +88,19 @@
             </template>
           </el-table-column>
           <el-table-column align="center" prop="utime" label="最新状态时间" width="180"></el-table-column>
-          <el-table-column align="center" prop="expenditureAuditLogs" label="工作流" width="140">
+          <el-table-column align="center" prop="expenditureAuditLogs" label="工作流" width="140" :class="[checkNowUserRole('expenditure_approval') ? '':'disRoleMenu']">
             <template slot-scope="scope">
               <el-button @click="handleView(scope)" type="text" size="small">{{getAuditType(scope.row.expenditureTypeId)}}</el-button>
             </template>
           </el-table-column>
-          <!-- <el-table-column align="center" prop="utime" label="操作" width="180">
+          <el-table-column align="center" prop="utime" label="操作" width="180">
             <template slot-scope="scope">
-              <el-button @click="handleView(scope)" type="text" size="small">打印</el-button>
-              <el-button @click="handleView(scope)" type="text" size="small">修改</el-button>
-              <el-button @click="handleView(scope)" type="text" size="small">删除</el-button>
-              <el-button @click="handleView(scope)" type="text" size="small">查看</el-button>
+              <el-button @click="printPay(scope)" type="text" size="small" :class="[checkNowUserRole('expenditure_print') ? '':'disRoleMenu']">打印</el-button>
+              <el-button @click="editPay(scope)" type="text" size="small" :class="[checkNowUserRole('expenditure_update') ? '':'disRoleMenu']">修改</el-button>
+              <el-button @click="delPay(scope)" type="text" size="small" :class="[checkNowUserRole('expenditure_del') ? '':'disRoleMenu']">删除</el-button>
+              <el-button @click="viewPay(scope)" type="text" size="small">查看</el-button>
             </template>
-          </el-table-column> -->
+          </el-table-column>
         </el-table>
         <el-row>
           <el-col :span="12" :offset="12">
@@ -114,7 +117,9 @@
             </div>
           </el-col>
         </el-row>
-
+  <CreatePayDialog :showCreatPay="showCreatePay" :editObj="editObj" :showType="showType"/>
+  <AuditDialog />
+  <PringPayDialog :showVis="showVis"/>
   </div>
 </template>
 
@@ -124,6 +129,9 @@ import Deposit from "~/components/projectListPage/Deposit.vue";
 import CookieUtil from "~/utils/CookieUtil";
 import {EnumAccount, EnumOutputType, EnumPayType, EnumAuditType} from "../utils/EnumUtil"
 import NetReqUser from "../network/NetReqUser";
+import CreatePayDialog from "~/components/projectListPage/CreatePayDialog.vue";
+import AuditDialog from "~/components/projectListPage/AuditDialog.vue";
+import PringPayDialog from "~/components/projectListPage/PringPayDialog.vue";
 
 export default {
   data() {
@@ -136,10 +144,19 @@ export default {
         username: "",
         state: ""
       },
-      currentPage: 1
+      currentPage: 1,
+      showVis: 0,
+      showCreatePay: 0,
+      editObj: {},
+      showType: 1, //1创建，2修改，3删除
     }
   },
   computed: {
+    checkNowUserRole(){
+      return function(name) {
+        return this.$store.state.userData.nowUserRole.indexOf(name) > -1;
+      }
+    },
     getAllPayList() {
       return this.$store.state.expenditureData.allExpenditureList.list;
     },
@@ -219,6 +236,68 @@ export default {
       this.ruleForm.expenditureMethodId = "";
       this.ruleForm.username = "";
       this.ruleForm.state = "";
+    },
+    printPay(scope) {
+      console.log("即将打印的数据", scope);
+      let printTemp = scope.row;
+      this.$store.commit("projectData/setPringTemp", printTemp);
+      let isShowPrint = this.$store.state.dialogSwitchData.printPayDialogShow;
+      this.showVis = this.showVis + 1;
+      // if (isShowPrint) {
+      //   this.$store.commit("dialogSwitchData/setPrintPayDialogShow", false);
+      // } else {
+      //   this.$store.commit("dialogSwitchData/setPrintPayDialogShow", true);
+      // }
+    },
+    editPay(scope) {
+      this.showType = 2;
+      this.showCreatePay += 1;
+      this.editObj = scope.row;
+    },
+    delPay(scope) {
+      console.log("删除", scope.row);
+      axios.get("/api/expenditure/del?id=" + scope.row.expenditureId).then(
+        (rep) => {
+          if (rep && rep.data) {
+            this.submitForm();
+            // // this.ruleForm.projectId = this.$store.state.projectData.viewProjectId;
+            // if (this.daterange != "") {
+            //   let st = this.dateRange[0];
+            //   let et = this.dateRange[1];
+            //   this.ruleForm.startDt = st.getTime();
+            //   this.ruleForm.endDt = et.getTime();
+            // }
+            // axios.get("/api/expenditure/list", {
+            //   params: this.ruleForm
+            // }).then(
+            //   (resp) => {
+            //     if (resp && resp.data) {
+            //       this.$store.commit("projectData/setProjectPay", resp.data.data);
+            //     }
+            //   },
+            //   () => {}
+            // );
+          }
+        },
+        () => {}
+      );
+    },
+    viewPay(scope) {
+      this.showType = 3;
+      this.showCreatePay += 1;
+      this.editObj = scope.row;
+    },
+    audit(scope) {
+      console.log(scope.row);
+      this.$store.commit("expenditureData/setAuditLog", scope.row);
+      this.$store.commit("projectData/setPringTemp", scope.row);
+      let isShow = this.$store.state.dialogSwitchData.auditDialogShow;
+      if (isShow) {
+        this.$store.commit("dialogSwitchData/setAuditDialogShow", false);
+      } else {
+        this.$store.commit("dialogSwitchData/setAuditDialogShow", true);
+      }
+      
     }
   },
   async asyncData(ctx) {

@@ -32,11 +32,11 @@
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="280">
         <template slot-scope="scope">
-          <el-button @click="confirmMoney(scope)" type="text" :disabled="scope.row.state>2" size="small">认款</el-button>
-          <el-button @click="editConfirm(scope)" type="text" size="small"  :disabled="scope.row.state == 4">修改</el-button>
-          <el-button @click="confirmAccounting(scope)" type="text" size="small" :disabled="scope.row.state == 4">确认做账</el-button>
-          <el-button @click="deleteIncome(scope)" type="text" size="small" :disabled="scope.row.state == 4">删除</el-button>
-          <el-button @click="confirmList(scope)" type="text" size="small">已认款记录</el-button>
+          <el-button @click="confirmMoney(scope)" type="text" :disabled="scope.row.state>2" size="small"  :class="[checkNowUserRole('receivement_addsublog') ? '':'disRoleMenu']">认款</el-button>
+          <el-button @click="editConfirm(scope)" type="text" size="small"  :disabled="scope.row.state == 4" :class="[checkNowUserRole('receivement_update') ? '':'disRoleMenu']">修改</el-button>
+          <el-button @click="confirmAccounting(scope)" type="text" size="small" :disabled="scope.row.state == 4" :class="[checkNowUserRole('receivement_accounting') ? '':'disRoleMenu']">确认做账</el-button>
+          <el-button @click="deleteIncome(scope)" type="text" size="small" :disabled="scope.row.state == 4" :class="[checkNowUserRole('receivement_delete') ? '':'disRoleMenu']">删除</el-button>
+          <el-button @click="confirmList(scope)" type="text" size="small" :class="[checkNowUserRole('receivement_getsublog') ? '':'disRoleMenu']">已认款记录</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -70,7 +70,12 @@ export default {
     incomeListTable() {
       console.log("incomeListTable", this.$store.state.incomeData.incomeListTable);
       return this.$store.state.incomeData.incomeListTable;
-    }
+    },
+    checkNowUserRole(){
+      return function(name) {
+        return this.$store.state.userData.nowUserRole.indexOf(name) > -1;
+      }
+    },
   },
   watch: {
     incomeListTable() {

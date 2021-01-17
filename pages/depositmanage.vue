@@ -21,7 +21,13 @@ import CookieUtil from "~/utils/CookieUtil";
 import NetReqUser from "../network/NetReqUser";
 
 export default {
-
+  computed:{
+    checkNowUserRole(){
+      return function(name) {
+        return this.$store.state.userData.nowUserRole.indexOf(name) > -1;
+      }
+    },
+  },
   methods: {
     
   },

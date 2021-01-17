@@ -92,10 +92,10 @@
       </el-col>
     </el-row>
     <el-tabs v-model="activeName" @tab-click="handleTabClick">
-      <el-tab-pane label="审核通过项目" name="checkedPro">
+      <el-tab-pane label="审核通过项目" name="checkedPro" v-if="checkNowUserRole('project_adopt')">
         <Table :passStatus="true" />
       </el-tab-pane>
-      <el-tab-pane label="待审核及审核失败项目" name="notChecked">
+      <el-tab-pane label="待审核及审核失败项目" name="notChecked" v-if="checkNowUserRole('project_notadopt')">
         <Table :passStatus="false" />
       </el-tab-pane>
     </el-tabs>
@@ -131,6 +131,11 @@ export default {
     };
   },
   computed: {
+    checkNowUserRole(){
+      return function(name) {
+        return this.$store.state.userData.nowUserRole.indexOf(name) > -1;
+      }
+    },
     getProjectTypeList() {
       return EnumProjectType.list;
     },

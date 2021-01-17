@@ -20,21 +20,19 @@
       <el-table-column prop="roleName" label="角色"></el-table-column>
       <el-table-column prop="state" label="账号状态">
       <template slot-scope="scope">
-          {{scope.row.state == 1 ? "启用" : "禁用"}}
-        </template>
+        {{scope.row.state == 1 ? "启用" : "禁用"}}
+      </template>
       </el-table-column>
       <el-table-column
         prop="createDatetime"
         label="创建时间"
       ></el-table-column>
-      <el-table-column fixed="right" label="操作" width="120">
+      <el-table-column fixed="right" label="操作" width="160">
         <template slot-scope="scope">
-          <el-button @click="handleView(scope)" type="text" size="small"
-            >查看</el-button
-          >
-          <el-button type="text" size="small" @click="handleEdit(scope)"
-            >编辑</el-button
-          >
+          <el-button @click="handleView(scope)" type="text" size="small">查看</el-button>
+          <el-button type="text" size="small" @click="handleEdit(scope)" v-if="checkNowUserRole('user_update')">编辑</el-button>
+          <el-button type="text" size="small" @click="changeState(scope)" v-if="checkNowUserRole('user_state') && scope.row.state != 1">启用</el-button>
+          <el-button type="text" size="small" @click="changeState(scope)" v-if="checkNowUserRole('user_state') && scope.row.state == 1">禁用</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -63,6 +61,11 @@ export default {
     };
   },
   computed: {
+    checkNowUserRole(){
+      return function(name) {
+        return this.$store.state.userData.nowUserRole.indexOf(name) > -1;
+      }
+    },
     userListTable() {
       console.log("user component", this.$store.state.userData.userListTable);
       return this.$store.state.userData.userListTable;
@@ -89,6 +92,23 @@ export default {
       this.$store.commit("userData/setEditUserForm", this.$store.state.userData.userListTable.listData[scope.$index]);
       this.$store.commit("dialogSwitchData/showEditUserDialog", true);
     },
+    changeState(scope) {
+    },
+    ban(scope) {
+      axios.get("/api/user/changeuserstate?userId=" + scope.row.userId).then(
+        (res) => {
+          axios.get("/api/role/get").then(
+            (rep) => {
+              if (rep && rep.data) {
+                this.$store.commit("roleData/setRoleList", rep.data.data);
+              }
+            },
+            () => {}
+          );
+        },
+        () => {}
+      );
+    }
   }
 };
 </script>

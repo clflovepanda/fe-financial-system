@@ -202,7 +202,7 @@
           <el-divider></el-divider>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="工时分配" name="2">
+      <el-tab-pane label="工时分配" name="2" :disabled="!checkNowUserRole('project_task')">
         <el-row>
           <el-col :span="2" :offset="22">
             <el-button type="primary" @click="handleAddTime" style="margin-bottom:20px;">新增工时</el-button>
@@ -263,25 +263,25 @@
         </el-tabs>
         
       </el-tab-pane>
-      <el-tab-pane label="收入" name="3">
+      <el-tab-pane label="收入" name="3" :disabled="!checkNowUserRole('project_revenue')">
         <Income />
       </el-tab-pane>
-      <el-tab-pane label="支出" name="4">
+      <el-tab-pane label="支出" name="4" :disabled="!checkNowUserRole('project_expenditure')">
         <Pay />
       </el-tab-pane>
-      <el-tab-pane label="押金" name="5">
+      <el-tab-pane label="押金" name="5" :disabled="!checkNowUserRole('project_deposit')">
         <Deposit :projectDetail="true"/>
       </el-tab-pane>
-      <el-tab-pane label="报价单" name="6">
+      <el-tab-pane label="报价单" name="6" :disabled="!checkNowUserRole('project_quotation')">
         <PriceList />
       </el-tab-pane>
-      <el-tab-pane label="项目合同" name="7">
+      <el-tab-pane label="项目合同" name="7" :disabled="!checkNowUserRole('project_contract')">
         <AgreeMent />
       </el-tab-pane>
-      <el-tab-pane label="结算单" name="8">
+      <el-tab-pane label="结算单" name="8" :disabled="!checkNowUserRole('project_settlement')">
         <ProjectSettlement />
       </el-tab-pane>
-      <el-tab-pane label="应收单" name="9">
+      <el-tab-pane label="应收单" name="9" :disabled="!checkNowUserRole('project_invoice')">
         <ReceivableList />
       </el-tab-pane>
       <!-- <el-tab-pane label="工时统计" name="10">
@@ -425,6 +425,11 @@ export default {
     };
   },
   computed: {
+    checkNowUserRole(){
+      return function(name) {
+        return this.$store.state.userData.nowUserRole.indexOf(name) > -1;
+      }
+    },
     getProjectDetailData() {
       console.log(this.$store.state.projectData.projectDetail);
       return this.$store.state.projectData.projectDetail;

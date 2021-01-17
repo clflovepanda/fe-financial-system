@@ -97,8 +97,8 @@
 
         <el-row>
           <el-col :span="8" :offset="16">
-            <el-button type="primary" @click="showCreatePayDialog()">新增支出</el-button>
-            <el-button type="primary" @click="handleExcel()">导出excel</el-button>
+            <el-button type="primary" @click="showCreatePayDialog()" v-if="checkNowUserRole('project_expenditure_add')">新增支出</el-button>
+            <el-button type="primary" @click="handleExcel()" v-if="checkNowUserRole('project_expenditure_export')">导出excel</el-button>
           </el-col>
         </el-row>
 
@@ -133,14 +133,14 @@
           <el-table-column align="center" prop="utime" label="最新状态时间" width="180"></el-table-column>
           <el-table-column align="center" prop="expenditureAuditLogs" label="工作流" width="140">
             <template slot-scope="scope">
-              <el-button @click="audit(scope)" type="text" size="small">{{getAuditType(scope.row.state)}}</el-button>
+              <el-button @click="audit(scope)" type="text" size="small" :disabled="!checkNowUserRole('project_expenditure_approval')">{{getAuditType(scope.row.state)}}</el-button>
             </template>
           </el-table-column>
           <el-table-column align="center" label="操作" width="180">
               <template slot-scope="scope">
-                <el-button @click="printPay(scope)" type="text" size="small" :disabled="scope.row.state>3">打印</el-button>
-                <el-button @click="editPay(scope)" type="text" size="small" :disabled="scope.row.state>3">修改</el-button>
-                <el-button @click="delPay(scope)" type="text" size="small" :disabled="scope.row.state>3">删除</el-button>
+                <el-button @click="printPay(scope)" type="text" size="small" :disabled="scope.row.state>3" v-if="checkNowUserRole('project_expenditure_print')">打印</el-button>
+                <el-button @click="editPay(scope)" type="text" size="small" :disabled="scope.row.state>3" v-if="checkNowUserRole('project_expenditure_update')">修改</el-button>
+                <el-button @click="delPay(scope)" type="text" size="small" :disabled="scope.row.state>3" v-if="checkNowUserRole('project_expenditure_del')">删除</el-button>
                 <el-button @click="viewPay(scope)" type="text" size="small">查看</el-button>
                 <!-- <el-button @click="printPay(scope)" type="text" size="small">查看</el-button> -->
               </template>
@@ -189,6 +189,11 @@ export default {
     };
   },
   computed: {
+    checkNowUserRole(){
+      return function(name) {
+        return this.$store.state.userData.nowUserRole.indexOf(name) > -1;
+      }
+    },
     getPurposeContent() {
       return function(scope) {
         return scope.row.expenditurePurposeId != null && scope.row.expenditurePurposeId > 0 ? 
@@ -227,11 +232,11 @@ export default {
     search() {
       this.ruleForm.projectId = this.$store.state.projectData.viewProjectId;
       if (this.daterange != "") {
-          let st = this.dateRange[0];
-          let et = this.dateRange[1];
-          this.ruleForm.startDt = st.getTime();
-          this.ruleForm.endDt = et.getTime();
-        }
+        let st = this.dateRange[0];
+        let et = this.dateRange[1];
+        this.ruleForm.startDt = st.getTime();
+        this.ruleForm.endDt = et.getTime();
+      }
       axios.get("/api/expenditure/list", {
         params: this.ruleForm
       }).then(
@@ -292,6 +297,30 @@ export default {
     },
     delPay(scope) {
       console.log("删除", scope.row);
+      axios.get("/api/expenditure/del?id=" + scope.row.expenditureId).then(
+        (rep) => {
+          if (rep && rep.data) {
+            this.ruleForm.projectId = this.$store.state.projectData.viewProjectId;
+            if (this.daterange != "") {
+              let st = this.dateRange[0];
+              let et = this.dateRange[1];
+              this.ruleForm.startDt = st.getTime();
+              this.ruleForm.endDt = et.getTime();
+            }
+            axios.get("/api/expenditure/list", {
+              params: this.ruleForm
+            }).then(
+              (resp) => {
+                if (resp && resp.data) {
+                  this.$store.commit("projectData/setProjectPay", resp.data.data);
+                }
+              },
+              () => {}
+            );
+          }
+        },
+        () => {}
+      );
     },
     viewPay(scope) {
       this.showType = 3;
