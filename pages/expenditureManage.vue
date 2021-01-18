@@ -90,7 +90,7 @@
           <el-table-column align="center" prop="utime" label="最新状态时间" width="180"></el-table-column>
           <el-table-column align="center" prop="expenditureAuditLogs" label="工作流" width="140" :class="[checkNowUserRole('expenditure_approval') ? '':'disRoleMenu']">
             <template slot-scope="scope">
-              <el-button @click="handleView(scope)" type="text" size="small">{{getAuditType(scope.row.expenditureTypeId)}}</el-button>
+              <el-button @click="audit(scope)" type="text" size="small">{{getAuditType(scope.row.expenditureTypeId)}}</el-button>
             </template>
           </el-table-column>
           <el-table-column align="center" prop="utime" label="操作" width="180">
