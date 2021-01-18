@@ -15,6 +15,7 @@
               type="success"
               @click="dialogMoneyisSend = true"
               :disabled="getProjectDetailData.saleCommisState > 0"
+              v-if="checkNowUserRole('project_sales')"
               >销售提成1%已发放</el-button
             >
             <el-button
@@ -22,6 +23,7 @@
               type="success"
               @click="dialogMoneyisAllSend = true"
               :disabled="getProjectDetailData.saleCommisState > 1"
+              v-if="checkNowUserRole('project_sales')"
               >销售提成已全部发放</el-button
             >
             <el-button size="small" type="warning" @click="handleRevisePro()"
