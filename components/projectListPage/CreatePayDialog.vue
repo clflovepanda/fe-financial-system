@@ -430,7 +430,8 @@ export default {
          
         
         this.$store.commit("expenditureData/setRevenueId", 0);
-        this.$store.commit("dialogSwitchData/setCreatePayDialogShow", false);
+        // this.$store.commit("dialogSwitchData/setCreatePayDialogShow", false);
+        this.showCreatePayDialog = false;
       })
     },
     getLabel: function(scope) {
