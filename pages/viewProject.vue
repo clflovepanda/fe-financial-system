@@ -128,12 +128,9 @@
             </el-col>
             <el-col :span="8">
               <label class="label-item" for>审核状态:</label>
-              <span v-if="getProjectDetailData.auditState == 1">待审核</span>
-              <span v-if="getProjectDetailData.auditState == 2">已生效</span>
-              <span v-if="getProjectDetailData.auditState == 3">已驳回</span>
-              <span v-if="getProjectDetailData.auditState == 4">取消</span>
-              <span v-if="getProjectDetailData.auditState == 5">已完成</span>
-              <span v-if="getProjectDetailData.auditState == 6">已关闭</span>
+              <span v-if="getProjectDetailData.auditState == 0">待审核</span>
+              <span v-if="getProjectDetailData.auditState == 1">已生效</span>
+              <span v-if="getProjectDetailData.auditState == 2">已驳回</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>
