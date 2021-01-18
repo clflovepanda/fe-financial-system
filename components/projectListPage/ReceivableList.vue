@@ -16,10 +16,10 @@
             <el-col :span="3">
               <el-input v-model="ruleForm.unitname" placeholder="请输入单位名称"></el-input>
             </el-col>
-            <el-col :span="2" :offset="1" class="labelSty">
+            <el-col :span="3" :offset="1" class="labelSty">
               <span>应税务劳务名称</span>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="4">
               <el-input v-model="ruleForm.revenueTypeName" placeholder="请输入应税务劳务名称"></el-input>
             </el-col>
           </el-row>
@@ -36,7 +36,7 @@
             <el-col :span="6">
               <el-date-picker v-model="dataRange" type="daterange" range-separator="~" start-placeholder="请选择开始日期" end-placeholder="结束日期"></el-date-picker>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="4" :offset="2">
               <el-button type="primary" @click="searchReceivable()">查询</el-button>
               <el-button @click="resetForm()">重置</el-button>
             </el-col>
