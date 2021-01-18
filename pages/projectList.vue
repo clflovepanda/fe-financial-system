@@ -88,7 +88,7 @@
     <el-divider></el-divider>
     <el-row>
       <el-col :span="4" :offset="20" style="text-align:right">
-        <el-button class="add-project" type="primary" @click="handleAddClick()">新增项目</el-button>
+        <el-button class="add-project" type="primary" @click="handleAddClick()" v-if="checkNowUserRole('project_add')">新增项目</el-button>
       </el-col>
     </el-row>
     <el-tabs v-model="activeName" @tab-click="handleTabClick">
