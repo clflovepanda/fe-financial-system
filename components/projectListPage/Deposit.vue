@@ -129,7 +129,7 @@
         </el-row>
       </el-main>
     </el-container>
-    <CreatePayDialog />
+    <CreatePayDialog :showCreatPay="showCreatePay" :editObj="editObj" :showType="showType"/>
     <DepositLogDialog />
   </el-container>
 </template>
@@ -160,7 +160,10 @@ export default {
       },
       listData: [],
       total: 0,
-      currentPage: 1
+      currentPage: 1,
+      showCreatePay: 0,
+      editObj: {},
+      showType: 1, //1创建，2修改，3删除
     };
   },
   computed: {
@@ -217,7 +220,9 @@ export default {
       console.log("点击退押金", scope.row);
       this.$store.commit("expenditureData/setRevenueId", scope.row.id);
       this.$store.commit("projectData/setViewProjectId", scope.row.projectId);
-      this.$store.commit("dialogSwitchData/setCreatePayDialogShow", true);
+      // this.$store.commit("dialogSwitchData/setCreatePayDialogShow", true);
+      this.showType = 1;
+      this.showCreatePay += 1;
     },
     showCreatePayDialog() {
       this.$store.commit("dialogSwitchData/setCreatePayDialogShow", true);
