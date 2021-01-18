@@ -22,7 +22,7 @@
     <el-row class="rowSty">
       <el-col :span="4" class="labelSty"><span>支出方式：</span></el-col>
       <el-col :span="10" class="labelSty">
-        <el-radio-group v-model="createForm.expenditureMethodId" @change="changeMethod" :disabled="disableEdit || showType == 3">
+        <el-radio-group v-model="createForm.expenditureMethodId" @change="changeMethod" :disabled="showType == 3">
           <el-radio :label="1">现金</el-radio>
           <el-radio :label="2">电汇</el-radio>
           <el-radio :label="3">差旅</el-radio>

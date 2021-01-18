@@ -7,10 +7,7 @@
     </el-breadcrumb>
     <el-divider></el-divider>
     <SearchProjectStatistic />
-    <el-divider></el-divider>
-    <el-row>
-      <el-button :class="[checkNowUserRole('statistic_project_export') ? '':'disRoleMenu']">导出Excel</el-button>
-    </el-row>
+    
     <ProjectTable />
   </div>
 </template>

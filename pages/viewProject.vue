@@ -178,14 +178,14 @@
             </el-col>
             <el-col :span="10">
               <span class="label-item">押金转收入金额/元：</span>
-              <span>{{getProjectFinancial.deposit}}</span>
+              <span>{{getProjectFinancial.depositIncome}}</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>
 
           <el-row>
             <el-col :span="8">
-              <span class="label-item">项目利润/元：</span>
+              <span class="label-item">项目毛利润/元：</span>
               <span>{{getProjectFinancial.profit}}</span>
             </el-col>
             <el-col :span="8">
@@ -195,6 +195,21 @@
             <el-col :span="8">
               <span class="label-item">支出比/%:</span>
               <span>{{getProjectFinancial.expenditureRatio}}</span>
+            </el-col>
+          </el-row>
+          <el-divider></el-divider>
+          <el-row>
+            <el-col :span="8">
+              <span class="label-item">项目纯利润/元：</span>
+              <span>{{getProjectFinancial.relProfit}}</span>
+            </el-col>
+            <el-col :span="8">
+              <span class="label-item">纯利率/%：</span>
+              <span>{{getProjectFinancial. relRate}}</span>
+            </el-col>
+            <el-col :span="8">
+              <span class="label-item">人工成本/元：</span>
+              <span>{{getProjectFinancial.timeMoney}}</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>
