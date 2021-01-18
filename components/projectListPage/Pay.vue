@@ -96,10 +96,17 @@
         <el-divider></el-divider>
 
         <el-row>
-          <el-col :span="8" :offset="16">
+          <el-col :span="8" :offset="16" style="text-align:right">
             <el-button type="primary" @click="showCreatePayDialog()" v-if="checkNowUserRole('project_expenditure_add')">新增支出</el-button>
             <el-button type="primary" @click="handleExcel()" v-if="checkNowUserRole('project_expenditure_export')">导出excel</el-button>
           </el-col>
+        </el-row>
+        <el-row style="margin-top:20px; background: lightgray; height: 40px; line-height: 40px; text-align:center">
+          <el-col :span="4">已提交总计/元：{{payStatistics.submitted}}</el-col>
+          <el-col :span="4">财务未审批总计/元： {{payStatistics.notApproved}} </el-col>
+          <el-col :span="4">已支付总计/元：{{payStatistics.paid}}</el-col>
+          <el-col :span="4">票据作废总计/元：{{payStatistics.cancel}}</el-col>
+          <el-col :span="4">平借款总计/元：{{payStatistics.flatLoan}}</el-col>
         </el-row>
 
         <el-table :data="getProjectPay" border style="width: 100%; margin-top: 20px" id="out-table">
@@ -189,6 +196,9 @@ export default {
     };
   },
   computed: {
+    payStatistics() {
+      return this.$store.state.projectData.payStatistics;
+    },
     checkNowUserRole(){
       return function(name) {
         return this.$store.state.userData.nowUserRole.indexOf(name) > -1;
@@ -243,7 +253,7 @@ export default {
         (rep) => {
           if (rep && rep.data) {
             console.log("pay data", rep.data.data);
-            this.$store.commit("projectData/setProjectPay", rep.data.data);
+            this.$store.commit("projectData/setProjectPay", rep.data);
           }
         },
         () => {}
@@ -312,7 +322,7 @@ export default {
             }).then(
               (resp) => {
                 if (resp && resp.data) {
-                  this.$store.commit("projectData/setProjectPay", resp.data.data);
+                  this.$store.commit("projectData/setProjectPay", resp.data);
                 }
               },
               () => {}

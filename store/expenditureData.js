@@ -25,6 +25,7 @@ export const mutations = {
     setAllExpenditureList(state, newObj) {
         state.allExpenditureList.list = newObj.data;
         state.allExpenditureList.total = newObj.count;
+        state.allExpenditureList.statistics = newObj.statistics;
     },
     setExpenditurePurposeType(state, newObj) {
         state.expenditurePurposeType = newObj;

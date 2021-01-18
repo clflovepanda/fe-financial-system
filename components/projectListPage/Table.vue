@@ -251,7 +251,7 @@ export default {
         let expenditureResult = await axios.get("/api/expenditure/list?projectId=" + val.projectId).then(
           (rep) => {
             if (rep && rep.data) {
-              return rep.data.data;
+              return rep.data;
             }
           },
           () => {}
