@@ -26,15 +26,18 @@
             >
             <el-button size="small" type="warning" @click="handleRevisePro()"
             :disabled="getProjectDetailData.status == 6"
+            v-if="checkNowUserRole('project_update')"
               >修改项目</el-button
             >
             <el-button size="small" type="danger"
             @click="dialogProjectClose = true"
             :class="getProjectDetailData.status == 6 ? 'dis': ''"
+            v-if="checkNowUserRole('project_state')"
             > 关闭项目 </el-button>
             <el-button size="small" type="success"
             @click="reOpenProject"
             :class="getProjectDetailData.status != 6 ? 'dis': ''"
+            v-if="checkNowUserRole('project_state')"
             > 开启项目 </el-button>
           </el-col>
         </el-row>

@@ -51,8 +51,8 @@
     </el-table-column>
     <el-table-column align="center" prop="" width="120" label="操作" v-if="passStatus != 1">
       <template slot-scope="scope">
-        <a v-if="passStatus != 1" href="#" @click="audit(scope, 1)">通过</a>
-        <a v-if="passStatus != 1" href="#" @click="audit(scope, 2)">拒绝</a>
+        <a v-if="passStatus != 1 && checkNowUserRole('project_audit')" href="#" @click="audit(scope, 1)">通过</a>
+        <a v-if="passStatus != 1 && checkNowUserRole('project_notaudit')" href="#" @click="audit(scope, 2)">拒绝</a>
       </template>
     </el-table-column>
   </el-table>
@@ -84,6 +84,11 @@ export default {
     };
   },
   computed: {
+    checkNowUserRole(){
+      return function(name) {
+        return this.$store.state.userData.nowUserRole.indexOf(name) > -1;
+      }
+    },
     getProjectList() {
       if(this.passStatus) {
         return this.$store.state.projectData.projectList.filter(function(item) {
