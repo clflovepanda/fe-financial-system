@@ -371,6 +371,26 @@ export default {
       }
     },
     createPay() {
+      if (this.createForm.companyId == null || this.createForm.companyId == ""){
+        this.$message.error("请选择公司");
+        return;
+      }
+      if (this.createForm.expenditureMethodId == null || this.createForm.expenditureMethodId == ""){
+        this.$message.error("请支出方式");
+        return;
+      }
+      if (this.createForm.expenditureTypeId == null || this.createForm.expenditureTypeId == ""){
+        this.$message.error("请选择支出类型");
+        return;
+      }
+      if (this.createForm.expenditurePurposeId == "" && this.createForm.expenditurePurposeContent == ""){
+        this.$message.error("请选择用途");
+        return;
+      }
+      if (this.createForm.expenditureMoney == null || this.createForm.expenditureMoney == ""){
+        this.$message.error("请选择支出金额");
+        return;
+      }
       let revenueId = this.$store.state.expenditureData.revenueId;
       let url = "/api/expenditure/add";
       let isDeposite = false;

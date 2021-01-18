@@ -184,6 +184,9 @@ export default {
       );
     },
     querySearch: function (queryStr, cb) {
+      if(queryStr == null || queryStr == "") {
+        cb([]);
+      }
       if(queryStr){
         axios.get('/api/project/getbykey?keyWords='+this.nowIncomeForm.project).then(
           (res) => {
@@ -191,9 +194,7 @@ export default {
             res.data.data.map((item) => {
               searchList.push({value:item.name,item:item})
             })
-            cb(searchList)
-
-
+            cb(searchList);
           }
         )
       }      
