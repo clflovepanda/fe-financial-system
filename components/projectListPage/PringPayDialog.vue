@@ -3,7 +3,7 @@
     <el-divider></el-divider>
     <el-row :class="[getShowRow != 1 ? 'dis' : '' ]">
       <el-col :span="24" style="margin: 20px 0px">
-        <div style="border: 1px solid black; text-align:center" id="payPrintDiv">
+        <div style="border: 1px solid black; text-align:center" id="payPrintDiv1">
           <div style="height:60px; position: relative; text-align: center">
             <div style="margin-top: 20px; border-bottom: 1px solid black; padding-bottom: 10px; line-height: 30px;display:inline-block; height: 40px; font-size: 26px; font-weight: 600; text-align: center; width: 300px">
               支 出 申 请 单
@@ -89,7 +89,7 @@
     </el-row>
     <el-row :class="[getShowRow != 2 ? 'dis' : '' ]">
       <el-col :span="24" style="margin: 20px 0px">
-        <div style="border: 1px solid black; text-align:center" id="payPrintDiv3">
+        <div style="border: 1px solid black; text-align:center" id="payPrintDiv2">
           <div style="height:60px; position: relative; text-align: center">
             <div style="margin-top: 20px; padding-bottom: 10px; line-height: 30px;display:inline-block; height: 40px; font-size: 26px; font-weight: 600; text-align: center; width: 600px">
               电汇通知单
@@ -188,7 +188,7 @@
     </el-row>
     <el-row :class="[getShowRow != 3 ? 'dis' : '' ]">
       <el-col :span="24" style="margin: 20px 0px">
-        <div style="border: 1px solid black; text-align:center" id="payPrintDiv2">
+        <div style="border: 1px solid black; text-align:center" id="payPrintDiv3">
           <div style="height:60px; position: relative; text-align: center">
             <div style="margin-top: 20px; border-bottom: 1px solid black; padding-bottom: 10px; line-height: 30px;display:inline-block; height: 40px; font-size: 26px; font-weight: 600; text-align: center; width: 300px">
               差旅费用报销单
@@ -565,7 +565,7 @@
     </el-row>
     <el-row :class="[getShowRow != 4 ? 'dis' : '' ]">
       <el-col :span="24" style="margin: 20px 0px">
-        <div style="border: 1px solid black; text-align:center" id="payPrintDiv3">
+        <div style="border: 1px solid black; text-align:center" id="payPrintDiv4">
           <div style="height:60px; position: relative; text-align: center">
             <div style="margin-top: 20px; padding-bottom: 10px; line-height: 30px;display:inline-block; height: 40px; font-size: 26px; font-weight: 600; text-align: center; width: 600px">
               {{printData.unitname}} 公司开发票联系单——应收单
@@ -713,14 +713,14 @@ export default {
   },
   methods: {
     printPay() {
-      let idName = "";
-      if (this.$store.state.projectData.printTemp.expenditureMethodId == 2) {
-        idName = "payPrintDiv";
-      } else if (this.$store.state.projectData.printTemp.expenditureMethodId == 3) {
-        idName = "payPrintDiv2";
-      } else {
-        idName = "payPrintDiv3";
-      }
+      let idName = "payPrintDiv" + this.getShowRow;
+      // if (this.$store.state.projectData.printTemp.expenditureMethodId == 2) {
+      //   idName = "payPrintDiv";
+      // } else if (this.$store.state.projectData.printTemp.expenditureMethodId == 3) {
+      //   idName = "payPrintDiv2";
+      // } else {
+      //   idName = "payPrintDiv3";
+      // }
       let bdhtml = window.document.body.innerHTML;
       window.document.body.innerHTML = document.getElementById(idName).innerHTML;
       window.print();

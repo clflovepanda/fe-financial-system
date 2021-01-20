@@ -75,7 +75,7 @@
              ref="upload"
             :http-request="requestFile"
             :auto-upload="true"
-            accept="doc、xls"
+            accept=".doc,.xls"
             :before-upload="beforeAvatarUpload"
 						:action="actionUrl"
 						:limit="1"
