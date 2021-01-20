@@ -42,30 +42,32 @@
 
     <el-dialog title="上传报价单" :visible.sync="dialogFormVisible">
       <el-form :model="form" >
-        <el-form-item label="报价单名称" :label-width="formLabelWidth"  :rules="[
-      { required: true, message: '请输入报价单名称', trigger: 'blur' },
-    ]" style="width:360px">
+        <el-form-item label="报价单名称" :label-width="formLabelWidth"  :rules="[{ required: true, message: '请输入报价单名称', trigger: 'blur' },]" style="width:360px">
           <el-input v-model="form.name" autocomplete="off" style="width:360px"></el-input>
         </el-form-item>
-        <el-form-item label="上传报价单" :label-width="formLabelWidth" :rules="[
-      { required: true}]">
+        <el-form-item label="上传报价单" :label-width="formLabelWidth" :rules="[{ required: true}]">
           <el-upload
             class="upload-demo"
             drag
              ref="upload"
             :http-request="requestFile"
             :auto-upload="true"
-            accept="doc、xls"
+            accept=".doc,.xls"
             :before-upload="beforeAvatarUpload"
 						:action="actionUrl"
 						:limit="1"
+            v-if="!alreadyUpload"
             >
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将文件拖到此处，或<em>点击添加报价单</em></div>
             <div class="el-upload__tip" slot="tip">提示：上传的报价单类型仅支持doc、xls等文件格式</div>
           </el-upload>
+          <!-- <a :href="resourceUrl" v-if="alreadyUpload">{{resourceName}}</a> -->
         </el-form-item>
       </el-form>
+      <el-row v-if="alreadyUpload">
+        <span style="display:inline-block; width:200px; text-align:right">已上传报价单：</span><el-button type="text" size="small" @click="down">{{resourceName}}</el-button>
+      </el-row>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
         <el-button type="primary" @click="addQuotation">保 存</el-button>
@@ -92,7 +94,13 @@ export default {
       },
       resourceName: '',
       resourceUrl: '',
+      alreadyUpload: false
     };
+  },
+  watch: {
+    dialogFormVisible(){
+      this.alreadyUpload = false;
+    }
   },
   computed: {
     checkNowUserRole(){
@@ -106,6 +114,7 @@ export default {
   },
   methods: {
      beforeAvatarUpload(file) {
+       console.log("before upload", file);
         const isJPG = file.type === 'application/msword';
 
         // if (file.type === 'application/msword'||file.type === 'application/vnd.ms-excel') {
@@ -131,10 +140,12 @@ export default {
         if(res.data.code===0){
           this.resourceUrl = res.data.data;
           this.$message.success('上传成功！')
-          
-
+          this.alreadyUpload = true;
         }
       })
+    },
+    down(){
+      window.location.href = this.resourceUrl;
     },
     async addQuotation(){
       if(!this.form.name){
