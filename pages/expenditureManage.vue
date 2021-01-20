@@ -175,6 +175,9 @@ export default {
     },
     getAuditType() {
       return function(value) {
+        if(value < 3) {
+          return "财务审批";
+        }
         return EnumAuditType.getMsg(value);
       }
     },
