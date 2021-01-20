@@ -351,7 +351,7 @@ export default {
         if (detail.projectAuditLog) {
           projectDetail.auditName = detail.projectAuditLog.createUserName;
           projectDetail.auditDate = detail.projectAuditLog.ctime;
-          projectDetail.auditState = detail.projectAuditLog.state;
+          projectDetail.auditState = detail.projectAuditLog.auditType;
         }
       }
       this.$store.commit("projectData/setProjectDetail", projectDetail);
