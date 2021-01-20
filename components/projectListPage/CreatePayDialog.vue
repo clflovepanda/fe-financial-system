@@ -22,7 +22,7 @@
     <el-row class="rowSty">
       <el-col :span="4" class="labelSty"><span>支出方式：</span></el-col>
       <el-col :span="10" class="labelSty">
-        <el-radio-group v-model="createForm.expenditureMethodId" @change="changeMethod" :disabled="disableEdit || showType == 3">
+        <el-radio-group v-model="createForm.expenditureMethodId" @change="changeMethod" :disabled="showType == 3">
           <el-radio :label="1">现金</el-radio>
           <el-radio :label="2">电汇</el-radio>
           <el-radio :label="3">差旅</el-radio>
@@ -371,6 +371,26 @@ export default {
       }
     },
     createPay() {
+      if (this.createForm.companyId == null || this.createForm.companyId == ""){
+        this.$message.error("请选择公司");
+        return;
+      }
+      if (this.createForm.expenditureMethodId == null || this.createForm.expenditureMethodId == ""){
+        this.$message.error("请支出方式");
+        return;
+      }
+      if (this.createForm.expenditureTypeId == null || this.createForm.expenditureTypeId == ""){
+        this.$message.error("请选择支出类型");
+        return;
+      }
+      if (this.createForm.expenditurePurposeId == "" && this.createForm.expenditurePurposeContent == ""){
+        this.$message.error("请选择用途");
+        return;
+      }
+      if (this.createForm.expenditureMoney == null || this.createForm.expenditureMoney == ""){
+        this.$message.error("请选择支出金额");
+        return;
+      }
       let revenueId = this.$store.state.expenditureData.revenueId;
       let url = "/api/expenditure/add";
       let isDeposite = false;
@@ -403,7 +423,7 @@ export default {
               (rep) => {
                 if (rep && rep.data) {
                   if (rep.data.code == 0) {
-                    this.$store.commit("projectData/setProjectPay", rep.data.data);
+                    this.$store.commit("projectData/setProjectPay", rep.data);
                   } else {
                     this.$message.error(rep.data.msg);
                   }
@@ -417,7 +437,7 @@ export default {
               (rep) => {
                 if (rep && rep.data) {
                   if (rep.data.code == 0) {
-                    this.$store.commit("projectData/setProjectPay", rep.data.data);
+                    this.$store.commit("projectData/setProjectPay", rep.data);
                   } else {
                     this.$message.error(rep.data.msg);
                   }

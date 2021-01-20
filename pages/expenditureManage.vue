@@ -63,6 +63,13 @@
     <el-row :class="[checkNowUserRole('expenditure_export') ? '':'disRoleMenu']">
       <el-button type="primary" >导出Excel</el-button>
     </el-row>
+    <el-row style="margin-top:20px; background: lightgray; height: 40px; line-height: 40px; text-align:center">
+      <el-col :span="4">已提交总计/元：{{getStatistic.submitted}}</el-col>
+      <el-col :span="4">财务未审批总计/元： {{getStatistic.notApproved}} </el-col>
+      <el-col :span="4">已支付总计/元：{{getStatistic.paid}}</el-col>
+      <el-col :span="4">票据作废总计/元：{{getStatistic.cancel}}</el-col>
+      <el-col :span="4">平借款总计/元：{{getStatistic.flatLoan}}</el-col>
+    </el-row>
     <el-table :data="getAllPayList" border style="width: 100%; margin-top: 20px" id="out-table">
           <el-table-column align="center" prop="expenditureId" label="序号"></el-table-column>
           <el-table-column align="center" prop="numbering" label="支出编号"></el-table-column>
@@ -149,9 +156,13 @@ export default {
       showCreatePay: 0,
       editObj: {},
       showType: 1, //1创建，2修改，3删除
+      statistics: {}
     }
   },
   computed: {
+    getStatistic() {
+      return this.$store.state.expenditureData.allExpenditureList.statistics;
+    },
     checkNowUserRole(){
       return function(name) {
         return this.$store.state.userData.nowUserRole.indexOf(name) > -1;
@@ -275,7 +286,7 @@ export default {
             // }).then(
             //   (resp) => {
             //     if (resp && resp.data) {
-            //       this.$store.commit("projectData/setProjectPay", resp.data.data);
+            //       this.$store.commit("projectData/setProjectPay", resp.data);
             //     }
             //   },
             //   () => {}

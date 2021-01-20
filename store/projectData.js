@@ -27,6 +27,7 @@ export const state = () => ({
     editProject: { //编辑项目
     },
     projectPay: [],
+    payStatistics: {},
     projectDataSource: [],
     quotationList: [],
     contractList: [],
@@ -78,7 +79,8 @@ export const mutations = {
         state.projectFinancial = newObj;
     },
     setProjectPay(state, newObj) {
-        state.projectPay = newObj;
+        state.projectPay = newObj.data;
+        state.payStatistics = newObj.statistics;
     },
     setProjectDataSrouce(state, newObj) {
         state.projectDataSource = newObj;

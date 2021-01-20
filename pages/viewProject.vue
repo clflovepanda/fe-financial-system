@@ -128,12 +128,9 @@
             </el-col>
             <el-col :span="8">
               <label class="label-item" for>审核状态:</label>
-              <span v-if="getProjectDetailData.auditState == 1">待审核</span>
-              <span v-if="getProjectDetailData.auditState == 2">已生效</span>
-              <span v-if="getProjectDetailData.auditState == 3">已驳回</span>
-              <span v-if="getProjectDetailData.auditState == 4">取消</span>
-              <span v-if="getProjectDetailData.auditState == 5">已完成</span>
-              <span v-if="getProjectDetailData.auditState == 6">已关闭</span>
+              <span v-if="getProjectDetailData.auditState == 0">待审核</span>
+              <span v-if="getProjectDetailData.auditState == 1">已生效</span>
+              <span v-if="getProjectDetailData.auditState == 2">已驳回</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>
@@ -178,14 +175,14 @@
             </el-col>
             <el-col :span="10">
               <span class="label-item">押金转收入金额/元：</span>
-              <span>{{getProjectFinancial.deposit}}</span>
+              <span>{{getProjectFinancial.depositIncome}}</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>
 
           <el-row>
             <el-col :span="8">
-              <span class="label-item">项目利润/元：</span>
+              <span class="label-item">项目毛利润/元：</span>
               <span>{{getProjectFinancial.profit}}</span>
             </el-col>
             <el-col :span="8">
@@ -195,6 +192,21 @@
             <el-col :span="8">
               <span class="label-item">支出比/%:</span>
               <span>{{getProjectFinancial.expenditureRatio}}</span>
+            </el-col>
+          </el-row>
+          <el-divider></el-divider>
+          <el-row>
+            <el-col :span="8">
+              <span class="label-item">项目纯利润/元：</span>
+              <span>{{getProjectFinancial.relProfit}}</span>
+            </el-col>
+            <el-col :span="8">
+              <span class="label-item">纯利率/%：</span>
+              <span>{{getProjectFinancial. relRate}}</span>
+            </el-col>
+            <el-col :span="8">
+              <span class="label-item">人工成本/元：</span>
+              <span>{{getProjectFinancial.timeMoney}}</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>

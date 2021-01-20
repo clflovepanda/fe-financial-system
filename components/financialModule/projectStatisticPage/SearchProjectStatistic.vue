@@ -59,6 +59,10 @@
             <el-button type="primary" @click="search()" style="width: 100%">查询</el-button>
         </el-col>
     </el-row>
+    <el-divider></el-divider>
+    <el-row>
+      <el-button type="primary" @click="exportExcel" :class="[checkNowUserRole('statistic_project_export') ? '':'disRoleMenu']">导出Excel</el-button>
+    </el-row>
   </div>
 </template>
 
@@ -82,6 +86,11 @@ export default {
     };
   },
   computed: {
+    checkNowUserRole(){
+      return function(name) {
+        return this.$store.state.userData.nowUserRole.indexOf(name) > -1;
+      }
+    },
     getExpenditureTable() {
         return [];
     },
@@ -109,7 +118,24 @@ export default {
   },
   watch: {},
   methods: {
-    
+    exportExcel(){
+        if (this.dateRange) {
+            let st = this.dateRange[0];
+            let et = this.dateRange[1];
+            this.searchForm.startDt = st.getTime();
+            this.searchForm.endDt = et.getTime();
+        }
+        axios.get("/api/export/statistics/project", {
+            params: this.searchForm
+        }).then(
+            (rep) => {
+                if (rep && rep.data) {
+                    window.location.href = rep.data.url;
+                }
+            },
+            () => {}
+        );
+    },
     search() {
         if (this.dateRange) {
             let st = this.dateRange[0];

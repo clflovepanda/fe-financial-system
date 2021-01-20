@@ -66,35 +66,31 @@
           </el-col>
         </el-row>
 
-        <!-- <el-row class="money-show">
-          <el-col :span="4">
+        <el-row style="margin-top: 10px; height: 40px; background: lightgray; line-height: 40px; text-align:center">
+          <el-col :span="6">
             <span>全部押金金额/元：</span>
-            <span></span>
+            <span>{{statistics.allDeposit}}</span>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="6">
             <span>待退回总押金/元:</span>
-            <span></span>
+            <span>{{statistics.approval}}</span>
           </el-col>
-          <el-col :span="4">
-            <span>退回审批中押金总金额//元：</span>
-            <span></span>
+          <el-col :span="6">
+            <span>退回审批中押金总金额/元：</span>
+            <span>{{statistics.toBeReturned}}</span>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="6">
             <span>已退回押金总金额/元：</span>
-            <span></span>
+            <span>{{statistics.returned}}</span>
           </el-col>
-          <el-col :span="4">
-            <span>押金转收入总金额/元：</span>
-            <span></span>
-          </el-col>
-        </el-row> -->
+        </el-row>
         <el-table :data="listData" border style="width: 100%; margin-top: 20px" id="#out-table">
           <el-table-column align="center" type="index" label="序号"></el-table-column>
           <el-table-column align="center" prop="revenueNo" label="押金编号"></el-table-column>
           <el-table-column align="center" prop="coName" label="到款账户"></el-table-column>
           <el-table-column align="center" prop="receivementTypeName" label="到款种类"></el-table-column>
           <el-table-column align="center" prop="remitter" label="汇款方"></el-table-column>
-          <el-table-column align="center" prop="remitter"  label="认款类型"></el-table-column>
+          <el-table-column align="center" prop="revenueTypeName"  label="认款类型"></el-table-column>
           <el-table-column align="center" prop="cnyMoney" label="认款金额/元"></el-table-column>
           <el-table-column align="center" prop="username" label="认款人"></el-table-column>
           <el-table-column align="center" prop="ctime" label="认款时间"></el-table-column>
@@ -164,6 +160,7 @@ export default {
       showCreatePay: 0,
       editObj: {},
       showType: 1, //1创建，2修改，3删除
+      statistics:{}
     };
   },
   computed: {
@@ -254,6 +251,8 @@ export default {
         if(res.data.code === 0){
           this.listData = res.data.data.deposit;
           this.total = res.data.data.count;
+          this.statistics = res.data.data.statistic;
+          console.log(this.statistics)
         }
       })
     },

@@ -7,10 +7,6 @@
     </el-breadcrumb>
     <el-divider></el-divider>
     <SearchExpenditureStatistic />
-    <el-divider></el-divider>
-    <el-row>
-      <el-button :class="[checkNowUserRole('statistic_expenditure_export') ? '':'disRoleMenu']">导出Excel</el-button>
-    </el-row>
     <ExpenditureTable />
   </div>
 </template>
@@ -34,6 +30,7 @@ export default {
     // showNewIncomeDialog: function () {
     //   this.$store.commit("dialogSwitchData/showNewIncomeDialog", true);
     // },
+    exportExcel(){}
   },
   async asyncData(ctx) {
     if(!CookieUtil.existCookie("user_id")) {

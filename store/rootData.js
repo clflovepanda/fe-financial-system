@@ -2,7 +2,8 @@ export const state = () => ({
     userList: [],
     roleList: [],
     depList: [],
-    projectList: []
+    projectList: [],
+    revenueTypeList: [],
 })
 
 export const mutations = {
@@ -17,5 +18,8 @@ export const mutations = {
     },
     setProjectList(state, newObj) {
         state.projectList = newObj;
+    },
+    setRevenueTypeList(state, newObj) {
+        state.revenueTypeList = newObj;
     }
 }

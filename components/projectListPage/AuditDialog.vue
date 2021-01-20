@@ -707,7 +707,7 @@ export default {
           axios.get("/api/expenditure/list?projectId=" + this.printData.projectId).then(
             (rep) => {
               if (rep && rep.data) {
-                this.$store.commit("projectData/setProjectPay", rep.data.data);
+                this.$store.commit("projectData/setProjectPay", rep.data);
                 this.showAuditDialog = false;
               }
             },
@@ -730,7 +730,7 @@ export default {
           axios.get("/api/expenditure/list?projectId=" + this.printData.projectId).then(
           (rep) => {
             if (rep && rep.data) {
-              this.$store.commit("projectData/setProjectPay", rep.data.data);
+              this.$store.commit("projectData/setProjectPay", rep.data);
               this.showAuditDialog = false;
             }
           },
