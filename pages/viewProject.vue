@@ -9,13 +9,29 @@
     <el-tabs v-model="activeName" type="card" @tab-click="handleTabClick">
       <el-tab-pane label="项目信息" name="1">
         <el-row class="button-wrap">
-          <el-col :span="12" :offset="12">
+          <el-col :span="24" style="text-align:right">
             <el-button
               size="small"
               type="success"
               @click="dialogMoneyisSend = true"
               :disabled="getProjectDetailData.saleCommisState > 0"
-              v-if="checkNowUserRole('project_sales')"
+              v-if="getProjectDetailData.auditState == 0 && checkNowUserRole('project_sales')"
+              >通过</el-button
+            >
+            <el-button
+              size="small"
+              type="success"
+              @click="dialogMoneyisSend = true"
+              :disabled="getProjectDetailData.saleCommisState > 0"
+              v-if="getProjectDetailData.auditState == 0 && checkNowUserRole('project_sales')"
+              >驳回</el-button
+            >
+            <el-button
+              size="small"
+              type="success"
+              @click="dialogMoneyisSend = true"
+              :disabled="getProjectDetailData.saleCommisState > 0"
+              v-if="getProjectDetailData.auditState == 1 && checkNowUserRole('project_sales')"
               >销售提成1%已发放</el-button
             >
             <el-button
@@ -23,23 +39,25 @@
               type="success"
               @click="dialogMoneyisAllSend = true"
               :disabled="getProjectDetailData.saleCommisState > 1"
-              v-if="checkNowUserRole('project_sales')"
+              v-if="getProjectDetailData.auditState == 1 && checkNowUserRole('project_sales')"
               >销售提成已全部发放</el-button
             >
             <el-button size="small" type="warning" @click="handleRevisePro()"
             :disabled="getProjectDetailData.status == 6"
-            v-if="checkNowUserRole('project_update')"
-              >修改项目</el-button
-            >
+            v-if="checkNowUserRole('project_update')">修改项目</el-button>
+
+
             <el-button size="small" type="danger"
             @click="dialogProjectClose = true"
             :class="getProjectDetailData.status == 6 ? 'dis': ''"
-            v-if="checkNowUserRole('project_state')"
+            v-if="getProjectDetailData.auditState == 1 && checkNowUserRole('project_state')"
             > 关闭项目 </el-button>
+
+
             <el-button size="small" type="success"
             @click="reOpenProject"
             :class="getProjectDetailData.status != 6 ? 'dis': ''"
-            v-if="checkNowUserRole('project_state')"
+            v-if="getProjectDetailData.auditState == 1 && checkNowUserRole('project_state')"
             > 开启项目 </el-button>
           </el-col>
         </el-row>
@@ -285,65 +303,27 @@
         </el-tabs>
         
       </el-tab-pane>
-      <el-tab-pane label="收入" name="3" :disabled="!checkNowUserRole('project_revenue')">
+      <el-tab-pane label="收入" name="3" :disabled="getProjectDetailData.auditState != 1 || !checkNowUserRole('project_revenue')">
         <Income />
       </el-tab-pane>
-      <el-tab-pane label="支出" name="4" :disabled="!checkNowUserRole('project_expenditure')">
+      <el-tab-pane label="支出" name="4" :disabled="getProjectDetailData.auditState != 1 || !checkNowUserRole('project_expenditure')">
         <Pay />
       </el-tab-pane>
-      <el-tab-pane label="押金" name="5" :disabled="!checkNowUserRole('project_deposit')">
+      <el-tab-pane label="押金" name="5" :disabled="getProjectDetailData.auditState != 1 || !checkNowUserRole('project_deposit')">
         <Deposit :projectDetail="true"/>
       </el-tab-pane>
-      <el-tab-pane label="报价单" name="6" :disabled="!checkNowUserRole('project_quotation')">
+      <el-tab-pane label="报价单" name="6" :disabled="getProjectDetailData.auditState != 1 || !checkNowUserRole('project_quotation')">
         <PriceList />
       </el-tab-pane>
-      <el-tab-pane label="项目合同" name="7" :disabled="!checkNowUserRole('project_contract')">
+      <el-tab-pane label="项目合同" name="7" :disabled="getProjectDetailData.auditState != 1 || !checkNowUserRole('project_contract')">
         <AgreeMent />
       </el-tab-pane>
-      <el-tab-pane label="结算单" name="8" :disabled="!checkNowUserRole('project_settlement')">
+      <el-tab-pane label="结算单" name="8" :disabled="getProjectDetailData.auditState != 1 || !checkNowUserRole('project_settlement')">
         <ProjectSettlement />
       </el-tab-pane>
-      <el-tab-pane label="应收单" name="9" :disabled="!checkNowUserRole('project_invoice')">
+      <el-tab-pane label="应收单" name="9" :disabled="getProjectDetailData.auditState != 1 || !checkNowUserRole('project_invoice')">
         <ReceivableList />
       </el-tab-pane>
-      <!-- <el-tab-pane label="工时统计" name="10">
-        <el-row>
-          <span>人员</span>
-          <el-select v-model="userid" filterable placeholder="请选择">
-            <el-option
-              v-for="item in $store.state.projectData.getuserList"
-              :key="item.userId"
-              :label="item.username"
-              :value="item.userId">
-            </el-option>
-          </el-select>
-          <el-button type="primary" @click="selectUser">查询</el-button>
-        </el-row>
-
-        <el-table
-          border
-          :data="templateList"
-          style="width: 100%; margin-top: 20px"
-        >
-          <el-table-column fixed prop="projectName" label="项目名称"></el-table-column>
-          <el-table-column fixed prop="relationName" label="项目工时模板名称"></el-table-column>
-          <el-table-column fixed prop="templateName" label="模板名称"></el-table-column>
-          <el-table-column fixed prop="username" label="人员"></el-table-column>
-          <el-table-column fixed prop="amount" label="数量"></el-table-column>
-          <el-table-column fixed prop="takeTime" label="单位工时"></el-table-column>
-          <el-table-column fixed prop="completionTime" label="完成时间"></el-table-column>
-           <el-table-column align="center" prop="" label="项目工时模板名称">
-            <template slot-scope="scope">
-              <el-button @click="handleProjectName(scope.row)" type="text" size="small">{{scope.row.templateName}}</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-
-        <p class="total">
-          <span>总价格：{{templateTotal}}</span>
-          <span>总工时：{{templateTotaltime}}</span>
-        </p>
-      </el-tab-pane> -->
     </el-tabs>
 
     <el-row>
@@ -498,6 +478,71 @@ export default {
       this.taskTimeList = this.$store.state.projectData.taskTimeList;
   },
   methods: {
+    audit(state) {
+      let param = {
+        id: this.$store.state.projectData.viewProjectId,
+        auditing_state: state
+      }
+      axios.get("/api/project/project_audit", {
+        params: param
+      }).then(
+          (rep) => {
+            axios.get("/api/project/list?auditing_state=1&limit=5&offset=1").then(
+              (rep) => {
+                if (rep && rep.data) {
+                  let projectPassListResult = {
+                    data: rep.data.data,
+                    count: rep.data.count
+                  };
+                  console.log("project pass list", projectPassListResult);
+                  if(projectPassListResult == null) {
+                    projectPassListResult = {
+                      data: [],
+                      total: 0
+                    }
+                  }
+                  let tempPass = {
+                    list: projectPassListResult.data,
+                    total: projectPassListResult.count,
+                    pageSize: 5,
+                    pageNum: 1,
+                  }
+                  this.$store.commit("projectData/setProjectPassList", tempPass);
+
+                }
+              },
+              () => {}
+            );
+            
+            axios.get("/api/project/list?auditing_state=2&limit=10&offset=1").then(
+              (rep) => {
+                if (rep && rep.data) {
+                  let projectRejectListResult = {
+                    data: rep.data.data,
+                    count: rep.data.count
+                  };
+                  console.log("project reject list", projectRejectListResult);
+                  if (projectRejectListResult == null) {
+                    projectRejectListResult = {
+                      data: [],
+                      total: 0
+                    }
+                  }
+                  let tempReject = {
+                    list: projectRejectListResult.data,
+                    total: projectRejectListResult.count,
+                    pageSize: 5,
+                    pageNum: 1
+                  }
+                  this.$store.commit("projectData/setProjectRejectList", tempReject);
+                }
+              },
+              () => {}
+            );
+          },
+          () => {}
+        );
+    },
     addPersonnel() {
       let templateFlag = '';
       this.taskTimeList.map((item)=>{

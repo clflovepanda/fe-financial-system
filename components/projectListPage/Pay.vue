@@ -59,13 +59,11 @@
           <el-col :span="2" class="labelSty"><span class="labelSty">工作流:</span></el-col>
           <el-col :span="3">
             <el-select v-model="ruleForm.expenditureAuditId" placeholder="请选择工作流">
-              <el-select v-model="ruleForm.state" placeholder="请选择最新状态">
               <el-option label="已提交" value="1"></el-option>
               <el-option label="被驳回" value="3"></el-option>
               <el-option label="已支付" value="4"></el-option>
               <el-option label="作废" value="5"></el-option>
               <el-option label="凭借款" value="6"></el-option>
-            </el-select>
             </el-select>
           </el-col>
         </el-row>
@@ -259,7 +257,17 @@ export default {
         () => {}
       );
     },
-    reset() {},
+    reset() {
+       this.ruleForm.companyId = "";
+       this.ruleForm.numbering = "";
+       this.ruleForm.expenditureMethodId = "";
+       this.ruleForm.expenditureTypeId = "";
+       this.ruleForm.username = "";
+       this.ruleForm.state = "";
+       this.ruleForm.expenditureAuditId = "";
+       this.ruleForm.expenditurePurposeId = "";
+       this.daterange = "";
+    },
     handleFindClick() {
       console.log("查询项目");
     },

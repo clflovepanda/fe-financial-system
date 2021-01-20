@@ -73,6 +73,8 @@
     <el-table :data="getAllPayList" border style="width: 100%; margin-top: 20px" id="out-table">
           <el-table-column align="center" prop="expenditureId" label="序号"></el-table-column>
           <el-table-column align="center" prop="numbering" label="支出编号"></el-table-column>
+          <el-table-column align="center" prop="projectNo" label="项目编号"></el-table-column>
+          <el-table-column align="center" prop="projectName" label="项目名称"></el-table-column>
           <el-table-column align="center" prop="coName" label="公司" width="120"></el-table-column>
           <el-table-column align="center" prop="expenditureMethodId" label="支付方式">
             <template slot-scope="scope">
@@ -242,8 +244,8 @@ export default {
     },
     resetForm() {
       this.ruleForm.companyId = "";
-      this.ruleForm.numbering = "";
-      this.ruleForm.keyWord = "";
+      this.ruleForm.projectNo = "";
+      this.ruleForm.projectName = "";
       this.ruleForm.expenditureMethodId = "";
       this.ruleForm.username = "";
       this.ruleForm.state = "";
