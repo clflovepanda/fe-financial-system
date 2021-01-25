@@ -20,6 +20,18 @@
       </el-col>
     </el-row>
     <el-row class="rowSty">
+      <el-col :span="4" class="labelSty"><span>项目名称：</span></el-col>
+      <el-col :span="10">
+        <el-input v-model="projectName" class="inpSty" :disabled="true"></el-input>
+      </el-col>
+    </el-row>
+    <el-row class="rowSty">
+      <el-col :span="4" class="labelSty"><span>项目类目：</span></el-col>
+      <el-col :span="10">
+        <el-input v-model="projectDataSource" class="inpSty" :disabled="true"></el-input>
+      </el-col>
+    </el-row>
+    <el-row class="rowSty">
       <el-col :span="4" class="labelSty"><span>支出方式：</span></el-col>
       <el-col :span="10" class="labelSty">
         <el-radio-group v-model="createForm.expenditureMethodId" @change="changeMethod" :disabled="showType == 3">
@@ -162,6 +174,8 @@ export default {
   props: ["editObj", "showCreatPay", "showType"],
   data() {
     return {
+      projectName: "",
+      projectDataSource: "",
       createForm: {
         companyId: "",
         projectId: "",   
@@ -194,6 +208,9 @@ export default {
     };
   },
   computed: {
+    getProjectDetailData() {
+      return this.$store.state.projectData.projectDetail;
+    },
     subCityList() {
       let cities = this.$store.state.expenditureData.city;
       if (cities == null) {
@@ -264,6 +281,8 @@ export default {
       }
       console.log("show type", this.showType);
       if(this.showType == 1) {
+        this.projectName = this.getProjectDetailData.projectName;
+        this.projectDataSource = this.getProjectDetailData.dataSourceName;
         this.createForm.companyId = "";
         this.createForm.projectId = "";   
         this.createForm.expenditureMethodId = "";
@@ -280,6 +299,8 @@ export default {
         this.createForm.expenditureId = "";
       } else if(this.showType == 2) {
         console.log("修改支出", this.editObj);
+        this.projectName = this.editObj.name;
+        this.projectDataSource = this.projectName.split("-")[0] + this.projectName.split("-")[1];
         this.createForm.companyId = this.editObj.companyId;
         this.createForm.projectId = this.editObj.projectId;   
         this.createForm.expenditureMethodId = this.editObj.expenditureMethodId;
@@ -297,6 +318,8 @@ export default {
         this.changeMethod();
       } else if(this.showType == 3) {
         console.log("显示支出", this.editObj);
+        this.projectName = this.editObj.name;
+        this.projectDataSource = this.projectName.split("-")[0] + this.projectName.split("-")[1];
         this.createForm.companyId = this.editObj.companyId;
         this.createForm.projectId = this.editObj.projectId;   
         this.createForm.expenditureMethodId = this.editObj.expenditureMethodId;
