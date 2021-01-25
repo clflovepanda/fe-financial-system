@@ -502,7 +502,7 @@
           <div style="position:relative; display:inline-block; border: 3px solid black;width:100%">
             <div style="height: 40px;border-bottom: 1px solid black">
               <div style="display: inline-block;position: absolute; left:0px;height:40px;line-height: 40px;font-weight:400;border-right: 1px solid black; width: 15%;">
-                收款人单位全称
+                收款人单位（全称）
               </div>
               <div style="display: inline-block;position: absolute; left:15%;height:40px;line-height: 40px; width: 85%;text-align:left;padding-left:20px">
                 {{printData.beneficiaryUnit}}
@@ -555,7 +555,18 @@
                 ￥:{{printData.expenditureMoney}}
               </div>
             </div>
-
+            <div style="height: 40px;border-bottom: 1px solid black">
+              <div style="display: inline-block;position: absolute; left:0px;height:40px;line-height: 40px;font-weight:400; width: 15%;">
+                备注：
+              </div>
+              <div style="display: inline-block;position: absolute; left:15%;height:40px;line-height: 40px; width: 20%;text-align:left;padding-left:20px;border-right: 1px solid black">
+                
+              </div>
+              <div style="display: inline-block;position: absolute; left:35%;height:40px;line-height: 40px;font-weight:400; width: 15%;">
+                汇款用途：{{printData.expenditurePurposeName}}
+              </div>
+              <div style="display: inline-block;position: absolute; left:50%;height:40px;line-height: 40px; width: 30%;text-align:left;padding-left:20px;"></div>
+            </div>
             <div style="height: 80px;border-bottom: 1px solid black">
               <div style="display: inline-block;position: absolute; left:0px;height:80px;line-height: 80px;font-weight:400; width: 15%;">
                 部门主管：
@@ -614,7 +625,8 @@ export default {
         auditType: "",
         remark: "",
       },
-      showAuditDialog: false
+      showAuditDialog: false,
+      qrUrl: ""
     };
   },
   computed: {
@@ -676,6 +688,16 @@ export default {
     }
   },
   watch: {
+    printData(){
+      axios.get("/common/qrcode?code="+1).then(
+        (rep) => {
+          if (rep && rep.data) {
+            console.log(rep);
+          }
+        },
+        () => {}
+      );
+    },
     showAuditDialog() {
       this.$store.commit(
         "dialogSwitchData/setAuditDialogShow",

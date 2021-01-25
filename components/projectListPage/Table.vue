@@ -15,17 +15,10 @@
     <el-table-column align="center" prop="ctime" label="项目创建时间"></el-table-column>
     <el-table-column align="center" prop="startDate" label="项目开始时间"></el-table-column>
     <el-table-column align="center" prop="endDate" label="项目结束时间"></el-table-column>
-    <el-table-column align="center" prop="id" label="结算收入/结算支出">
-      <template slot-scope="scope">
-        {{scope.row.settlementIncome}}/{{scope.row.settlementExpenses}}
-      </template>
-    </el-table-column>
-    <el-table-column align="center" prop="proManager" label="收付款收入/收付款支出">
-      <template slot-scope="scope">
-        {{scope.row.paymentIncome}}/{{scope.row.paymentExpenses}}
-      </template>
-    </el-table-column>
-    <el-table-column align="center" prop="paymentProfit" label="收付款利润率"></el-table-column>
+    <el-table-column align="center" prop="settlementIncome" label="结算收入/结算支出"></el-table-column>
+    <el-table-column align="center" prop="relRevenue" label="大收"></el-table-column>
+    <el-table-column align="center" prop="relExpenditure" label="大支"></el-table-column>
+    <el-table-column align="center" prop="projectProfit" label="项目毛利率"></el-table-column>
     <el-table-column align="center" prop="projectRate" label="项目毛利率/%"></el-table-column>
     <el-table-column align="center" prop="saleCommisState" label="销售提成发放状态">
       <template slot-scope="scope">

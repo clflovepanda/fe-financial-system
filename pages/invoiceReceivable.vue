@@ -34,11 +34,12 @@
       </el-col>
       
     </el-row>
-    <el-row style="margin-top:20px">
+    <el-divider></el-divider>
+    <!-- <el-row style="margin-top:20px">
       <el-col :span="4">
         <el-button type="primary" @click="addinvoice('add')" :class="[checkNowUserRole('invoice_add') ? '':'disRoleMenu']">添加</el-button>
       </el-col>
-    </el-row>
+    </el-row> -->
     <el-table
       :data="invoiceList"
       border
@@ -130,7 +131,7 @@
         <el-button type="primary" @click="invoiceAdd('form')">确 定</el-button>
       </div>
     </el-dialog>
-    <PringPayDialog />
+    <PringPayDialog :showVis="showVis"/>
   </div>
 </template>
 
@@ -162,6 +163,7 @@ export default {
         cnyMoney: '',
         comment: '',
       },
+      showVis: 0,
       formLabelWidth: '150px',
       gettypeList: [],
       options: [],//项目名称列表
@@ -186,8 +188,6 @@ export default {
         ],
       },
       invoiceType: 0,
-
-      
     }
   },
   methods: {
@@ -260,11 +260,12 @@ export default {
       let printTemp = scope.row;
       this.$store.commit("projectData/setPringTemp", printTemp);
       let isShowPrint = this.$store.state.dialogSwitchData.printPayDialogShow;
-      if (isShowPrint) {
-        this.$store.commit("dialogSwitchData/setPrintPayDialogShow", false);
-      } else {
-        this.$store.commit("dialogSwitchData/setPrintPayDialogShow", true);
-      }
+      this.showVis = this.showVis + 1;
+      // if (isShowPrint) {
+      //   this.$store.commit("dialogSwitchData/setPrintPayDialogShow", false);
+      // } else {
+      //   this.$store.commit("dialogSwitchData/setPrintPayDialogShow", true);
+      // }
     },
     changeDate(val){
       console.log(val)

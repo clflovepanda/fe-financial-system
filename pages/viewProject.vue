@@ -64,12 +64,12 @@
         <div class="project-info-wrap">
           <el-row class="project-info">
             <span class="info-title">项目信息</span>
-            <el-button size="mini" type="primary" v-if="getProjectDetailData.status == 1">未开始</el-button>
+            <!-- <el-button size="mini" type="primary" v-if="getProjectDetailData.status == 1">未开始</el-button>
             <el-button size="mini" type="primary" v-else-if="getProjectDetailData.status == 2">进行中</el-button>
             <el-button size="mini" type="primary" v-else-if="getProjectDetailData.status == 3">暂停</el-button>
             <el-button size="mini" type="primary" v-else-if="getProjectDetailData.status == 4">取消</el-button>
             <el-button size="mini" type="primary" v-else-if="getProjectDetailData.status == 5">已完成</el-button>
-            <el-button size="mini" type="primary" v-else-if="getProjectDetailData.status == 6">已关闭</el-button>
+            <el-button size="mini" type="primary" v-else-if="getProjectDetailData.status == 6">已关闭</el-button> -->
           </el-row>
           <el-divider></el-divider>
           <el-row>
@@ -147,8 +147,8 @@
             <el-col :span="8">
               <label class="label-item" for>审核状态:</label>
               <span v-if="getProjectDetailData.auditState == 0">待审核</span>
-              <span v-if="getProjectDetailData.auditState == 1">已生效</span>
-              <span v-if="getProjectDetailData.auditState == 2">已驳回</span>
+              <span v-if="getProjectDetailData.auditState == 1">审核通过</span>
+              <span v-if="getProjectDetailData.auditState == 2">审核驳回</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>
