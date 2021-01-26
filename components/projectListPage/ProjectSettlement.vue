@@ -3,17 +3,17 @@
     <el-container>
       <el-main>
         <el-row>
-          <el-col :span="2" class="labelSty"><span>项目合同：</span></el-col>
+          <el-col :span="2" class="labelSty"><span>结算单名称：</span></el-col>
           <el-col :span="4">
-            <el-input v-model="ruleForm.name" placeholder="请输入项目合同"></el-input>
+            <el-input v-model="settlementName" placeholder="请输入结算单名称"></el-input>
           </el-col>
-          <el-col :span="2" class="labelSty"><span>项目编号：</span></el-col>
+          <el-col :span="2" class="labelSty"><span>结算单编号：</span></el-col>
           <el-col :span="4">
-            <el-input v-model="ruleForm.id" placeholder="请输入项目编号"></el-input>
+            <el-input v-model="settlementNo" placeholder="请输入结算单编号"></el-input>
           </el-col>
           <el-col :span="4" :offset="1">
-            <el-button type="primary">查询</el-button>
-            <el-button >重置</el-button>
+            <el-button type="primary" @click="search">查询</el-button>
+            <el-button @click="reset">重置</el-button>
           </el-col>
         </el-row>
         <el-divider></el-divider>
@@ -68,7 +68,7 @@
     ]" style="width:360px">
           <el-input v-model="form.settlementIncome"   oninput="value=value.indexOf('.') > -1?value.slice(0, value.indexOf('.') + 3):value" type="number"  autocomplete="off" style="width:360px"></el-input>
         </el-form-item>
-        <el-form-item label="上传结算单" :label-width="formLabelWidth">
+        <el-form-item label="上传结算单" :label-width="formLabelWidth" v-if="!alreadyUpload">
           <el-upload
             class="upload-demo"
             drag
@@ -79,6 +79,7 @@
             :before-upload="beforeAvatarUpload"
 						:action="actionUrl"
 						:limit="1"
+            v-if="!alreadyUpload"
             >
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将文件拖到此处，或<em>点击添加结算单</em></div>
@@ -86,6 +87,10 @@
           </el-upload>
         </el-form-item>
       </el-form>
+      <el-row v-if="alreadyUpload">
+        <span style="display:inline-block; width:200px; text-align:right">已上传结算单：</span><el-button type="text" size="small" @click="down">{{resourceName}}</el-button>
+        <el-button type="text" size="small" @click="delUpload">删除</el-button>
+      </el-row>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
         <el-button type="primary" @click="addQuotation">保 存</el-button>
@@ -112,17 +117,29 @@ export default {
         proDate: "",
         moneyStatus: "",
       },
-       formLabelWidth: '200px',
-        dialogFormVisible: false,
-        form: {
-          settlementName:'',
-          settlementIncome: '',
-          isLastSettlement: '1',
-        },
-        resourceName: '',
-        resourceUrl: '',
-        actionUrl:'',
+      formLabelWidth: '200px',
+      dialogFormVisible: false,
+      form: {
+        settlementName:'',
+        settlementIncome: '',
+        isLastSettlement: '1',
+      },
+      settlementName: "",
+      settlementNo: "",
+      resourceName: '',
+      resourceUrl: '',
+      actionUrl:'',
+      alreadyUpload: false,
+      settlementId: ""
     };
+  },
+  watch:{
+    dialogFormVisible(val){
+      if (val == false) {
+        this.alreadyUpload = false;
+        this.settlementId = "";
+      }
+    }
   },
   computed: {
     getProjectDetailData() {
@@ -183,31 +200,56 @@ export default {
       if(!this.resourceUrl){
         this.$message.error('请上传文件')
         return false
-
       }
-      console.log(this.form.isLastSettlement, "-==============")
-      let params = {
-        settlementName : this.form.settlementName,
-        settlementIncome : this.form.settlementIncome,
-        resourceName : this.resourceName,
-        resourceUrl: this.resourceUrl,
-        projectId: this.$store.state.projectData.viewProjectId,
-        isLastSettlement: this.form.isLastSettlement,
-        dataSource: this.$store.state.projectData.projectDetail.dataSourceName
+      console.log(this.settlementId);
+      if (this.settlementId == "") {
+        let params = {
+          settlementName : this.form.settlementName,
+          settlementIncome : this.form.settlementIncome,
+          resourceName : this.resourceName,
+          resourceUrl: this.resourceUrl,
+          projectId: this.$store.state.projectData.viewProjectId,
+          isLastSettlement: this.form.isLastSettlement,
+          dataSource: this.$store.state.projectData.projectDetail.dataSourceName
 
-      }
-      axios.post('/api/settlement/add',params).then((res)=>{
-        if(res.data.code==0){
-          this.dialogFormVisible = false;
-          this.$message.success('保存成功！')
-
-           axios.get("/api/settlement/list?projectId=" + this.$store.state.projectData.viewProjectId).then((rep) =>{
-             if (rep.data.code===0) {
-              this.$store.commit("projectData/setSettlementList", rep.data.data);
-            }
-           })
         }
-      })
+        axios.post('/api/settlement/add',params).then((res)=>{
+          if(res.data.code==0){
+            this.dialogFormVisible = false;
+            this.$message.success('保存成功！')
+
+            axios.get("/api/settlement/list?projectId=" + this.$store.state.projectData.viewProjectId).then((rep) =>{
+              if (rep.data.code===0) {
+                this.$store.commit("projectData/setSettlementList", rep.data.data);
+              }
+            })
+          }
+        })
+      } else {
+        let params = {
+          settlementId: this.settlementId,
+          settlementName : this.form.settlementName,
+          settlementIncome : this.form.settlementIncome,
+          resourceName : this.resourceName,
+          resourceUrl: this.resourceUrl,
+          projectId: this.$store.state.projectData.viewProjectId,
+          isLastSettlement: this.form.isLastSettlement,
+          dataSource: this.$store.state.projectData.projectDetail.dataSourceName
+        }
+        axios.post('/api/settlement/update',params).then((res)=>{
+          if(res.data.code==0){
+            this.dialogFormVisible = false;
+            this.$message.success('保存成功！')
+
+            axios.get("/api/settlement/list?projectId=" + this.$store.state.projectData.viewProjectId).then((rep) =>{
+              if (rep.data.code===0) {
+                this.$store.commit("projectData/setSettlementList", rep.data.data);
+              }
+            })
+          }
+        })
+      }
+      
 
     },
     uploadQuotation(){
@@ -217,10 +259,53 @@ export default {
       this.form.name = '';
     },
     editSettlement(row) {
-
+      console.log(row);
+      this.form.isLastSettlement = row.isLastSettlement;
+      this.form.settlementName = row.settlementName;
+      this.form.settlementIncome = row.settlementIncome;
+      this.resourceName = row.resourceName;
+      this.resourceUrl = row.resourceUrl;
+      this.settlementId = row.settlementId;
+      this.alreadyUpload = true;
+      this.dialogFormVisible = true;
     },
     deleteSettlement(row) {
-
+      axios.get('/api/settlement/del?settlementId=' + row.settlementId).then((res)=>{
+        if(res.data.code==0){
+          this.dialogFormVisible = false;
+          this.$message.success('删除成功');
+          axios.get("/api/settlement/list?projectId=" + this.$store.state.projectData.viewProjectId).then((rep) =>{
+            if (rep.data.code===0) {
+              this.$store.commit("projectData/setSettlementList", rep.data.data);
+            }
+          });
+        } else {
+          this.$message.error(res.data.msg);
+        }
+      });
+    },
+    download(url) {
+      console.log(url);
+      window.location.href = url;
+    },
+    delUpload() {
+      this.resourceName = "";
+      this.resourceUrl = "";
+      this.alreadyUpload = false;
+    },
+    down(){
+      window.location.href = this.resourceUrl;
+    },
+    search() {
+      axios.get("/api/settlement/list?projectId=" + this.$store.state.projectData.viewProjectId + "&settlementName=" + this.settlementName + "&settlementNo=" + this.settlementNo).then((rep) =>{
+        if (rep.data.code===0) {
+          this.$store.commit("projectData/setSettlementList", rep.data.data);
+        }
+      });
+    },
+    reset() {
+      this.settlementName = "";
+      this.settlementNo = "";
     }
   },
 };

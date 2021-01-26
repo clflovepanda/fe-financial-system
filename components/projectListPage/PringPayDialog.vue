@@ -273,10 +273,10 @@
               <div style="display: inline-block;position: absolute; left:30%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 8%;">
                 工具
               </div>
-              <div style="display: inline-block;position: absolute; left:38%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 14%;">
+              <div style="display: inline-block;position: absolute; left:38%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 10%;">
                 金额
               </div>
-              <div style="display: inline-block;position: absolute; left:52%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 8%;">
+              <div style="display: inline-block;position: absolute; left:48%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 12%;">
                 单据张数
               </div>
               <div style="display: inline-block;position: absolute; left:60%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 10%;">
@@ -317,10 +317,10 @@
               <div style="display: inline-block;position: absolute; left:30%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 8%;">
 
               </div>
-              <div style="display: inline-block;position: absolute; left:38%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 14%;">
+              <div style="display: inline-block;position: absolute; left:38%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 10%;">
 
               </div>
-              <div style="display: inline-block;position: absolute; left:52%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 8%;">
+              <div style="display: inline-block;position: absolute; left:48%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 12%;">
 
               </div>
               <div style="display: inline-block;position: absolute; left:60%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 10%;">
@@ -361,10 +361,10 @@
               <div style="display: inline-block;position: absolute; left:30%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 8%;">
 
               </div>
-              <div style="display: inline-block;position: absolute; left:38%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 14%;">
+              <div style="display: inline-block;position: absolute; left:38%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 10%;">
 
               </div>
-              <div style="display: inline-block;position: absolute; left:52%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 8%;">
+              <div style="display: inline-block;position: absolute; left:48%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 12%;">
 
               </div>
               <div style="display: inline-block;position: absolute; left:60%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 10%;">
@@ -405,10 +405,10 @@
               <div style="display: inline-block;position: absolute; left:30%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 8%;">
 
               </div>
-              <div style="display: inline-block;position: absolute; left:38%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 14%;">
+              <div style="display: inline-block;position: absolute; left:38%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 10%;">
 
               </div>
-              <div style="display: inline-block;position: absolute; left:52%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 8%;">
+              <div style="display: inline-block;position: absolute; left:48%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 12%;">
 
               </div>
               <div style="display: inline-block;position: absolute; left:60%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 10%;">
@@ -449,10 +449,10 @@
               <div style="display: inline-block;position: absolute; left:30%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 8%;">
 
               </div>
-              <div style="display: inline-block;position: absolute; left:38%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 14%;">
+              <div style="display: inline-block;position: absolute; left:38%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 10%;">
 
               </div>
-              <div style="display: inline-block;position: absolute; left:52%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 8%;">
+              <div style="display: inline-block;position: absolute; left:48%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 12%;">
 
               </div>
               <div style="display: inline-block;position: absolute; left:60%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 10%;">
@@ -493,10 +493,10 @@
               <div style="display: inline-block;position: absolute; left:30%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 8%;">
 
               </div>
-              <div style="display: inline-block;position: absolute; left:38%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 14%;">
+              <div style="display: inline-block;position: absolute; left:38%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 10%;">
 
               </div>
-              <div style="display: inline-block;position: absolute; left:52%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 8%;">
+              <div style="display: inline-block;position: absolute; left:48%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 12%;">
 
               </div>
               <div style="display: inline-block;position: absolute; left:60%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 10%;">
@@ -513,10 +513,10 @@
               <div style="display: inline-block;position: absolute; left:0px;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 38%;">
                 合计
               </div>
-              <div style="display: inline-block;position: absolute; left:38%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 14%;">
+              <div style="display: inline-block;position: absolute; left:38%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 10%;">
 
               </div>
-              <div style="display: inline-block;position: absolute; left:52%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 8%;">
+              <div style="display: inline-block;position: absolute; left:48%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 12%;">
 
               </div>
               <div style="display: inline-block;position: absolute; left:60%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 10%;">
@@ -529,13 +529,13 @@
             <div style="position:relative; height: 60px;border-bottom: 1px solid black">
               <div style="display:inline-block; position:absolute; left: 0px; top: 0px; width: 6%; line-height: 30px; border-right: 1px solid black">报销</div>
               <div style="display:inline-block; position:absolute; left: 0px; top: 30px; width: 6%; line-height: 30px; border-right: 1px solid black">总额</div>
-              <div style="display: inline-block;position: absolute; left:6%;height:30px;line-height: 30px;font-weight:400; width: 6%;">
+              <div style="display: inline-block;position: absolute; left:6%;height:30px;line-height: 30px;font-weight:400; width: 12%;">
                 人民币
               </div>
-              <div style="display: inline-block;position: absolute; left:6%;top: 30px; height:30px;line-height: 30px;font-weight:400; width: 6%;">
+              <div style="display: inline-block;position: absolute; left:6%;top: 30px; height:30px;line-height: 30px;font-weight:400; width: 12%;">
                 (大写)
               </div>
-              <div style="display: inline-block;position: absolute; left:15%;height:60px;line-height: 60px; width: 25%;text-align:left;">
+              <div style="display: inline-block;position: absolute; left:21%;height:60px;line-height: 60px; width: 19%;text-align:left;">
                 {{printData.moneyCapital}}
               </div>
               <div style="display: inline-block;position: absolute; left:40%;height:60px;line-height: 60px; width: 20%;text-align:left;border-right: 1px solid black">

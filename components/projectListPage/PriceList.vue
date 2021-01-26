@@ -10,7 +10,7 @@
             <el-input v-model="ruleForm.name" placeholder="请输入报价单名称"></el-input>
           </el-col>
           <el-col :span="2" :offset="1">
-            <el-button type="primary">查询</el-button>
+            <el-button type="primary" @click="search">查询</el-button>
           </el-col>
         </el-row>
         <el-divider></el-divider>
@@ -26,7 +26,7 @@
           <el-table-column align="center" prop="quotationNo" label="报价单编号"></el-table-column>
           <el-table-column align="center" prop="proManager" label="附件">
             <template slot-scope="scope">
-              <el-button :href="scope.row.resourceUrl" :disabled="getProjectDetailData.status == 6">下载附件</el-button>
+              <el-button type="text" size="small" @click="download(scope.row.resourceUrl)" :disabled="getProjectDetailData.status == 6">下载附件</el-button>
             </template>
           </el-table-column>
           <el-table-column align="center" prop="id" label="操作" width="140">
@@ -67,6 +67,7 @@
       </el-form>
       <el-row v-if="alreadyUpload">
         <span style="display:inline-block; width:200px; text-align:right">已上传报价单：</span><el-button type="text" size="small" @click="down">{{resourceName}}</el-button>
+        <el-button type="text" size="small" @click="delUpload">删除</el-button>
       </el-row>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -94,12 +95,16 @@ export default {
       },
       resourceName: '',
       resourceUrl: '',
-      alreadyUpload: false
+      alreadyUpload: false,
+      priceId: ''
     };
   },
   watch: {
-    dialogFormVisible(){
-      this.alreadyUpload = false;
+    dialogFormVisible(val){
+      if (val == false) {
+        this.alreadyUpload = false;
+        this.priceId = "";
+      }
     }
   },
   computed: {
@@ -162,28 +167,48 @@ export default {
         return false
 
       }
-      let params = {
-        quotationName : this.form.name,
-        resourceName : this.resourceName,
-        resourceUrl: this.resourceUrl,
-        projectId: this.$store.state.projectData.viewProjectId,
-        dataSource: this.$store.state.projectData.projectDetail.dataSourceName,
-
-
-      }
-      axios.post('/api/quotation/add',params).then((res)=>{
-        if(res.data.code==0){
-          this.dialogFormVisible = false;
-          this.$message.success('保存成功！')
-
-           axios.get("/api/quotation/list?projectId=" + this.$store.state.projectData.viewProjectId).then((rep) =>{
-             if (rep.data.code===0) {
-              this.$store.commit("projectData/setQuotationList", rep.data.data);
-            }
-           })
+      if(this.priceId == "") {
+        let params = {
+          quotationName : this.form.name,
+          resourceName : this.resourceName,
+          resourceUrl: this.resourceUrl,
+          projectId: this.$store.state.projectData.viewProjectId,
+          dataSource: this.$store.state.projectData.projectDetail.dataSourceName,
         }
-      })
+        axios.post('/api/quotation/add',params).then((res)=>{
+          if(res.data.code==0){
+            this.dialogFormVisible = false;
+            this.$message.success('保存成功！')
 
+            axios.get("/api/quotation/list?projectId=" + this.$store.state.projectData.viewProjectId).then((rep) =>{
+              if (rep.data.code===0) {
+                this.$store.commit("projectData/setQuotationList", rep.data.data);
+              }
+            })
+          }
+        })
+      } else {
+        let params = {
+          quotationId: this.priceId,
+          quotationName : this.form.name,
+          resourceName : this.resourceName,
+          resourceUrl: this.resourceUrl,
+          projectId: this.$store.state.projectData.viewProjectId,
+          dataSource: this.$store.state.projectData.projectDetail.dataSourceName,
+        }
+        axios.post('/api/quotation/update',params).then((res)=>{
+          if(res.data.code==0){
+            this.dialogFormVisible = false;
+            this.$message.success('保存成功！')
+
+            axios.get("/api/quotation/list?projectId=" + this.$store.state.projectData.viewProjectId).then((rep) =>{
+              if (rep.data.code===0) {
+                this.$store.commit("projectData/setQuotationList", rep.data.data);
+              }
+            })
+          }
+        })
+      }
     },
     uploadQuotation(){
       this.dialogFormVisible = true;
@@ -191,8 +216,44 @@ export default {
       this.resourceUrl = '';
       this.form.name = '';
     },
-    editQuotation() {},
-    deleteQuotation() {}
+    search(){
+      axios.get("/api/quotation/list?projectId=" + this.$store.state.projectData.viewProjectId + "&name=" + this.ruleForm.name).then((rep) =>{
+        if (rep.data.code===0) {
+          this.$store.commit("projectData/setQuotationList", rep.data.data);
+        }
+      })
+    },
+    editQuotation(row) {
+      console.log(row);
+      this.form.name = row.quotationName;
+      this.resourceName = row.resourceName;
+      this.resourceUrl = row.resourceUrl;
+      this.priceId = row.quotationId;
+      this.alreadyUpload = true;
+      this.dialogFormVisible = true;
+    },
+    deleteQuotation(row) {
+      axios.get('/api/quotation/del?quotationId=' + row.quotationId).then((res)=>{
+        if(res.data.code==0){
+          this.dialogFormVisible = false;
+          this.$message.success('删除成功');
+          axios.get("/api/quotation/list?projectId=" + this.$store.state.projectData.viewProjectId).then((rep) =>{
+            if (rep.data.code===0) {
+              this.$store.commit("projectData/setQuotationList", rep.data.data);
+            }
+          })
+        }
+      })
+    },
+    download(url) {
+      console.log(url);
+      window.location.href = url;
+    },
+    delUpload() {
+      this.resourceName = "";
+      this.resourceUrl = "";
+      this.alreadyUpload = false;
+    }
   },
 };
 </script>

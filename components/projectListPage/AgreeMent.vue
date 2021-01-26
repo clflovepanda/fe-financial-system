@@ -5,15 +5,15 @@
         <el-row>
           <el-col :span="2" class="labelSty"><span>项目合同：</span></el-col>
           <el-col :span="4">
-            <el-input v-model="ruleForm.name" placeholder="请输入项目合同"></el-input>
+            <el-input v-model="contractName" placeholder="请输入项目合同"></el-input>
           </el-col>
           <el-col :span="2" class="labelSty"><span>项目编号：</span></el-col>
           <el-col :span="4">
-            <el-input v-model="ruleForm.id" placeholder="请输入项目编号"></el-input>
+            <el-input v-model="contractNo" placeholder="请输入项目编号"></el-input>
           </el-col>
           <el-col :span="4" :offset="1">
-            <el-button type="primary">查询</el-button>
-            <el-button >重置</el-button>
+            <el-button type="primary" @click="search">查询</el-button>
+            <el-button @click="reset">重置</el-button>
           </el-col>
         </el-row>
         <el-divider></el-divider>
@@ -30,7 +30,7 @@
           <el-table-column align="center" prop="customerName" label="客户名称"></el-table-column>
           <el-table-column align="center" prop="proManager" label="附件">
             <template slot-scope="scope">
-              <el-button type="text" size="small" :href="scope.row.resourceUrl" :disabled="!checkNowUserRole('project_contract_download') || getProjectDetailData.status == 6">下载合同</el-button>
+              <el-button type="text" size="small" :href="scope.row.resourceUrl"  @click="download(scope.row.resourceUrl)" :disabled="!checkNowUserRole('project_contract_download') || getProjectDetailData.status == 6">下载合同</el-button>
             </template>
           </el-table-column>
           <el-table-column align="center" prop="id" label="操作" width="140">
@@ -55,7 +55,7 @@
     ]" style="width:360px">
           <el-input v-model="form.customerName" autocomplete="off" style="width:360px"></el-input>
         </el-form-item>
-        <el-form-item label="上传合同" :label-width="formLabelWidth">
+        <el-form-item label="上传合同" :label-width="formLabelWidth" v-if="!alreadyUpload">
           <el-upload
             class="upload-demo"
             drag
@@ -66,6 +66,7 @@
             :before-upload="beforeAvatarUpload"
 						:action="actionUrl"
 						:limit="1"
+            v-if="!alreadyUpload"
             >
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将文件拖到此处，或<em>点击上传合同</em></div>
@@ -73,6 +74,10 @@
           </el-upload>
         </el-form-item>
       </el-form>
+      <el-row v-if="alreadyUpload">
+        <span style="display:inline-block; width:200px; text-align:right">已上传合同：</span><el-button type="text" size="small" @click="down">{{resourceName}}</el-button>
+        <el-button type="text" size="small" @click="delUpload">删除</el-button>
+      </el-row>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
         <el-button type="primary" @click="addQuotation">保 存</el-button>
@@ -105,10 +110,22 @@ export default {
         name:'',
         customerName: ''
       },
+      contractName: "",
+      contractNo: "",
       resourceName: '',
       resourceUrl: '',
       actionUrl:'',
+      alreadyUpload: false,
+      contractId: ""
     };
+  },
+  watch:{
+    dialogFormVisible(val){
+      if (val == false) {
+        this.alreadyUpload = false;
+        this.agreeId = "";
+      }
+    }
   },
   computed: {
     getProjectDetailData() {
@@ -152,8 +169,7 @@ export default {
         if(res.data.code===0){
           this.resourceUrl = res.data.data;
           this.$message.success('上传成功！')
-          
-
+          this.alreadyUpload = true;
         }
       })
     },
@@ -172,29 +188,49 @@ export default {
         return false
 
       }
-      let params = {
-        contractName : this.form.name,
-        resourceName : this.resourceName,
-        resourceUrl: this.resourceUrl,
-        projectId: this.$store.state.projectData.viewProjectId,
-        customerName: this.form.customerName,
-        dataSource: this.$store.state.projectData.projectDetail.dataSourceName,
-
-
-      }
-      axios.post('/api/contract/add',params).then((res)=>{
-        if(res.data.code==0){
-          this.dialogFormVisible = false;
-          this.$message.success('保存成功！')
-
-           axios.get("/api/contract/list?projectId=" + this.$store.state.projectData.viewProjectId).then((rep) =>{
-             if (rep.data.code===0) {
-              this.$store.commit("projectData/setContractList", rep.data.data);
-            }
-           })
+      if (this.contractId == "") {
+        let params = {
+          contractName : this.form.name,
+          resourceName : this.resourceName,
+          resourceUrl: this.resourceUrl,
+          projectId: this.$store.state.projectData.viewProjectId,
+          customerName: this.form.customerName,
+          dataSource: this.$store.state.projectData.projectDetail.dataSourceName,
         }
-      })
+        axios.post('/api/contract/add',params).then((res)=>{
+          if(res.data.code==0){
+            this.dialogFormVisible = false;
+            this.$message.success('保存成功！')
 
+            axios.get("/api/contract/list?projectId=" + this.$store.state.projectData.viewProjectId).then((rep) =>{
+              if (rep.data.code===0) {
+                this.$store.commit("projectData/setContractList", rep.data.data);
+              }
+            })
+          }
+        });
+      } else {
+        let params = {
+          contractId: this.contractId,
+          contractName : this.form.name,
+          resourceName : this.resourceName,
+          resourceUrl: this.resourceUrl,
+          projectId: this.$store.state.projectData.viewProjectId,
+          customerName: this.form.customerName,
+          dataSource: this.$store.state.projectData.projectDetail.dataSourceName,
+        }
+        axios.post('/api/contract/update',params).then((res)=>{
+          if(res.data.code==0){
+            this.dialogFormVisible = false;
+            this.$message.success('保存成功！')
+            axios.get("/api/contract/list?projectId=" + this.$store.state.projectData.viewProjectId).then((rep) =>{
+              if (rep.data.code===0) {
+                this.$store.commit("projectData/setContractList", rep.data.data);
+              }
+            })
+          }
+        })
+      }
     },
     uploadQuotation(){
       this.dialogFormVisible = true;
@@ -203,10 +239,52 @@ export default {
       this.form.name = '';
     },
     editContract(row) {
-
+      console.log(row);
+      this.form.customerName = row.customerName;
+      this.form.name = row.contractName;
+      this.resourceName = row.resourceName;
+      this.resourceUrl = row.resourceUrl;
+      this.contractId = row.contractId;
+      this.alreadyUpload = true;
+      this.dialogFormVisible = true;
     },
     deleteContract(row) {
-
+      axios.get('/api/contract/del?contractId=' + row.contractId).then((res)=>{
+        if(res.data.code==0){
+          this.dialogFormVisible = false;
+          this.$message.success('删除成功');
+          axios.get("/api/contract/list?projectId=" + this.$store.state.projectData.viewProjectId).then((rep) =>{
+            if (rep.data.code===0) {
+              this.$store.commit("projectData/setContractList", rep.data.data);
+            }
+          });
+        } else {
+          this.$message.error(res.data.msg);
+        }
+      });
+    },
+    download(url) {
+      console.log(url);
+      window.location.href = url;
+    },
+    delUpload() {
+      this.resourceName = "";
+      this.resourceUrl = "";
+      this.alreadyUpload = false;
+    },
+    down(){
+      window.location.href = this.resourceUrl;
+    },
+    search() {
+      axios.get("/api/contract/list?projectId=" + this.$store.state.projectData.viewProjectId + "&contractName=" + this.contractName + "&contractNo=" + this.contractNo).then((rep) =>{
+        if (rep.data.code===0) {
+          this.$store.commit("projectData/setContractList", rep.data.data);
+        }
+      })
+    },
+    reset() {
+      this.contractName = "",
+      this.contractNo = "";
     }
   },
 };
