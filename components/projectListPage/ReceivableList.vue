@@ -60,10 +60,8 @@
             <el-table-column align="center" label="操作" width="140">
               <template slot-scope="scope">
                 <el-button @click="printPay(scope)" type="text" size="small" :disabled="scope.row.state<=3 || getProjectDetailData.status == 6" v-if="checkNowUserRole('project_invoice_print')">打印</el-button>
+                <el-button @click="addinvoice(scope.row)" type="text" size="small" :class="[checkNowUserRole('invoice_update') ? '':'disRoleMenu']" :disabled="getProjectDetailData.status == 6">修改</el-button>
                 <el-button @click="del(scope)" type="text" size="small" v-if="checkNowUserRole('project_invoice_del')" :disabled="getProjectDetailData.status == 6">删除</el-button>
-                <el-button @click="printPay(scope)" type="text" size="small" :disabled="scope.row.state<=3" v-if="checkNowUserRole('project_invoice_print')">打印</el-button>
-                <el-button @click="addinvoice(scope.row)" type="text" size="small" :class="[checkNowUserRole('invoice_update') ? '':'disRoleMenu']">修改</el-button>
-                <el-button @click="del(scope)" type="text" size="small" v-if="checkNowUserRole('project_invoice_del')">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
