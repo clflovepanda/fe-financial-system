@@ -31,7 +31,7 @@
               <el-input v-model="ruleForm.username" placeholder="请输入经办人"></el-input>
             </el-col>
             <el-col :span="2" :offset="1" class="labelSty">
-              <span>申请时间</span>
+              <span>提交时间</span>
             </el-col>
             <el-col :span="6">
               <el-date-picker v-model="dataRange" type="daterange" range-separator="~" start-placeholder="请选择开始日期" end-placeholder="结束日期"></el-date-picker>
@@ -56,10 +56,11 @@
             <el-table-column align="center" prop="revenueTypeName" label="应税劳务名称" width="120"></el-table-column>
             <el-table-column align="center" prop="cnyMoney" label="金额/元"></el-table-column>
             <el-table-column align="center" prop="username" label="经办人"></el-table-column>
-            <el-table-column align="center" prop="createDatetime" label="申请时间"></el-table-column>
+            <el-table-column align="center" prop="createDatetime" label="提交时间"></el-table-column>
             <el-table-column align="center" label="操作" width="140">
               <template slot-scope="scope">
                 <el-button @click="printPay(scope)" type="text" size="small" :disabled="scope.row.state<=3" v-if="checkNowUserRole('project_invoice_print')">打印</el-button>
+                <el-button @click="addinvoice(scope.row)" type="text" size="small" :class="[checkNowUserRole('invoice_update') ? '':'disRoleMenu']">修改</el-button>
                 <el-button @click="del(scope)" type="text" size="small" v-if="checkNowUserRole('project_invoice_del')">删除</el-button>
               </template>
             </el-table-column>
@@ -163,6 +164,7 @@ export default {
       formLabelWidth: "200px",
       dialogFormVisible: false,
       form: {
+        invoiceId: "",
         companyId: "",
         invoiceType: "",//发票类型
         unitname: "",//单位名称
@@ -257,7 +259,11 @@ export default {
       console.log("新增应收单", this.form);
       this.$refs["form"].validate((valid) => {
         if (valid) {
-          axios.post("/api/invoice/add", this.form).then((res) => {
+          let url = "/api/invoice/add";
+          if (this.form.invoiceId > 0) {
+            url = "/api/invoice/update"
+          }
+          axios.post(url, this.form).then((res) => {
             if (res.data.code == 0) {
               this.dialogFormVisible = false;
               this.$message.success("保存成功！");
@@ -322,6 +328,14 @@ export default {
         this.$store.commit("dialogSwitchData/setPrintPayDialogShow", true);
       }
 
+    },
+    addinvoice(type) {
+      this.dialogFormVisible = true;
+      if(type!='add'){
+        console.log('修改---',type)
+        this.form = type;
+        this.invoiceId = type.invoiceId
+      }
     },
     del(scope) {
       axios.get("/api/invoice/del?invoiceId=" + scope.row.invoiceId).then(
