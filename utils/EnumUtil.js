@@ -111,7 +111,7 @@ let EnumAuditType = {
         { value: 3, label: "被驳回" },
         { value: 4, label: "已支付" },
         { value: 5, label: "作废" },
-        { value: 6, label: "凭借款" },
+        { value: 6, label: "平借款" },
     ],
     getMsg(value) {
         for (let i = 0; i < this.list.length; i++) {
@@ -178,7 +178,7 @@ let EnumExpenditureState = {
         { value: 3, label: "被驳回" },
         { value: 4, label: "已支付" },
         { value: 5, label: "作废" },
-        { value: 6, label: "凭借款" },
+        { value: 6, label: "平借款" },
     ],
     getMsg(value) {
         for (let i = 0; i < this.list.length; i++) {

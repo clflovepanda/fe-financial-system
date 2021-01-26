@@ -13,7 +13,7 @@
     </el-row>
     <el-row class="rowSty">
       <el-col :span="4">
-        <div class="labelSty">收入类型/元：</div>
+        <div class="labelSty">收入类型：</div>
       </el-col>
       <el-col :span="8">
         <el-select
@@ -55,7 +55,7 @@
           placeholder="请输入你要关联的二级项目"
           v-model="nowIncomeForm.dataSourceName"
         ></el-input>
-        
+
         <!-- <el-autocomplete
           class="inline-input"
           v-model="nowIncomeForm.project"
@@ -167,11 +167,11 @@ export default {
         })
       }else{
         this.$message({
-          message: "请情书本次认款信息",
+          message: "请输入本次认款信息",
           type: "warning",
         });
       }
-      
+
 
     },
     searchUserList: function () {
@@ -197,7 +197,7 @@ export default {
             cb(searchList);
           }
         )
-      }      
+      }
     },
     handleSelect: function (val) {
       this.nowIncomeForm.dataSourceName = val.item.dataSourceName;

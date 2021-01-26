@@ -122,7 +122,7 @@ export default {
                 }
                 let allUser = await NetReqUser.getAllUser();
                 this.$store.commit("rootData/setUserList", allUser);
-                let projectList = await NetReqUser.getAllProject();
+                // let projectList = await NetReqUser.getAllProject();
                 this.$router.push("/projectList");
                 this.$store.commit("userData/setHasLogin", true);
                 let nowUserRole = await NetReqUser.getNowUserRole();

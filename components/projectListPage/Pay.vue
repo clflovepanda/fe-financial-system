@@ -53,7 +53,7 @@
               <el-option label="被驳回" value="3"></el-option>
               <el-option label="已支付" value="4"></el-option>
               <el-option label="作废" value="5"></el-option>
-              <el-option label="凭借款" value="6"></el-option>
+              <el-option label="平借款" value="6"></el-option>
             </el-select>
           </el-col>
           <el-col :span="2" class="labelSty"><span class="labelSty">工作流:</span></el-col>
@@ -63,7 +63,7 @@
               <el-option label="被驳回" value="3"></el-option>
               <el-option label="已支付" value="4"></el-option>
               <el-option label="作废" value="5"></el-option>
-              <el-option label="凭借款" value="6"></el-option>
+              <el-option label="平借款" value="6"></el-option>
             </el-select>
           </el-col>
         </el-row>
@@ -204,7 +204,7 @@ export default {
     },
     getPurposeContent() {
       return function(scope) {
-        return scope.row.expenditurePurposeId != null && scope.row.expenditurePurposeId > 0 ? 
+        return scope.row.expenditurePurposeId != null && scope.row.expenditurePurposeId > 0 ?
         scope.row.expenditurePurposeName : scope.row.expenditurePurposeContent;
       }
     },
@@ -355,10 +355,10 @@ export default {
       } else {
         this.$store.commit("dialogSwitchData/setAuditDialogShow", true);
       }
-      
+
     }
   },
-  
+
 };
 </script>
 

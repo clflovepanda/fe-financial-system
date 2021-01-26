@@ -30,7 +30,7 @@
               size="small"
               type="success"
               @click="dialogMoneyisSend = true"
-              :disabled="getProjectDetailData.saleCommisState > 0"
+              :disabled="getProjectDetailData.saleCommisState > 0 || getProjectDetailData.state == 6"
               v-if="getProjectDetailData.auditState == 1 && checkNowUserRole('project_sales')"
               >销售提成1%已发放</el-button
             >
@@ -38,7 +38,7 @@
               size="small"
               type="success"
               @click="dialogMoneyisAllSend = true"
-              :disabled="getProjectDetailData.saleCommisState > 1"
+              :disabled="getProjectDetailData.saleCommisState > 1 || getProjectDetailData.state == 6"
               v-if="getProjectDetailData.auditState == 1 && checkNowUserRole('project_sales')"
               >销售提成已全部发放</el-button
             >
@@ -248,7 +248,7 @@
             <el-button type="primary" @click="handleAddTime" style="margin-bottom:20px;">新增工时</el-button>
           </el-col>
         </el-row>
-        
+
         <!-- <el-table
           border
           :data="$store.state.projectData.taskTimeList"
@@ -301,7 +301,7 @@
             </el-table>
           </el-tab-pane>
         </el-tabs>
-        
+
       </el-tab-pane>
       <el-tab-pane label="收入" name="3" :disabled="getProjectDetailData.auditState != 1 || !checkNowUserRole('project_revenue')">
         <Income />
@@ -449,8 +449,8 @@ export default {
     }else{
       next()
     }
-    
-    
+
+
   },
   watch: {
     "$store.state.projectData.taskTimeList": {
@@ -513,7 +513,7 @@ export default {
               },
               () => {}
             );
-            
+
             axios.get("/api/project/list?auditing_state=2&limit=10&offset=1").then(
               (rep) => {
                 if (rep && rep.data) {
@@ -549,7 +549,7 @@ export default {
         if(item.taskRelationId == this.taskRelationId){
           templateFlag = item.templateFlag;
         }
-        
+
 
       })
       this.$router.push({
@@ -585,7 +585,7 @@ export default {
               },
               () => {}
             );
-            
+
         }else{
           this.$message.error('删除失败')
         }
@@ -610,7 +610,7 @@ export default {
     handleProjectName(tab) {
       // this.$router.push("/addtasktime.jsp");
       this.$router.push("/addtasktime?layer="+tab.templateFlag + '&taskRelationId='+ tab.taskRelationId);
-      
+
     },
     handleTabClick(tab, event) {
     },
@@ -849,7 +849,7 @@ export default {
     );
     console.log("revenue", revenueResult);
     ctx.store.commit("incomeData/setRevenueList", revenueResult);
-    
+
   },
 };
 </script>

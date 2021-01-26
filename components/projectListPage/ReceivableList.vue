@@ -50,7 +50,7 @@
             </el-col>
           </el-row>
           <el-table :data="getReceivableList" border style="width: 100%; margin-top: 20px">
-            <el-table-column align="center" prop="revenueId" label="序号" width="120"></el-table-column>
+            <el-table-column align="center" prop="invoiceId" label="序号" width="120"></el-table-column>
             <el-table-column align="center" prop="invoiceNo" label="应收单编号"></el-table-column>
             <el-table-column align="center" prop="unitname" label="单位名称" width="120"></el-table-column>
             <el-table-column align="center" prop="revenueTypeName" label="应税劳务名称" width="120"></el-table-column>
@@ -143,11 +143,11 @@ export default {
 
       if (!myreg.test(value)) {
         callback(new Error("请输入正确的手机号"));
-        return false; 
+        return false;
       } else {
         callback();
 
-         
+
       }
     };
     return {
@@ -321,7 +321,7 @@ export default {
       } else {
         this.$store.commit("dialogSwitchData/setPrintPayDialogShow", true);
       }
-      
+
     },
     del(scope) {
       axios.get("/api/invoice/del?invoiceId=" + scope.row.invoiceId).then(

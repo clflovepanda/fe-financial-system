@@ -51,7 +51,7 @@
               <el-option label="被驳回" value="3"></el-option>
               <el-option label="已支付" value="4"></el-option>
               <el-option label="作废" value="5"></el-option>
-              <el-option label="凭借款" value="6"></el-option>
+              <el-option label="平借款" value="6"></el-option>
             </el-select>
           </el-col>
           <el-col :span="4" style="text-align:center">
@@ -86,7 +86,7 @@
               {{getOutputType(scope.row.expenditureTypeId)}}
             </template>
           </el-table-column>
-          <el-table-column align="center" prop="expenditurePurposeContent" label="用途"></el-table-column>
+          <el-table-column align="center" prop="expenditurePurposeName" label="用途"></el-table-column>
           <el-table-column align="center" prop="beneficiaryUnit" label="收款人单位" width="140"></el-table-column>
           <el-table-column align="center" prop="expenditureMoney" label="金额/元" width="120"></el-table-column>
           <el-table-column align="center" prop="username" label="申请人" width="120"></el-table-column>
@@ -104,9 +104,9 @@
           </el-table-column>
           <el-table-column align="center" prop="utime" label="操作" width="180">
             <template slot-scope="scope">
-              <el-button @click="printPay(scope)" type="text" size="small" :class="[checkNowUserRole('expenditure_print') ? '':'disRoleMenu']">打印</el-button>
-              <el-button @click="editPay(scope)" type="text" size="small" :class="[checkNowUserRole('expenditure_update') ? '':'disRoleMenu']">修改</el-button>
-              <el-button @click="delPay(scope)" type="text" size="small" :class="[checkNowUserRole('expenditure_del') ? '':'disRoleMenu']">删除</el-button>
+              <el-button @click="printPay(scope)" type="text" size="small" :disabled="scope.row.state>3" :class="[checkNowUserRole('expenditure_print') ? '':'disRoleMenu']">打印</el-button>
+              <el-button @click="editPay(scope)" type="text" size="small" :disabled="scope.row.state>3" :class="[checkNowUserRole('expenditure_update') ? '':'disRoleMenu']">修改</el-button>
+              <el-button @click="delPay(scope)" type="text" size="small" :disabled="scope.row.state>3" :class="[checkNowUserRole('expenditure_del') ? '':'disRoleMenu']">删除</el-button>
               <el-button @click="viewPay(scope)" type="text" size="small">查看</el-button>
             </template>
           </el-table-column>
@@ -226,7 +226,7 @@ export default {
         })
     },
     handleView() {
-      
+
     },
     submitForm() {
       this.ruleForm.limit = 5;
@@ -313,7 +313,7 @@ export default {
       } else {
         this.$store.commit("dialogSwitchData/setAuditDialogShow", true);
       }
-      
+
     }
   },
   async asyncData(ctx) {
