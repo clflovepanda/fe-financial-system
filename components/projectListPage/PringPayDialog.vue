@@ -705,10 +705,11 @@ export default {
   },
   watch: {
     printData(){
-      axios.get("/common/qrcode?code="+1).then(
+      axios.get("/api/common/qrcode?code="+1).then(
         (rep) => {
           if (rep && rep.data) {
             console.log(rep);
+            this.qrUrl = rep.data;
           }
         },
         () => {}
