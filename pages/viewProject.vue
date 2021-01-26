@@ -30,7 +30,7 @@
               size="small"
               type="success"
               @click="dialogMoneyisSend = true"
-              :disabled="getProjectDetailData.saleCommisState > 0 || getProjectDetailData.state == 6"
+              :disabled="getProjectDetailData.saleCommisState > 0 || getProjectDetailData.status == 6"
               v-if="getProjectDetailData.auditState == 1 && checkNowUserRole('project_sales')"
               >销售提成1%已发放</el-button
             >
@@ -38,7 +38,7 @@
               size="small"
               type="success"
               @click="dialogMoneyisAllSend = true"
-              :disabled="getProjectDetailData.saleCommisState > 1 || getProjectDetailData.state == 6"
+              :disabled="getProjectDetailData.saleCommisState > 1 || getProjectDetailData.status == 6"
               v-if="getProjectDetailData.auditState == 1 && checkNowUserRole('project_sales')"
               >销售提成已全部发放</el-button
             >
