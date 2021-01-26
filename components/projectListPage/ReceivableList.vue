@@ -46,7 +46,7 @@
           </el-row>
           <el-row>
             <el-col :span="4" :offset="20">
-              <el-button type="primary" @click="handleExcel()" v-if="checkNowUserRole('project_invoice_add')">新增应收单</el-button>
+              <el-button type="primary" @click="handleExcel()" v-if="checkNowUserRole('project_invoice_add')" :disabled="getProjectDetailData.status == 6">新增应收单</el-button>
             </el-col>
           </el-row>
           <el-table :data="getReceivableList" border style="width: 100%; margin-top: 20px">
@@ -59,8 +59,8 @@
             <el-table-column align="center" prop="createDatetime" label="申请时间"></el-table-column>
             <el-table-column align="center" label="操作" width="140">
               <template slot-scope="scope">
-                <el-button @click="printPay(scope)" type="text" size="small" :disabled="scope.row.state<=3" v-if="checkNowUserRole('project_invoice_print')">打印</el-button>
-                <el-button @click="del(scope)" type="text" size="small" v-if="checkNowUserRole('project_invoice_del')">删除</el-button>
+                <el-button @click="printPay(scope)" type="text" size="small" :disabled="scope.row.state<=3 || getProjectDetailData.status == 6" v-if="checkNowUserRole('project_invoice_print')">打印</el-button>
+                <el-button @click="del(scope)" type="text" size="small" v-if="checkNowUserRole('project_invoice_del')" :disabled="getProjectDetailData.status == 6">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -212,6 +212,10 @@ export default {
     };
   },
   computed: {
+    getProjectDetailData() {
+      console.log(this.$store.state.projectData.projectDetail);
+      return this.$store.state.projectData.projectDetail;
+    },
     checkNowUserRole(){
       return function(name) {
         return this.$store.state.userData.nowUserRole.indexOf(name) > -1;

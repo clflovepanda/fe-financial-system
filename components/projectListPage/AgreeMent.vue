@@ -20,7 +20,7 @@
 
         <el-row>
           <el-col :span="4" :offset="20">
-            <el-button type="primary"  @click="uploadQuotation()" v-if="checkNowUserRole('project_contract_add')">上传项目合同</el-button>
+            <el-button type="primary"  @click="uploadQuotation()" v-if="checkNowUserRole('project_contract_add')"  :disabled="getProjectDetailData.status == 6">上传项目合同</el-button>
           </el-col>
         </el-row>
         <el-table :data="getContractList" border style="width: 100%; margin-top: 20px">
@@ -30,13 +30,13 @@
           <el-table-column align="center" prop="customerName" label="客户名称"></el-table-column>
           <el-table-column align="center" prop="proManager" label="附件">
             <template slot-scope="scope">
-              <el-button type="text" size="small" :href="scope.row.resourceUrl" :disabled="!checkNowUserRole('project_contract_download')">下载合同</el-button>
+              <el-button type="text" size="small" :href="scope.row.resourceUrl" :disabled="!checkNowUserRole('project_contract_download') || getProjectDetailData.status == 6">下载合同</el-button>
             </template>
           </el-table-column>
           <el-table-column align="center" prop="id" label="操作" width="140">
             <template slot-scope="scope">
-              <el-button type="text" size="small" @click="editContract(scope.row)" v-if="checkNowUserRole('project_contract_update')">编辑</el-button>
-              <el-button type="text" size="small" @click="deleteContract(scope.row)" v-if="checkNowUserRole('project_contract_del')">删除</el-button>
+              <el-button type="text" size="small" @click="editContract(scope.row)" v-if="checkNowUserRole('project_contract_update')" :disabled="getProjectDetailData.status == 6">编辑</el-button>
+              <el-button type="text" size="small" @click="deleteContract(scope.row)" v-if="checkNowUserRole('project_contract_del')" :disabled="getProjectDetailData.status == 6">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -111,6 +111,10 @@ export default {
     };
   },
   computed: {
+    getProjectDetailData() {
+      console.log(this.$store.state.projectData.projectDetail);
+      return this.$store.state.projectData.projectDetail;
+    },
     checkNowUserRole(){
       return function(name) {
         return this.$store.state.userData.nowUserRole.indexOf(name) > -1;

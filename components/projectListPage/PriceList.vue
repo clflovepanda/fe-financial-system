@@ -17,7 +17,7 @@
 
         <el-row>
           <el-col :span="4" :offset="20" style="text-align:right">
-            <el-button type="primary" @click="uploadQuotation()" v-if="checkNowUserRole('project_quotation_add')">上传报价单</el-button>
+            <el-button type="primary" @click="uploadQuotation()" v-if="checkNowUserRole('project_quotation_add')"  :disabled="getProjectDetailData.status == 6">上传报价单</el-button>
           </el-col>
         </el-row>
         <el-table :data="getQuotationData" border style="width: 100%; margin-top: 20px">
@@ -31,8 +31,8 @@
           </el-table-column>
           <el-table-column align="center" prop="id" label="操作" width="140">
             <template slot-scope="scope">
-              <el-button type="text" size="small" @click="editQuotation(scope.row)" v-if="checkNowUserRole('project_quotation_update')">编辑</el-button>
-              <el-button type="text" size="small" @click="deleteQuotation(scope.row)" v-if="checkNowUserRole('project_quotation_del')">删除</el-button>
+              <el-button type="text" size="small" @click="editQuotation(scope.row)" v-if="checkNowUserRole('project_quotation_update')" :disabled="getProjectDetailData.status == 6">编辑</el-button>
+              <el-button type="text" size="small" @click="deleteQuotation(scope.row)" v-if="checkNowUserRole('project_quotation_del')" :disabled="getProjectDetailData.status == 6">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -103,6 +103,10 @@ export default {
     }
   },
   computed: {
+    getProjectDetailData() {
+      console.log(this.$store.state.projectData.projectDetail);
+      return this.$store.state.projectData.projectDetail;
+    },
     checkNowUserRole(){
       return function(name) {
         return this.$store.state.userData.nowUserRole.indexOf(name) > -1;
