@@ -26,7 +26,7 @@
           <el-table-column align="center" prop="quotationNo" label="报价单编号"></el-table-column>
           <el-table-column align="center" prop="proManager" label="附件">
             <template slot-scope="scope">
-              <a :href="scope.row.resourceUrl">下载附件</a>
+              <el-button :href="scope.row.resourceUrl" :disabled="getProjectDetailData.status == 6">下载附件</el-button>
             </template>
           </el-table-column>
           <el-table-column align="center" prop="id" label="操作" width="140">
