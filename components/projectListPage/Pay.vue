@@ -8,7 +8,6 @@
           <el-col :span="3">
             <el-select v-model="ruleForm.companyId" placeholder="请选择公司">
               <el-option label="亚讯" value="1"></el-option>
-              <el-option label="医通捷" value="2"></el-option>
               <el-option label="新锐" value="3"></el-option>
               <el-option label="医点通" value="4"></el-option>
               <el-option label="现金到款" value="5"></el-option>

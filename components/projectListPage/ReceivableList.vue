@@ -336,9 +336,14 @@ export default {
                 this.ruleForm.endDt = et.getTime();
               }
               axios
-                .get("/api/invoice/list", {
-                  params: this.ruleForm,
-                })
+                .get(
+                  "/api/invoice/list?projectId=" +
+                  this.$store.state.projectData.viewProjectId
+                )
+              // axios
+              //   .get("/api/invoice/list", {
+              //     params: this.ruleForm,
+              //   })
                 .then(
                   (rep) => {
                     if (rep && rep.data) {
