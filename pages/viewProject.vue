@@ -205,11 +205,11 @@
             </el-col>
             <el-col :span="8">
               <span class="label-item">毛利率/%：</span>
-              <span>{{getProjectFinancial.rate}}</span>
+              <span>{{getProjectFinancial.rate}} %</span>
             </el-col>
             <el-col :span="8">
               <span class="label-item">支出比/%:</span>
-              <span>{{getProjectFinancial.expenditureRatio}}</span>
+              <span>{{getProjectFinancial.expenditureRatio}} %</span>
             </el-col>
           </el-row>
           <el-divider></el-divider>
@@ -220,7 +220,7 @@
             </el-col>
             <el-col :span="8">
               <span class="label-item">纯利率/%：</span>
-              <span>{{getProjectFinancial. relRate}}</span>
+              <span>{{getProjectFinancial. relRate}} %</span>
             </el-col>
             <el-col :span="8">
               <span class="label-item">人工成本/元：</span>

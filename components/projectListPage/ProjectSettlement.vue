@@ -61,7 +61,7 @@
           <el-radio v-model="form.isLastSettlement" label="0">否</el-radio>
         </el-form-item>
 
-        
+
         <el-form-item label="结算收入：" :label-width="formLabelWidth"  :rules="[
       { required: true, message: '请输入结算收入', trigger: 'blur' },
       { pattern: /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/, message: '请输入正确的格式,可保留两位小数' }
@@ -140,13 +140,13 @@ export default {
 
         // if (file.type === 'application/msword'||file.type === 'application/vnd.ms-excel') {
         //   return true
-          
+
         // }else{
-        //   this.$message.error('请上传正确的文件格式!');          
+        //   this.$message.error('请上传正确的文件格式!');
         //   return false;
         // }
      },
-     
+
     requestFile(content){
       let filename = content.file.name;
       this.resourceName = filename;
@@ -161,7 +161,7 @@ export default {
         if(res.data.code===0){
           this.resourceUrl = res.data.data;
           this.$message.success('上传成功！')
-          
+
 
         }
       })
@@ -181,15 +181,15 @@ export default {
         return false
 
       }
+      console.log(this.form.isLastSettlement, "-==============")
       let params = {
         settlementName : this.form.settlementName,
         settlementIncome : this.form.settlementIncome,
         resourceName : this.resourceName,
         resourceUrl: this.resourceUrl,
         projectId: this.$store.state.projectData.viewProjectId,
-        settlementIncome: this.form.settlementIncome,
-        dataSource: this.$store.state.projectData.projectDetail.dataSourceName,
-
+        isLastSettlement: this.form.isLastSettlement,
+        dataSource: this.$store.state.projectData.projectDetail.dataSourceName
 
       }
       axios.post('/api/settlement/add',params).then((res)=>{

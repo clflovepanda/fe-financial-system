@@ -18,8 +18,12 @@
     <el-table-column align="center" prop="settlementIncome" label="结算收入/结算支出"></el-table-column>
     <el-table-column align="center" prop="relRevenue" label="大收"></el-table-column>
     <el-table-column align="center" prop="relExpenditure" label="大支"></el-table-column>
-    <el-table-column align="center" prop="projectProfit" label="项目毛利率"></el-table-column>
-    <el-table-column align="center" prop="projectRate" label="项目毛利率/%"></el-table-column>
+    <el-table-column align="center" prop="projectProfit" label="项目毛利润"></el-table-column>
+    <el-table-column align="center" prop="projectRate" label="项目毛利率/%">
+      <template slot-scope="scope">
+        <span>{{scope.row.projectRate}} %</span>
+      </template>
+    </el-table-column>
     <el-table-column align="center" prop="saleCommisState" label="销售提成发放状态">
       <template slot-scope="scope">
         <span v-if="scope.row.saleCommisState == 0">未发放</span>
@@ -195,7 +199,7 @@ export default {
               },
               () => {}
             );
-            
+
             axios.get("/api/project/list?auditing_state=2&limit=10&offset=1").then(
               (rep) => {
                 if (rep && rep.data) {
