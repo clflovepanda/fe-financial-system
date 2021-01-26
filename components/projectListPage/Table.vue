@@ -1,5 +1,6 @@
 <template>
 <div>
+
   <el-table :data="getNewProjectList" border style="width: 100%; margin-top: 20px">
     <el-table-column align="center" fixed prop="projectId" label="序号" width="120"></el-table-column>
     <el-table-column align="center" prop="code" label="项目编号"></el-table-column>

@@ -178,7 +178,7 @@ export default {
       projectDataSource: "",
       createForm: {
         companyId: "",
-        projectId: "",   
+        projectId: "",
         expenditureMethodId: "",
         expenditureTypeId: "",
         expenditurePurposeId: "",
@@ -263,7 +263,7 @@ export default {
       let levelOne = this.$store.state.projectData.projectDataSource;
       for (let i = 0 ; levelOne && i < levelOne.length ; i ++) {
         if(levelOne[i].dataSourceId == this.createForm.dataSourceIdOne) {
-          return levelOne[i].son; 
+          return levelOne[i].son;
         }
       }
       return [];
@@ -284,7 +284,7 @@ export default {
         this.projectName = this.getProjectDetailData.projectName;
         this.projectDataSource = this.getProjectDetailData.dataSourceName;
         this.createForm.companyId = "";
-        this.createForm.projectId = "";   
+        this.createForm.projectId = "";
         this.createForm.expenditureMethodId = "";
         this.createForm.expenditureTypeId = "";
         this.createForm.expenditurePurposeId = "";
@@ -302,7 +302,7 @@ export default {
         this.projectName = this.editObj.name;
         this.projectDataSource = this.projectName.split("-")[0] + this.projectName.split("-")[1];
         this.createForm.companyId = this.editObj.companyId;
-        this.createForm.projectId = this.editObj.projectId;   
+        this.createForm.projectId = this.editObj.projectId;
         this.createForm.expenditureMethodId = this.editObj.expenditureMethodId;
         this.createForm.expenditureTypeId = this.editObj.expenditureTypeId;
         this.createForm.expenditurePurposeId = this.editObj.expenditurePurposeId;
@@ -321,7 +321,7 @@ export default {
         this.projectName = this.editObj.name;
         this.projectDataSource = this.projectName.split("-")[0] + this.projectName.split("-")[1];
         this.createForm.companyId = this.editObj.companyId;
-        this.createForm.projectId = this.editObj.projectId;   
+        this.createForm.projectId = this.editObj.projectId;
         this.createForm.expenditureMethodId = this.editObj.expenditureMethodId;
         this.createForm.expenditureTypeId = this.editObj.expenditureTypeId;
         this.createForm.expenditurePurposeId = this.editObj.expenditurePurposeId;
@@ -427,6 +427,10 @@ export default {
       }
       this.createForm.projectId = this.$store.state.projectData.viewProjectId;
        axios.post(url,this.createForm).then((response) => {
+         if(response.data.code != 0) {
+           this.$message.error(response.data.msg);
+           return ;
+         }
          if (isDeposite) {
           axios.get("/api/deposit/list?projectId=" + this.createForm.projectId).then(
               (rep) => {
@@ -437,7 +441,7 @@ export default {
                   } else {
                     this.$message.error(rep.data.msg);
                   }
-                  
+
                 }
               },
               () => {}
@@ -450,28 +454,44 @@ export default {
                   } else {
                     this.$message.error(rep.data.msg);
                   }
-                  
+
                 }
               },
               () => {}
             );
          } else {
-            axios.get("/api/expenditure/list?projectId=" + this.createForm.projectId).then(
-              (rep) => {
-                if (rep && rep.data) {
-                  if (rep.data.code == 0) {
-                    this.$store.commit("projectData/setProjectPay", rep.data);
-                  } else {
-                    this.$message.error(rep.data.msg);
-                  }
-                  
-                }
-              },
-              () => {}
-            );
+           if (this.$route.name == "expenditureManage") {
+             axios.get("/api/expenditure/list?limit=5&offset=1").then(
+               (rep) => {
+                 if (rep && rep.data) {
+                   if (rep.data.code == 0) {
+                     this.$store.commit("expenditureData/setAllExpenditureList", rep.data);
+                   } else {
+                     this.$message.error(rep.data.msg);
+                   }
+
+                 }
+               },
+               () => {}
+             );
+           } else {
+             axios.get("/api/expenditure/list?projectId=" + this.createForm.projectId).then(
+               (rep) => {
+                 if (rep && rep.data) {
+                   if (rep.data.code == 0) {
+                     this.$store.commit("projectData/setProjectPay", rep.data);
+                   } else {
+                     this.$message.error(rep.data.msg);
+                   }
+
+                 }
+               },
+               () => {}
+             );
+           }
          }
-         
-        
+
+
         this.$store.commit("expenditureData/setRevenueId", 0);
         // this.$store.commit("dialogSwitchData/setCreatePayDialogShow", false);
         this.showCreatePayDialog = false;
@@ -482,7 +502,7 @@ export default {
     },
   },
   mounted() {
-    
+
   }
 };
 </script>

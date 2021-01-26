@@ -35,21 +35,21 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-row>
-      <el-col :span="12" :offset="12">
-        <div class="block" style="margin-top: 30px">
-          <el-pagination
-            background
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page.sync="roleListTable.currentPage"
-            :page-size="10"
-            layout="total, prev, pager, next, jumper"
-            :total="roleListTable.total"
-          ></el-pagination>
-        </div>
-      </el-col>
-    </el-row>
+<!--    <el-row>-->
+<!--      <el-col :span="12" :offset="12">-->
+<!--        <div class="block" style="margin-top: 30px">-->
+<!--          <el-pagination-->
+<!--            background-->
+<!--            @size-change="handleSizeChange"-->
+<!--            @current-change="handleCurrentChange"-->
+<!--            :current-page.sync="roleListTable.currentPage"-->
+<!--            :page-size="10"-->
+<!--            layout="total, prev, pager, next, jumper"-->
+<!--            :total="roleListTable.total"-->
+<!--          ></el-pagination>-->
+<!--        </div>-->
+<!--      </el-col>-->
+<!--    </el-row>-->
     <EditRoleDialog />
   </div>
 </template>

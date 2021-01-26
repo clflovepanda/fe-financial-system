@@ -92,10 +92,10 @@
       </el-col>
     </el-row>
     <el-tabs v-model="activeName" @tab-click="handleTabClick">
-      <el-tab-pane label="审核通过项目" name="checkedPro" v-if="checkNowUserRole('project_adopt')">
+      <el-tab-pane :label="'审核通过项目/' + this.$store.state.projectData.projectPassTable.total" name="checkedPro" v-if="checkNowUserRole('project_adopt')">
         <Table :passStatus="true" />
       </el-tab-pane>
-      <el-tab-pane label="待审核及审核失败项目" name="notChecked" v-if="checkNowUserRole('project_notadopt')">
+      <el-tab-pane :label="'待审核及审核失败项目/' + this.$store.state.projectData.projectRejectTable.total" name="notChecked" v-if="checkNowUserRole('project_notadopt')">
         <Table :passStatus="false" />
       </el-tab-pane>
     </el-tabs>
@@ -208,7 +208,7 @@ export default {
       this.ruleForm.saleCommisState = "";
       this.ruleForm.userNames = "";
       this.dateRange = "";
-      
+
     },
     handleTabClick(tab, event) {
     },
