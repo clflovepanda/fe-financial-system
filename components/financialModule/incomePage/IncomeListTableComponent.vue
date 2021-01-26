@@ -118,6 +118,7 @@ export default {
       console.log("edit " + scope.$index + " ...");
     },
     async confirmMoney(scope) {
+      console.log(scope.row);
       this.$store.commit("dialogSwitchData/showConfirmIncomeDialog", true);
       // 操作认款时获取某一项信息
       this.$store.commit("dialogSwitchData/incomeDetailSubscription", [scope.row]);

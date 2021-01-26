@@ -75,6 +75,9 @@
               <div style="display: inline-block;position: absolute; left:50%;height:50px;line-height: 80px; width: 30%;text-align:left;padding-left:20px;border-bottom:1px solid black;">
 
               </div>
+              <div style="display: inline-block;position: absolute; right:5px;height:72px;width:72px;line-height: 80px;text-align:left;background:gray">
+                <img style="width:78px; height:78px" :src="qrUrl" />
+              </div>
             </div>
           </div>
           <div style="display: inline-block; width:100%;height: 20px; position: relative; margin-bottom: 20px">
@@ -184,6 +187,9 @@
                 领导批示：
               </div>
               <div style="display: inline-block;position: absolute; left:50%;height:50px;line-height: 80px; width: 30%;text-align:left;padding-left:20px;"></div>
+              <div style="display: inline-block;position: absolute; right:5px;height:72px;width:72px;line-height: 80px;text-align:left;background:gray">
+                <img style="width:78px; height:78px" :src="qrUrl" />
+              </div>
             </div>
           </div>
           <div style="display: inline-block; width:100%;height: 20px; position: relative; margin-bottom: 20px">
@@ -561,6 +567,9 @@
               <div style="display: inline-block;position: absolute; left:50%;height:50px;line-height: 80px; width: 30%;text-align:left;padding-left:20px;">
 
               </div>
+              <div style="display: inline-block;position: absolute; right:5px;height:72px;width:72px;line-height: 80px;text-align:left;background:gray">
+                <img style="width:78px; height:78px" :src="qrUrl" />
+              </div>
             </div>
           </div>
           <div style="display: inline-block; width:100%;height: 20px; position: relative; margin-bottom: 20px">
@@ -704,12 +713,13 @@ export default {
     }
   },
   watch: {
-    printData(){
-      axios.get("/api/common/qrcode?code="+1).then(
+    printData(val){
+      axios.get("/api/common/qrcode?code="+val.numbering).then(
         (rep) => {
+          console.log(rep);
           if (rep && rep.data) {
-            console.log(rep);
-            this.qrUrl = rep.data;
+            this.qrUrl = rep.data.data;
+            console.log("qrUrl", this.qrUrl);
           }
         },
         () => {}

@@ -261,7 +261,16 @@ export default {
       })
     },
     resetForm(formName) {
-      this.$refs[formName].resetFields();
+      this.ruleForm = {
+        revenueNo: "",
+        projectName: "",
+        projectNo: "",
+        companyId: "",
+        receivementTypeId: "",
+        remitter: "",
+        createUser: "",
+        proDate: ['','']
+      };
       this.getlistData();
     },
     handleFindClick() {

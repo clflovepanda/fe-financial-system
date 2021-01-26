@@ -11,17 +11,17 @@
       <el-table-column prop="receivementTypeName" label="到款种类"></el-table-column>
       <el-table-column prop="remitterMethodName" label="汇款方类型"></el-table-column>
       <el-table-column prop="remitter" label="汇款方"></el-table-column>
-      <el-table-column prop="receivementMoney" label="到款金额/元"></el-table-column>
       <el-table-column prop="receiveDate" label="到款时间"></el-table-column>
+      <el-table-column prop="receivementMoney" label="到款金额/元"></el-table-column>
       <el-table-column prop="remaindSubscriptionTotalMoney" label="剩余认款金额/元"></el-table-column>
-      <el-table-column prop="status" label="状态">
-        <template slot-scope="scope">
+      <el-table-column prop="remark" label="备注">
+        <!-- <template slot-scope="scope">
          <span v-if="scope.row.state==0">未认款</span>
          <span v-if="scope.row.state==1">已认款</span>
          <span v-if="scope.row.state==2">部分认款</span>
          <span v-if="scope.row.state==3">待做账</span>
          <span v-if="scope.row.state==4">已做账</span>
-      </template>
+      </template> -->
       </el-table-column>
     </el-table>
   </div>

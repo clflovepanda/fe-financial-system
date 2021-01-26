@@ -35,11 +35,11 @@
       
     </el-row>
     <el-divider></el-divider>
-    <!-- <el-row style="margin-top:20px">
-      <el-col :span="4">
-        <el-button type="primary" @click="addinvoice('add')" :class="[checkNowUserRole('invoice_add') ? '':'disRoleMenu']">添加</el-button>
+    <el-row style="margin-top:20px">
+      <el-col :span="24" style="text-align:right">
+        <el-button type="primary" @click="addinvoice('add')" :class="[checkNowUserRole('invoice_add') ? '':'disRoleMenu']">新增应收单</el-button>
       </el-col>
-    </el-row> -->
+    </el-row>
     <el-table
       :data="invoiceList"
       border

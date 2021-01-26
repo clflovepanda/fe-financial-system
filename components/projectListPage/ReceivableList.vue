@@ -60,6 +60,7 @@
             <el-table-column align="center" label="操作" width="140">
               <template slot-scope="scope">
                 <el-button @click="printPay(scope)" type="text" size="small" :disabled="scope.row.state<=3 || getProjectDetailData.status == 6" v-if="checkNowUserRole('project_invoice_print')">打印</el-button>
+                <el-button @click="edit(scope)" type="text" size="small" :disabled="scope.row.state<=3 || getProjectDetailData.status == 6" v-if="checkNowUserRole('project_invoice_print')">编辑</el-button>
                 <el-button @click="del(scope)" type="text" size="small" v-if="checkNowUserRole('project_invoice_del')" :disabled="getProjectDetailData.status == 6">删除</el-button>
               </template>
             </el-table-column>
@@ -68,7 +69,7 @@
       </el-container>
     </el-container>
 
-    <el-dialog title="新增应收单" :visible.sync="dialogFormVisible">
+    <el-dialog title="应收单" :visible.sync="dialogFormVisible">
       <el-form :model="form" style="width:360px" ref="form" :rules="rules">
         <el-form-item label="公司：" :label-width="formLabelWidth" prop="companyId" style="width:360px">
           <el-select v-model="form.companyId" placeholder="请选择" style="width:360px">
@@ -209,6 +210,7 @@ export default {
         },
         companyId: { required: true, message: "请选择公司", trigger: "blur" },
       },
+      invoiceId: ""
     };
   },
   computed: {
@@ -225,6 +227,13 @@ export default {
       return this.$store.state.projectData.receivableList;
     },
   },
+  watch: {
+    dialogFormVisible(val){
+      if (val == false) {
+        this.invoiceId = "";
+      }
+    }
+  },
   methods: {
     resetForm() {
       this.dataRange = "";
@@ -238,8 +247,13 @@ export default {
     searchReceivable() {
       let st = this.dataRange[0];
       let et = this.dataRange[1];
-      this.ruleForm.startDt = st.getTime();
-      this.ruleForm.endDt = et.getTime();
+      if (st) {
+        this.ruleForm.startDt = st.getTime();
+      }
+      if (et) {
+        this.ruleForm.endDt = et.getTime();
+      }
+      this.ruleForm.projectId = this.$store.state.projectData.viewProjectId;
       axios
         .get("/api/invoice/list", {
           params: this.ruleForm,
@@ -259,34 +273,68 @@ export default {
     handleAddPay() {},
     addQuotation() {
       console.log("新增应收单", this.form);
-      this.$refs["form"].validate((valid) => {
-        if (valid) {
-          axios.post("/api/invoice/add", this.form).then((res) => {
-            if (res.data.code == 0) {
-              this.dialogFormVisible = false;
-              this.$message.success("保存成功！");
-              axios
-                .get(
-                  "/api/invoice/list?projectId=" +
-                    this.$store.state.projectData.viewProjectId
-                )
-                .then((rep) => {
-                  if (rep.data.code === 0) {
-                    this.$store.commit(
-                      "projectData/setReceivableList",
-                      rep.data.data
-                    );
-                  }
-                });
-            } else {
-              this.$message.success("保存失败！");
-            }
-          });
-        } else {
-          console.log("error submit!!");
-          return false;
-        }
-      });
+      if (this.invoiceId == "") {
+        this.$refs["form"].validate((valid) => {
+          if (valid) {
+            axios.post("/api/invoice/add", this.form).then((res) => {
+              if (res.data.code == 0) {
+                this.dialogFormVisible = false;
+                this.$message.success("保存成功！");
+                axios
+                  .get(
+                    "/api/invoice/list?projectId=" +
+                      this.$store.state.projectData.viewProjectId
+                  )
+                  .then((rep) => {
+                    if (rep.data.code === 0) {
+                      this.$store.commit(
+                        "projectData/setReceivableList",
+                        rep.data.data
+                      );
+                    }
+                  });
+              } else {
+                this.$message.success("保存失败！");
+              }
+            });
+          } else {
+            console.log("error submit!!");
+            return false;
+          }
+        });
+      } else {
+        this.$refs["form"].validate((valid) => {
+          if (valid) {
+            let params = JSON.parse(JSON.stringify(this.form));
+            params.invoiceId = this.invoiceId;
+            axios.post("/api/invoice/update", params).then((res) => {
+              if (res.data.code == 0) {
+                this.dialogFormVisible = false;
+                this.$message.success("保存成功！");
+                axios
+                  .get(
+                    "/api/invoice/list?projectId=" +
+                      this.$store.state.projectData.viewProjectId
+                  )
+                  .then((rep) => {
+                    if (rep.data.code === 0) {
+                      this.$store.commit(
+                        "projectData/setReceivableList",
+                        rep.data.data
+                      );
+                    }
+                  });
+              } else {
+                this.$message.success("保存失败！");
+              }
+            });
+          } else {
+            console.log("error submit!!");
+            return false;
+          }
+        });
+      }
+      
     },
     handleExcel() {
       this.dialogFormVisible = true;
@@ -363,6 +411,24 @@ export default {
           },
           () => {}
         );
+    },
+    edit(scope) {
+      console.log(scope);
+      this.form.companyId = scope.row.companyId;
+      this.form.invoiceType = scope.row.invoiceType;
+      this.form.unitname = scope.row.unitname;
+      this.form.taxpayerIdentityNumber = scope.row.taxpayerIdentityNumber;//纳税人识别号
+      this.form.address = scope.row.address;
+      this.form.phone = scope.row.phone;
+      this.form.openingBank = scope.row.openingBank;//开户行
+      this.form.accountNumber = scope.row.accountNumber;//账号
+      this.form.revenueTypeId = scope.row.revenueTypeId;//应税劳务名称
+      this.form.cnyMoney = scope.row.cnyMoney;//金额
+      this.form.comment = scope.row.comment;
+      this.form.projectId = this.$store.state.projectData.viewProjectId;
+      this.invoiceId = scope.row.invoiceId;
+
+      this.dialogFormVisible = true;
     }
   },
 };
