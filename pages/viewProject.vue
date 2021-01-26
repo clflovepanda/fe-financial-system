@@ -842,13 +842,14 @@ export default {
     let revenueResult = await axios.get("/api/revenue/list?projectId=" + ctx.store.state.projectData.viewProjectId).then(
       (rep) => {
         if (rep && rep.data) {
-          return rep.data.data;
+          return rep.data;
         }
       },
       () => {}
     );
     console.log("revenue", revenueResult);
-    ctx.store.commit("incomeData/setRevenueList", revenueResult);
+    ctx.store.commit("incomeData/setRevenueList", revenueResult.data);
+    ctx.store.commit("incomeData/setRevenueStatistic", revenueResult.statistic);
 
   },
 };

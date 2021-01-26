@@ -15,6 +15,7 @@ export const state = () => ({
     revenueList: [
 
     ],
+  statistics: {},
     accountList: [
         { value: 1, label: "亚讯" },
 
@@ -54,5 +55,9 @@ export const mutations = {
     },
     setRevenueList(state, newObj) {
         state.revenueList = newObj;
+    },
+    setRevenueStatistic(state, newObj) {
+      state.statistics = newObj;
     }
+
 }

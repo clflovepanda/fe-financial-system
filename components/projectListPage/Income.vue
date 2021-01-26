@@ -53,6 +53,11 @@
             <el-button @click="resetForm('ruleForm')">重置</el-button>
           </el-form-item>
         </el-form>
+        <el-row style="margin-top:20px; background: lightgray; height: 40px; line-height: 40px; text-align:center">
+          <el-col :span="4">全部收入/元：{{getStatistic.allRevenue == null ? 0 : getStatistic.allRevenue}}</el-col>
+          <el-col :span="4">押金转收入/元： {{getStatistic.depositToRevenue == null ? 0 : getStatistic.depositToRevenue}} </el-col>
+          <el-col :span="4">正常收入/元：{{getStatistic.revenue == null ? 0 : getStatistic.revenue}}</el-col>
+        </el-row>
         <el-divider></el-divider>
 
         <!-- <el-row class="money-show">
@@ -113,6 +118,9 @@ export default {
   computed: {
     revenueList() {
       return this.$store.state.incomeData.revenueList;
+    },
+    getStatistic() {
+      return this.$store.state.incomeData.statistics;
     }
   },
   methods: {
