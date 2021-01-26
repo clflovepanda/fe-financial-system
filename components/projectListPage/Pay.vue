@@ -94,8 +94,8 @@
 
         <el-row>
           <el-col :span="8" :offset="16" style="text-align:right">
-            <el-button type="primary" @click="showCreatePayDialog()" v-if="checkNowUserRole('project_expenditure_add')">新增支出</el-button>
-            <el-button type="primary" @click="handleExcel()" v-if="checkNowUserRole('project_expenditure_export')">导出excel</el-button>
+            <el-button type="primary" @click="showCreatePayDialog()" v-if="checkNowUserRole('project_expenditure_add')" :disabled="getProjectDetailData.status == 6">新增支出</el-button>
+            <el-button type="primary" @click="handleExcel()" v-if="checkNowUserRole('project_expenditure_export')" :disabled="getProjectDetailData.status == 6">导出excel</el-button>
           </el-col>
         </el-row>
         <el-row style="margin-top:20px; background: lightgray; height: 40px; line-height: 40px; text-align:center">
@@ -137,15 +137,15 @@
           <el-table-column align="center" prop="utime" label="最新状态时间" width="180"></el-table-column>
           <el-table-column align="center" prop="expenditureAuditLogs" label="工作流" width="140">
             <template slot-scope="scope">
-              <el-button @click="audit(scope)" type="text" size="small" :disabled="!checkNowUserRole('project_expenditure_approval')">{{getAuditType(scope.row.state)}}</el-button>
+              <el-button @click="audit(scope)" type="text" size="small" :disabled="getProjectDetailData.status == 6 || !checkNowUserRole('project_expenditure_approval')">{{getAuditType(scope.row.state)}}</el-button>
             </template>
           </el-table-column>
           <el-table-column align="center" label="操作" width="180">
               <template slot-scope="scope">
-                <el-button @click="printPay(scope)" type="text" size="small" :disabled="scope.row.state>3" v-if="checkNowUserRole('project_expenditure_print')">打印</el-button>
-                <el-button @click="editPay(scope)" type="text" size="small" :disabled="scope.row.state>3" v-if="checkNowUserRole('project_expenditure_update')">修改</el-button>
-                <el-button @click="delPay(scope)" type="text" size="small" :disabled="scope.row.state>3" v-if="checkNowUserRole('project_expenditure_del')">删除</el-button>
-                <el-button @click="viewPay(scope)" type="text" size="small">查看</el-button>
+                <el-button @click="printPay(scope)" type="text" size="small" :disabled="scope.row.state>3 || getProjectDetailData.status == 6" v-if="checkNowUserRole('project_expenditure_print')">打印</el-button>
+                <el-button @click="editPay(scope)" type="text" size="small" :disabled="scope.row.state>3 || getProjectDetailData.status == 6" v-if="checkNowUserRole('project_expenditure_update')">修改</el-button>
+                <el-button @click="delPay(scope)" type="text" size="small" :disabled="scope.row.state>3 || getProjectDetailData.status == 6" v-if="checkNowUserRole('project_expenditure_del')">删除</el-button>
+                <el-button @click="viewPay(scope)" type="text" size="small" :disabled="getProjectDetailData.status == 6">查看</el-button>
                 <!-- <el-button @click="printPay(scope)" type="text" size="small">查看</el-button> -->
               </template>
           </el-table-column>
@@ -193,6 +193,10 @@ export default {
     };
   },
   computed: {
+    getProjectDetailData() {
+      console.log(this.$store.state.projectData.projectDetail);
+      return this.$store.state.projectData.projectDetail;
+    },
     payStatistics() {
       return this.$store.state.projectData.payStatistics;
     },

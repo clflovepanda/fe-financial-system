@@ -245,7 +245,7 @@
       <el-tab-pane label="工时分配" name="2" :disabled="!checkNowUserRole('project_task')">
         <el-row>
           <el-col :span="2" :offset="22">
-            <el-button type="primary" @click="handleAddTime" style="margin-bottom:20px;">新增工时</el-button>
+            <el-button type="primary" @click="handleAddTime" style="margin-bottom:20px;" :disabled="getProjectDetailData.status == 6">新增工时</el-button>
           </el-col>
         </el-row>
 

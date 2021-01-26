@@ -20,7 +20,7 @@
 
         <el-row>
           <el-col :span="4" :offset="20">
-            <el-button type="primary"  @click="uploadQuotation()" v-if="checkNowUserRole('project_settlement_add')">上传结算单</el-button>
+            <el-button type="primary"  @click="uploadQuotation()" v-if="checkNowUserRole('project_settlement_add')" :disabled="getProjectDetailData.status == 6">上传结算单</el-button>
           </el-col>
         </el-row>
         <el-table :data="getSettlementList" border style="width: 100%; margin-top: 20px">
@@ -35,13 +35,13 @@
           <el-table-column align="center" prop="settlementIncome" label="结算收入/元"></el-table-column>
           <el-table-column align="center" prop="proManager" label="附件">
             <template slot-scope="scope">
-              <el-button :href="scope.row.resourceUrl" type="text" size="small" :disabled="!checkNowUserRole('project_settlement_download')">{{scope.row.resourceName}}</el-button>
+              <el-button :href="scope.row.resourceUrl" type="text" size="small" :disabled="!checkNowUserRole('project_settlement_download') || getProjectDetailData.status == 6">{{scope.row.resourceName}}</el-button>
             </template>
           </el-table-column>
           <el-table-column align="center" prop="id" label="操作" width="140">
             <template slot-scope="scope">
-              <el-button type="text" size="small" @click="editSettlement(scope.row)" v-if="checkNowUserRole('project_settlement_update')">编辑</el-button>
-              <el-button type="text" size="small" @click="deleteSettlement(scope.row)" v-if="checkNowUserRole('project_settlement_del')">删除</el-button>
+              <el-button type="text" size="small" @click="editSettlement(scope.row)" v-if="checkNowUserRole('project_settlement_update')" :disabled="getProjectDetailData.status == 6">编辑</el-button>
+              <el-button type="text" size="small" @click="deleteSettlement(scope.row)" v-if="checkNowUserRole('project_settlement_del')" :disabled="getProjectDetailData.status == 6">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -125,6 +125,10 @@ export default {
     };
   },
   computed: {
+    getProjectDetailData() {
+      console.log(this.$store.state.projectData.projectDetail);
+      return this.$store.state.projectData.projectDetail;
+    },
     checkNowUserRole(){
       return function(name) {
         return this.$store.state.userData.nowUserRole.indexOf(name) > -1;
