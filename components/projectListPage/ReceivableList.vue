@@ -46,7 +46,7 @@
           </el-row>
           <el-row>
             <el-col :span="4" :offset="20">
-              <el-button type="primary" @click="handleExcel()" v-if="checkNowUserRole('project_invoice_add')" :disabled="getProjectDetailData.status == 6">新增应收单</el-button>
+              <el-button type="primary" @click="handleExcel()" v-if="checkNowUserRole('project_invoice_add')">新增应收单</el-button>
             </el-col>
           </el-row>
           <el-table :data="getReceivableList" border style="width: 100%; margin-top: 20px">
@@ -61,6 +61,7 @@
               <template slot-scope="scope">
                 <el-button @click="printPay(scope)" type="text" size="small" :disabled="scope.row.state<=3 || getProjectDetailData.status == 6" v-if="checkNowUserRole('project_invoice_print')">打印</el-button>
                 <el-button @click="edit(scope)" type="text" size="small" :disabled="scope.row.state<=3 || getProjectDetailData.status == 6" v-if="checkNowUserRole('project_invoice_print')">编辑</el-button>
+                <el-button @click="addinvoice(scope.row)" type="text" size="small" :class="[checkNowUserRole('invoice_update') ? '':'disRoleMenu']" :disabled="getProjectDetailData.status == 6">修改</el-button>
                 <el-button @click="del(scope)" type="text" size="small" v-if="checkNowUserRole('project_invoice_del')" :disabled="getProjectDetailData.status == 6">删除</el-button>
               </template>
             </el-table-column>

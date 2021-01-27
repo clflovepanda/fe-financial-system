@@ -16,7 +16,7 @@
     <el-table-column align="center" prop="ctime" label="项目创建时间"></el-table-column>
     <el-table-column align="center" prop="startDate" label="项目开始时间"></el-table-column>
     <el-table-column align="center" prop="endDate" label="项目结束时间"></el-table-column>
-    <el-table-column align="center" prop="settlementIncome" label="结算收入/结算支出"></el-table-column>
+    <el-table-column align="center" prop="settlementIncome" label="结算收入"></el-table-column>
     <el-table-column align="center" prop="relRevenue" label="大收"></el-table-column>
     <el-table-column align="center" prop="relExpenditure" label="大支"></el-table-column>
     <el-table-column align="center" prop="projectProfit" label="项目毛利润"></el-table-column>
@@ -174,6 +174,17 @@ export default {
         params: param
       }).then(
           (rep) => {
+            if (rep.data.code == 0) {
+              if (state == 1) {
+                this.$message.success("项目审核成功")
+              }
+              if (state == 2) {
+                this.$message.success("项目已驳回")
+              }
+            } else {
+              this.$message.error("接口有误，请联系后台处理")
+              return ;
+            }
             axios.get("/api/project/list?auditing_state=1&limit=5&offset=1").then(
               (rep) => {
                 if (rep && rep.data) {
