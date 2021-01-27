@@ -26,14 +26,14 @@
               <el-option v-for="item in $store.state.incomeData.accountList" :key="item.value" :label="item.label" :value="item.value" ></el-option>
             </el-select>
           </el-form-item>
-        
+
           <el-form-item label="到款种类" prop="">
             <el-select v-model="ruleForm.receivementTypeId" placeholder="请选择到款种类">
               <el-option v-for="item in $store.state.incomeData.incomeTypeList" :key="item.value" :label="item.label" :value="item.value" ></el-option>
             </el-select>
           </el-form-item>
 
-          
+
 
           <el-form-item label="汇款方" prop="person">
             <el-input v-model="ruleForm.remitter" placeholder="请输入查找汇款方"></el-input>
@@ -85,7 +85,7 @@
           </el-col>
         </el-row>
         <el-table :data="listData" border style="width: 100%; margin-top: 20px" id="#out-table">
-          <el-table-column align="center" type="index" label="序号"></el-table-column>
+          <el-table-column align="center" prop="id" label="序号"></el-table-column>
           <el-table-column align="center" prop="revenueNo" label="押金编号"></el-table-column>
           <el-table-column align="center" prop="coName" label="到款账户"></el-table-column>
           <el-table-column align="center" prop="receivementTypeName" label="到款种类"></el-table-column>
@@ -143,6 +143,7 @@ export default {
   data() {
     return {
       ruleForm: {
+        id: "",
         revenueNo: "",
         projectName: "",
         projectNo: "",
@@ -238,15 +239,15 @@ export default {
       if(this.$route.name != 'depositmanage'){
         project = '&projectId=' + this.$store.state.projectData.viewProjectId
       }
-      let message = 
-       "?revenueNo=" + this.ruleForm.revenueNo 
+      let message =
+       "?revenueNo=" + this.ruleForm.revenueNo
        + project
-       + "&projectName=" + this.ruleForm.projectName 
-       + "&projectNo=" + this.ruleForm.projectNo 
-       + "&companyId=" + this.ruleForm.companyId 
-       + "&receivementTypeId=" + this.ruleForm.receivementTypeId 
-       + "&remitter=" + this.ruleForm.remitter 
-       + "&createUser=" + this.ruleForm.createUser 
+       + "&projectName=" + this.ruleForm.projectName
+       + "&projectNo=" + this.ruleForm.projectNo
+       + "&companyId=" + this.ruleForm.companyId
+       + "&receivementTypeId=" + this.ruleForm.receivementTypeId
+       + "&remitter=" + this.ruleForm.remitter
+       + "&createUser=" + this.ruleForm.createUser
        + "&startDt=" + startDt
        + "&endDt=" + endDt
        + "&limit=5&offset=" + page
@@ -286,15 +287,15 @@ export default {
       if(this.$route.name != 'depositmanage'){
         project = '&projectId=' + this.$store.state.projectData.viewProjectId
       }
-      let message = 
-       "?revenueNo=" + this.ruleForm.revenueNo 
+      let message =
+       "?revenueNo=" + this.ruleForm.revenueNo
        + project
-       + "&projectName=" + this.ruleForm.projectName 
-       + "&projectNo=" + this.ruleForm.projectNo 
-       + "&companyId=" + this.ruleForm.companyId 
-       + "&receivementTypeId=" + this.ruleForm.receivementTypeId 
-       + "&remitter=" + this.ruleForm.remitter 
-       + "&createUser=" + this.ruleForm.createUser 
+       + "&projectName=" + this.ruleForm.projectName
+       + "&projectNo=" + this.ruleForm.projectNo
+       + "&companyId=" + this.ruleForm.companyId
+       + "&receivementTypeId=" + this.ruleForm.receivementTypeId
+       + "&remitter=" + this.ruleForm.remitter
+       + "&createUser=" + this.ruleForm.createUser
        + "&startDt=" + startDt
        + "&endDt=" + endDt;
       //  window.location = "/api/export/deposit" + message;
@@ -304,7 +305,7 @@ export default {
           window.location = res.data.url;
         }
       })
-      
+
     },
   },
 };
