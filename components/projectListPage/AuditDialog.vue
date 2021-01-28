@@ -714,6 +714,17 @@ export default {
         "dialogSwitchData/setAuditDialogShow",
         this.showAuditDialog
       );
+      if (!this.showAuditDialog) {
+        let projectId = this.$store.state.projectData.viewProjectId;
+        axios.get("/api/expenditure/list?projectId=" + projectId).then(
+          (rep) => {
+            if (rep && rep.data) {
+              this.$store.commit("projectData/setProjectPay", rep.data);
+            }
+          },
+          () => {}
+        );
+      }
     },
     isShowAuditDialog(val, oldVal) {
       this.showAuditDialog = val;

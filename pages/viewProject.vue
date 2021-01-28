@@ -614,6 +614,20 @@ export default {
 
     },
     handleTabClick(tab, event) {
+      if(tab.name == "1") {
+        let projectId = this.$store.state.projectData.viewProjectId;
+        axios.get("/api/project/project_detail?id=" + projectId).then(
+          (rep) => {
+            if (rep && rep.data) {
+              this.generateProjectDetail(rep.data.data);
+              this.generateProjectFinancial(rep.data.data);
+              this.$store.commit("projectData/setEditProject", rep.data.data);
+            }
+          },
+          () => {}
+        );
+        
+      }
     },
     handleBackList() {
       this.$router.push("/projectList");
