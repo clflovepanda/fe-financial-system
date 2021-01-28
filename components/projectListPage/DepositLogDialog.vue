@@ -38,6 +38,7 @@
         <el-table-column align="center" prop="state" label="最新状态">
           <template slot-scope="scope">
             <span v-if="scope.row.state == 4">已退回</span>
+            <span v-else-if="scope.row.state == 5">已作废</span>
             <span v-else>退回中</span>
           </template>
         </el-table-column><!--4已退回，其它退回中-->
@@ -102,7 +103,7 @@ export default {
                 } else {
                   this.$message.error(rep.data.msg);
                 }
-                
+
               }
             },
             () => {}
@@ -115,7 +116,7 @@ export default {
                 } else {
                   this.$message.error(rep.data.msg);
                 }
-                
+
               }
             },
             () => {}
