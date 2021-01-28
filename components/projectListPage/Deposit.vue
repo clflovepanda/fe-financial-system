@@ -67,23 +67,23 @@
         </el-row>
 
         <el-row style="margin-top: 10px; height: 40px; background: lightgray; line-height: 40px; text-align:center">
-          <el-col :span="6">
+          <el-col :span="4">
             <span>全部押金金额/元：</span>
             <span>{{statistics.allDeposit}}</span>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="5">
             <span>待退回总押金/元:</span>
             <span>{{statistics.toBeReturned}}</span>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="5">
             <span>退回审批中押金总金额/元：</span>
             <span>{{statistics.returned}}</span>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="5">
             <span>已退回押金总金额/元：</span>
             <span>{{statistics.approval}}</span>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="5">
             <span>押金转收入总金额/元：</span>
             <span>{{statistics.toRevenue}}</span>
           </el-col>
