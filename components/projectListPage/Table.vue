@@ -312,7 +312,7 @@ export default {
         console.log("receivable data", receivableResult);
         ts.$store.commit("projectData/setReceivableList", receivableResult);
       })(this);
-      this.$router.push("/viewProject");
+      this.$router.push("/viewProject?projectId=" + val.projectId);
     },
     generateProjectDetail(detail) {
       let projectDetail = {

@@ -402,6 +402,7 @@ import ProjectSettlement from "~/components/projectListPage/ProjectSettlement.vu
 import axios from "axios";
 import CookieUtil from "~/utils/CookieUtil";
 import NetReqUser from "../network/NetReqUser";
+import UrlUtil from "~/utils/UrlUtil";
 
 export default {
   data() {
@@ -771,10 +772,91 @@ export default {
       }
       this.$store.commit("projectData/setProjectDetail", projectDetail);
     },
+    generateProjectFinancial(detail) {
+      if (detail.financial) {
+        console.log("project financial", detail.financial);
+        this.$store.commit("projectData/setProjectFinancial", detail.financial);
+      }
+    },
   },
   created() {
     if (this.$store.state.projectData.viewProjectId == "") {
-      this.$router.push("/projectList");
+      // this.$router.push("/projectList");
+      let nowProjectId = UrlUtil.getUrlParam("projectId");
+      this.$store.commit("projectData/setViewProjectId", nowProjectId);
+      let projectId = this.$store.state.projectData.viewProjectId;
+      (async function(ts){
+        let result = await axios.get("/api/project/project_detail?id=" + projectId).then(
+          (rep) => {
+            if (rep && rep.data) {
+              return rep.data.data;
+            }
+          },
+          () => {}
+        );
+        console.log("project detail", result);
+        ts.generateProjectDetail(result);
+        ts.generateProjectFinancial(result);
+        ts.$store.commit("projectData/setEditProject", result);
+
+        let expenditureResult = await axios.get("/api/expenditure/list?projectId=" + projectId).then(
+          (rep) => {
+            if (rep && rep.data) {
+              return rep.data;
+            }
+          },
+          () => {}
+        );
+        console.log("pay data", expenditureResult);
+        ts.$store.commit("projectData/setProjectPay", expenditureResult);
+
+        let quotationResult = await axios.get("/api/quotation/list?projectId=" + projectId).then(
+          (rep) => {
+            if (rep && rep.data) {
+              return rep.data.data;
+            }
+          },
+          () => {}
+        );
+        console.log("quotation data", quotationResult);
+        ts.$store.commit("projectData/setQuotationList", quotationResult);
+
+        let contractResult = await axios.get("/api/contract/list?projectId=" + projectId).then(
+          (rep) => {
+            if (rep && rep.data) {
+              return rep.data.data;
+            }
+          },
+          () => {}
+        );
+        console.log("contract data", contractResult);
+        ts.$store.commit("projectData/setContractList", contractResult);
+
+        let settlementResult = await axios.get("/api/settlement/list?projectId=" + projectId).then(
+          (rep) => {
+            if (rep && rep.data) {
+              return rep.data.data;
+            }
+          },
+          () => {}
+        );
+        console.log("settlement data", settlementResult);
+        ts.$store.commit("projectData/setSettlementList", settlementResult);
+
+        let receivableResult = await axios.get("/api/invoice/list?projectId=" + projectId).then(
+          (rep) => {
+            if (rep && rep.data) {
+              return rep.data.data;
+            }
+          },
+          () => {}
+        );
+        console.log("receivable data", receivableResult);
+        ts.$store.commit("projectData/setReceivableList", receivableResult);
+      })(this);
+    } else {
+      let projectId = UrlUtil.getUrlParam("projectId");
+      // alert(projectId);
     }
   },
   async asyncData(ctx) {
