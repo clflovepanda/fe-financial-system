@@ -103,8 +103,8 @@
           <el-table-column align="center" prop="returned" label="已退回押金/元"></el-table-column>
           <el-table-column align="center" prop="id" label="操作" width="140">
             <template slot-scope="scope">
-              <el-button  type="text" size="small" :disabled="scope.row.returned>0 || scope.row.receivementTypeName == '收回押金' || projectDetail && getProjectDetailData.status == 6" @click="backMoney(scope)" :class="[(projectDetail && checkNowUserRole('project_deposit_add') || !projectDetail && checkNowUserRole('deposit_add')) ? '':'disRoleMenu']">退押金</el-button>
-              <el-button  type="text" size="small" :disabled="scope.row.receivementTypeName == '收回押金' || projectDetail && getProjectDetailData.status == 6" @click="depositeLog(scope)" :class="[(projectDetail && checkNowUserRole('project_deposit_detail') || !projectDetail && checkNowUserRole('deposit_detail')) ? '':'disRoleMenu']">操作记录</el-button>
+              <el-button  type="text" size="small" :disabled="scope.row.returned>0 || scope.row.revenueTypeName == '收回押金' || projectDetail && getProjectDetailData.status == 6" @click="backMoney(scope)" :class="[(projectDetail && checkNowUserRole('project_deposit_add') || !projectDetail && checkNowUserRole('deposit_add')) ? '':'disRoleMenu']">退押金</el-button>
+              <el-button  type="text" size="small" :disabled="scope.row.revenueTypeName == '收回押金' || projectDetail && getProjectDetailData.status == 6" @click="depositeLog(scope)" :class="[(projectDetail && checkNowUserRole('project_deposit_detail') || !projectDetail && checkNowUserRole('deposit_detail')) ? '':'disRoleMenu']">操作记录</el-button>
             </template>
           </el-table-column>
         </el-table>
