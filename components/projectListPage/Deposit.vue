@@ -73,15 +73,19 @@
           </el-col>
           <el-col :span="6">
             <span>待退回总押金/元:</span>
-            <span>{{statistics.approval}}</span>
-          </el-col>
-          <el-col :span="6">
-            <span>退回审批中押金总金额/元：</span>
             <span>{{statistics.toBeReturned}}</span>
           </el-col>
           <el-col :span="6">
-            <span>已退回押金总金额/元：</span>
+            <span>退回审批中押金总金额/元：</span>
             <span>{{statistics.returned}}</span>
+          </el-col>
+          <el-col :span="6">
+            <span>已退回押金总金额/元：</span>
+            <span>{{statistics.approval}}</span>
+          </el-col>
+          <el-col :span="6">
+            <span>押金转收入总金额/元：</span>
+            <span>{{statistics.toRevenue}}</span>
           </el-col>
         </el-row>
         <el-table :data="listData" border style="width: 100%; margin-top: 20px" id="#out-table">
@@ -101,6 +105,7 @@
           </el-table-column>
           <el-table-column align="center" prop="returning" label="退回中押金/元"></el-table-column>
           <el-table-column align="center" prop="returned" label="已退回押金/元"></el-table-column>
+          <el-table-column align="center" prop="toRevenue" label="押金转收入/元"></el-table-column>
           <el-table-column align="center" prop="id" label="操作" width="140">
             <template slot-scope="scope">
               <el-button  type="text" size="small" :disabled="scope.row.returned>0 || scope.row.revenueTypeName == '收回押金' || projectDetail && getProjectDetailData.status == 6" @click="backMoney(scope)" :class="[(projectDetail && checkNowUserRole('project_deposit_add') || !projectDetail && checkNowUserRole('deposit_add')) ? '':'disRoleMenu']">退押金</el-button>
