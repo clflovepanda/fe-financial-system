@@ -182,8 +182,7 @@ export default {
         if(res.data.code===0){
           this.resourceUrl = res.data.data;
           this.$message.success('上传成功！')
-
-
+          this.alreadyUpload = true;
         }
       })
     },
