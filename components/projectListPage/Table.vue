@@ -6,7 +6,7 @@
     <el-table-column align="center" prop="code" label="项目编号"></el-table-column>
     <el-table-column align="center" prop="name" label="项目名称">
       <template slot-scope="scope">
-        <el-button @click="handleProjectName(scope.row)" type="text" size="small">{{scope.row.fullname}}</el-button>
+        <el-button @click="handleProjectName(scope.row)" type="text" size="small">{{scope.row.name}}</el-button>
       </template>
     </el-table-column>
     <el-table-column align="center" prop="managerName" label="项目经理"></el-table-column>
