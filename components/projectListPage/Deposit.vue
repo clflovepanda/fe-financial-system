@@ -13,13 +13,13 @@
           <el-form-item label="押金编号" prop="id">
             <el-input v-model="ruleForm.revenueNo" placeholder="请输入押金编号"></el-input>
           </el-form-item>
-            <el-form-item label="项目名称" prop="name">
+            <!--<el-form-item label="项目名称" prop="name">
             <el-input v-model="ruleForm.projectName" placeholder="请输入项目名称"></el-input>
           </el-form-item>
 
             <el-form-item label="项目编号" prop="proId">
             <el-input v-model="ruleForm.projectNo" placeholder="请输入项目编号"></el-input>
-          </el-form-item>
+          </el-form-item>-->
 
           <el-form-item label="到款账户" prop="">
             <el-select v-model="ruleForm.companyId" placeholder="请选择到款账户">
