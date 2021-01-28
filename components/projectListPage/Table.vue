@@ -4,7 +4,7 @@
   <el-table :data="getNewProjectList" border style="width: 100%; margin-top: 20px">
     <el-table-column align="center" fixed prop="projectId" label="序号" width="120"></el-table-column>
     <el-table-column align="center" prop="code" label="项目编号"></el-table-column>
-    <el-table-column align="center" prop="fullname" label="项目名称">
+    <el-table-column align="center" prop="name" label="项目名称">
       <template slot-scope="scope">
         <el-button @click="handleProjectName(scope.row)" type="text" size="small">{{scope.row.fullname}}</el-button>
       </template>
