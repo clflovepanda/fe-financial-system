@@ -64,11 +64,11 @@
       <el-button type="primary" >导出Excel</el-button>
     </el-row>
     <el-row style="margin-top:20px; background: lightgray; height: 40px; line-height: 40px; text-align:center">
-      <el-col :span="4">已提交总计/元：{{getStatistic.submitted}}</el-col>
-      <el-col :span="4">财务未审批总计/元： {{getStatistic.notApproved}} </el-col>
-      <el-col :span="4">已支付总计/元：{{getStatistic.paid}}</el-col>
-      <el-col :span="4">票据作废总计/元：{{getStatistic.cancel}}</el-col>
-      <el-col :span="4">平借款总计/元：{{getStatistic.flatLoan}}</el-col>
+        已提交总计/元：{{getStatistic.submitted}}&nbsp;&nbsp;&nbsp;&nbsp;
+        财务未审批总计/元： {{getStatistic.notApproved}} &nbsp;&nbsp;&nbsp;&nbsp;
+        已支付总计/元：{{getStatistic.paid}} &nbsp;&nbsp;&nbsp;&nbsp;
+        票据作废总计/元：{{getStatistic.cancel}} &nbsp;&nbsp;&nbsp;&nbsp;
+        平借款总计/元：{{getStatistic.flatLoan}}
     </el-row>
     <el-table :data="getAllPayList" border style="width: 100%; margin-top: 20px" id="out-table">
           <el-table-column align="center" prop="expenditureId" label="序号"></el-table-column>
