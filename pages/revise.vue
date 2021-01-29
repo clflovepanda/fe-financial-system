@@ -165,7 +165,8 @@
     </el-row>
     <el-row style="margin-top:30px">
       <el-col :span="6" :offset="2">
-        <el-button type="primary" @click="submitForm()" style="width: 100%">保存项目</el-button>
+        <el-button @click="back()" style="width: 45%">取消</el-button>
+        <el-button type="primary" @click="submitForm()" style="width: 45%;margin-left: 5%">保存项目</el-button>
       </el-col>
     </el-row>
   </div>
@@ -259,6 +260,9 @@ export default {
   watch:{
   },
   methods: {
+    back(){
+      this.$router.push("/viewProject?projectId=" + this.$store.state.projectData.viewProjectId);
+    },
     changeLevelOne(){
       this.createProductForm.dataSourceId = "";
       this.createProductForm.dataSourceName = "";

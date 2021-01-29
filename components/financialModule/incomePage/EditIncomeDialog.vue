@@ -120,7 +120,7 @@
         <el-button type="primary" style="width: 90%" @click="createUser">保存</el-button>
       </el-col>
       <el-col :span="4">
-        <el-button style="width: 90%">返回</el-button>
+        <el-button style="width: 90%" @click="editIncomeDialogShow = false">返回</el-button>
       </el-col>
     </el-row>
   </el-dialog>

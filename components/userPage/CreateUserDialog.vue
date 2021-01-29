@@ -142,6 +142,17 @@ export default {
         "dialogSwitchData/showCreateUserDialog",
         this.showCreateUserDialog
       );
+      if (this.showCreateUserDialog == false) {
+        this.createDialogForm = {
+          userName: "",
+          phone: "",
+          role: "",
+          accountStatus: "",
+          part: "",
+          password: "",
+          repassword: "",
+        }
+      }
     },
     isShowCreateUserDialog(val, oldVal) {
       this.showCreateUserDialog = val;

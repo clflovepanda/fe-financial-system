@@ -322,6 +322,7 @@ export default {
         (rep) => {
           if (rep && rep.data) {
             this.ruleForm.projectId = this.$store.state.projectData.viewProjectId;
+            this.$message.success("删除成功");
             if (this.daterange != "") {
               let st = this.dateRange[0];
               let et = this.dateRange[1];
