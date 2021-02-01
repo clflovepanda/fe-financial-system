@@ -84,7 +84,7 @@
           <el-table-column align="center" prop="coName" label="账户" width="120"></el-table-column>
           <el-table-column align="center" prop="remitterMethodName" label="汇款方类型"></el-table-column>
           <el-table-column align="center" prop="remitter" label="汇款方"></el-table-column>
-          <el-table-column align="center" prop="receivementTypeName" label="认款类型"></el-table-column>
+          <el-table-column align="center" prop="revenueTypeName" label="认款类型"></el-table-column>
           <!-- <el-table-column align="center" prop="dataSourceName" label="项目二级类型" width="120"></el-table-column> -->
           <el-table-column align="center" prop="cnyMoney" label="认款金额/元" width="120"></el-table-column>
           <el-table-column align="center" prop="username" label="认款人员" width="140"></el-table-column>
