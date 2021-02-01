@@ -10,42 +10,50 @@
           class="demo-ruleForm income-form"
         >
           <el-form-item label="收入编号" prop="id">
-            <el-input v-model="ruleForm.id" placeholder="请输入收入编号"></el-input>
+            <el-input v-model="ruleForm.revenueNo" placeholder="请输入收入编号"></el-input>
           </el-form-item>
           <el-form-item label="汇款方类型" prop="statement">
-            <el-select v-model="ruleForm.statement" placeholder="请选择汇款方类型">
-              <el-option label="企业" value="notState"></el-option>
-              <el-option label="个人" value="willState"></el-option>
-              <el-option label="未知" value="stated"></el-option>
+            <el-select v-model="ruleForm.remitterMethodId" placeholder="请选择汇款方类型">
+              <el-option label="企业" value="1"></el-option>
+              <el-option label="个人" value="2"></el-option>
+              <el-option label="未知" value="3"></el-option>
             </el-select>
           </el-form-item>
 
           <el-form-item label="认款类型" prop="statement">
-            <el-select v-model="ruleForm.statement" placeholder="请选择认款类型">
-              <el-option label="1" value="notState"></el-option>
-              <el-option label="2" value="willState"></el-option>
-              <el-option label="3" value="stated"></el-option>
+            <el-select v-model="ruleForm.receivementTypeId" placeholder="请选择认款类型">
+              <el-option
+                v-for="item in getRevenueType"
+                :key="item.revenueTypeId"
+                :label="item.revenueTypeName"
+                :value="item.revenueTypeId"
+              ></el-option>
             </el-select>
           </el-form-item>
 
-          <el-form-item label="认款时间" required>
+          <el-form-item label="认款时间">
             <el-date-picker
-              v-model="ruleForm.proDate"
+              v-model="dateRange"
               type="daterange"
               range-separator="~"
-              start-placeholder="请选择认款开始日期"
+              start-placeholder="开始日期"
               end-placeholder="结束日期"
             ></el-date-picker>
           </el-form-item>
 
           <el-form-item label="账户" prop="name">
-            <el-input v-model="ruleForm.name" placeholder="请输入查找账户"></el-input>
+            <el-select v-model="ruleForm.companyId" placeholder="请选择账户">
+              <el-option label="亚讯" value="1"></el-option>
+              <el-option label="新锐" value="3"></el-option>
+              <el-option label="医点通" value="4"></el-option>
+              <el-option label="其它公司" value="6"></el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="汇款方" prop="proManager">
-            <el-input v-model="ruleForm.proManager" placeholder="请输入汇款方名称"></el-input>
+            <el-input v-model="ruleForm.remitter" placeholder="请输入汇款方名称"></el-input>
           </el-form-item>
           <el-form-item label="认款人员" prop="saleManager">
-            <el-input v-model="ruleForm.saleManager" placeholder="请输入认款人员名称"></el-input>
+            <el-input v-model="ruleForm.createUser" placeholder="请输入认款人员名称"></el-input>
           </el-form-item>
 
           <el-form-item class="button-wrap">
@@ -59,25 +67,6 @@
           <el-col :span="4">正常收入/元：{{getStatistic.revenue == null ? 0 : getStatistic.revenue}}</el-col>
         </el-row>
         <el-divider></el-divider>
-
-        <!-- <el-row class="money-show">
-          <el-col :span="6">
-            <span>全部收入/元：</span>
-            <span></span>
-          </el-col>
-          <el-col :span="6">
-            <span>押金转收入/元:</span>
-            <span></span>
-          </el-col>
-          <el-col :span="6">
-            <span>正常收入/元：</span>
-            <span></span>
-          </el-col>
-          <el-col :span="6">
-            <span>收回押金/元：</span>
-            <span></span>
-          </el-col>
-        </el-row> -->
         <el-table :data="revenueList" border style="width: 100%; margin-top: 20px">
           <el-table-column align="center" prop="id" label="序号" width="120"></el-table-column>
           <el-table-column align="center" prop="revenueNo" label="收入编号"></el-table-column>
@@ -97,20 +86,20 @@
 
 <script>
 import Table from "~/components/projectListPage/Table.vue";
+import axios from "axios";
 
 export default {
   data() {
     return {
+      dateRange: "",
       ruleForm: {
-        id: "",
-        name: "",
-        proManager: "",
-        saleManager: "",
-        proPerson: "",
-        statement: "",
-        projectStatus: "",
-        proDate: "",
-        moneyStatus: "",
+        projectId: "",
+        revenueNo: "",
+        remitterMethodId: "",
+        receivementTypeId: "",
+        companyId: "",
+        remitter: "",
+        createUser: ""
       },
       listData: [],
     };
@@ -121,6 +110,9 @@ export default {
     },
     getStatistic() {
       return this.$store.state.incomeData.statistics;
+    },
+    getRevenueType() {
+      return this.$store.state.expenditureData.expenditurePurposeType.revenueType;
     }
   },
   methods: {
@@ -139,7 +131,26 @@ export default {
     },
 
     handleFindClick() {
-      console.log("查询项目");
+      let params = JSON.parse(JSON.stringify(this.ruleForm));
+      params.projectId = this.$store.state.projectData.viewProjectId;
+      if (this.dateRange != "") {
+        let st = this.dateRange[0];
+        let et = this.dateRange[1];
+        params.startDt = st.getTime();
+        params.endDt = et.getTime();
+      } 
+      axios.get("/api/revenue/list", {
+        params: params
+      }).then(
+        (rep) => {
+          if (rep && rep.data) {
+            console.log("pay data", rep.data.data);
+            this.$store.commit("incomeData/setRevenueList", rep.data.data);
+            this.$store.commit("incomeData/setRevenueStatistic", rep.data.statistic);
+          }
+        },
+        () => {}
+      );
     },
   },
 };

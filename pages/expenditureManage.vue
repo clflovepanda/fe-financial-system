@@ -199,10 +199,18 @@ export default {
         return EnumAuditType.getMsg(value);
       }
     },
+    auditDialogShow() {
+      return this.$store.state.dialogSwitchData.auditDialogShow
+    }
   },
   watch:{
     getAllPayList(val) {
       console.log("支付列表有变化", val);
+    },
+    auditDialogShow(val) {
+      if (val == false) {
+        this.submitForm();
+      }
     }
   },
   methods: {
@@ -214,6 +222,7 @@ export default {
       //     this.ruleForm.startDt = st.getTime();
       //     this.ruleForm.endDt = et.getTime();
       //   }
+      this.$message.success("请勿关闭浏览器，正在后台下载");
       axios.get("/api/export/expenditure", {
         params: this.ruleForm
       }).then(
