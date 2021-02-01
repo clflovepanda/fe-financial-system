@@ -208,7 +208,7 @@ export default {
       this.ruleForm.saleCommisState = "";
       this.ruleForm.userNames = "";
       this.dateRange = "";
-
+      this.submitForm();
     },
     handleTabClick(tab, event) {
     },
