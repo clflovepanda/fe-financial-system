@@ -61,14 +61,14 @@
         </el-row>
     <el-divider></el-divider>
     <el-row :class="[checkNowUserRole('expenditure_export') ? '':'disRoleMenu']">
-      <el-button type="primary" >导出Excel</el-button>
+      <el-button type="primary" @click="down">导出Excel</el-button>
     </el-row>
     <el-row style="margin-top:20px; background: lightgray; height: 40px; line-height: 40px; text-align:center">
-      <el-col :span="4">已提交总计/元：{{getStatistic.submitted}}</el-col>
-      <el-col :span="4">财务未审批总计/元： {{getStatistic.notApproved}} </el-col>
-      <el-col :span="4">已支付总计/元：{{getStatistic.paid}}</el-col>
-      <el-col :span="4">票据作废总计/元：{{getStatistic.cancel}}</el-col>
-      <el-col :span="4">平借款总计/元：{{getStatistic.flatLoan}}</el-col>
+        已提交总计/元：{{getStatistic.submitted}}&nbsp;&nbsp;&nbsp;&nbsp;
+        财务未审批总计/元： {{getStatistic.notApproved}} &nbsp;&nbsp;&nbsp;&nbsp;
+        已支付总计/元：{{getStatistic.paid}} &nbsp;&nbsp;&nbsp;&nbsp;
+        票据作废总计/元：{{getStatistic.cancel}} &nbsp;&nbsp;&nbsp;&nbsp;
+        平借款总计/元：{{getStatistic.flatLoan}}
     </el-row>
     <el-table :data="getAllPayList" border style="width: 100%; margin-top: 20px" id="out-table">
           <el-table-column align="center" prop="expenditureId" label="序号"></el-table-column>
@@ -206,6 +206,27 @@ export default {
     }
   },
   methods: {
+    down() {
+      // this.ruleForm.projectId = this.$store.state.projectData.viewProjectId;
+      // if (this.daterange != "") {
+      //     let st = this.dateRange[0];
+      //     let et = this.dateRange[1];
+      //     this.ruleForm.startDt = st.getTime();
+      //     this.ruleForm.endDt = et.getTime();
+      //   }
+      axios.get("/api/export/expenditure", {
+        params: this.ruleForm
+      }).then(
+        (rep) => {
+          if (rep && rep.data) {
+            console.log("export excel expenditure", rep.data);
+            this.$message.success("下载成功");
+            window.location = rep.data.url;
+          }
+        },
+        () => {}
+      );
+    },
     handleSizeChange() {},
     handleCurrentChange(page) {
       this.currentPage = page;
