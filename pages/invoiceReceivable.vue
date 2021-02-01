@@ -32,7 +32,7 @@
       <el-col :span="4">
         <el-button type="primary" @click="mountInvoice()">查询</el-button>
       </el-col>
-      
+
     </el-row>
     <el-divider></el-divider>
     <el-row style="margin-top:20px">
@@ -46,6 +46,8 @@
       style="width: 100%; margin-top: 20px"
     >
       <el-table-column fixed prop="invoiceId" label="ID"></el-table-column>
+      <el-table-column prop="projectNo" label="项目编号"></el-table-column>
+      <el-table-column prop="projectName" label="项目名称"></el-table-column>
       <el-table-column prop="invoiceNo" label="编号"></el-table-column>
       <el-table-column prop="companyName" label="公司"></el-table-column>
       <el-table-column prop="unitname" label="单位名称"></el-table-column>
@@ -68,7 +70,7 @@
             v-model="form.companyId"
             placeholder="请选择公司："
             style="width: 100%"
-            
+
           >
             <el-option
               v-for="item in accountList"
@@ -238,13 +240,13 @@ export default {
               }
             })
           }
-          
+
         } else {
           console.log('error submit!!');
           return false;
         }
       });
-      
+
 
     },
     addinvoice(type) {
@@ -313,7 +315,7 @@ export default {
       );
 
     }
-  
+
   },
    computed: {
     checkNowUserRole(){

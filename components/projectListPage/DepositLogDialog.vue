@@ -39,6 +39,7 @@
           <template slot-scope="scope">
             <span v-if="scope.row.state == 4">已退回</span>
             <span v-else-if="scope.row.state == 5">已作废</span>
+            <span v-else-if="scope.row.state == 6">已退回</span>
             <span v-else>退回中</span>
           </template>
         </el-table-column><!--4已退回，其它退回中-->
