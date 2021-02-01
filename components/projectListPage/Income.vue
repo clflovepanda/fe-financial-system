@@ -127,7 +127,15 @@ export default {
     //   });
     // },
     resetForm(formName) {
-      this.$refs[formName].resetFields();
+      this.ruleForm = {
+        projectId: "",
+        revenueNo: "",
+        remitterMethodId: "",
+        receivementTypeId: "",
+        companyId: "",
+        remitter: "",
+        createUser: ""
+      }
     },
 
     handleFindClick() {
