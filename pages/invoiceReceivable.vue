@@ -11,21 +11,35 @@
     <el-divider></el-divider>
 
     <el-row >
-      <el-col :span="4">
-        <el-input v-model="keyWord" placeholder="编号/单位"></el-input>
+      <el-col :span="5">
+        <span style="display:inline-block;width:40%">项目编号：</span><el-input v-model="searchForm.projectNo" placeholder="请输入项目编号" style="width: 60%"></el-input>
       </el-col>
-      <el-col :span="4" style="margin-left:20px;">
-        <el-input v-model="username" placeholder="经办人"></el-input>
+      <el-col :span="5" :offset="1">
+        <span style="display:inline-block;width:40%">项目名称：</span><el-input v-model="searchForm.projectName" placeholder="请输入项目名称" style="width: 60%"></el-input>
       </el-col>
-      <el-col :span="8">
+      <el-col :span="5" :offset="1">
+        <span style="display:inline-block;width:40%">应收单编号：</span><el-input v-model="searchForm.keyWord" placeholder="请输入应收单编号" style="width: 60%"></el-input>
+      </el-col>
+      <el-col :span="5" :offset="1">
+        <span style="display:inline-block;width:40%">单位名称：</span><el-input v-model="searchForm.coName" placeholder="请输入单位名称" style="width: 60%"></el-input>
+      </el-col>
+    </el-row>
+    <el-row style="margin-top: 20px">
+      <el-col :span="5">
+        <span style="display:inline-block;width:40%">应税劳务：</span><el-input v-model="searchForm.revenueTypeName" placeholder="请输入单位名称" style="width: 60%"></el-input>
+      </el-col>
+      <el-col :span="5" :offset="1">
+        <span style="display:inline-block;width:40%">经办人：</span><el-input v-model="searchForm.username" placeholder="请输入单位名称" style="width: 60%"></el-input>
+      </el-col>
+      <el-col :span="8" :offset="1">
+        <span style="display:inline-block;width:20%">申请时间：</span>
         <el-date-picker
           v-model="rangeDate"
           type="daterange"
           range-separator="~"
           start-placeholder="开始时间"
           end-placeholder="结束时间"
-          class="inpSty"
-          style="width: 90%;margin-left:20px;"
+          style="width: 70%"
           @change="changeDate"
         ></el-date-picker>
       </el-col>
@@ -151,6 +165,16 @@ export default {
       username: '',
       rangeDate: ['',''],
       dialogFormVisible: false,
+      searchForm: {
+        projectNo: "",//编号
+        projectName: "",
+        keyWord: "",
+        coName: "",
+        revenueTypeName: "",
+        username: "",
+        startDt: "",
+        endDt: ""
+      },
       form: {
         companyId: '',
         projectId: '',
@@ -282,8 +306,12 @@ export default {
       if(this.rangeDate[1]){
         end = new Date(this.rangeDate[1]).getTime();
       }
-      let params = '?keyWord=' + this.keyWord + '&username=' + this.username + '&startDt=' + start + '&endDt=' + end;
-      let result = await axios.get("/api/invoice/list"+params).then(
+      let params = this.searchForm;
+      params.startDt = start;
+      params.endDt = end;
+      let result = await axios.get("/api/invoice/list", {
+        params: params
+      }).then(
         (rep) => {
           console.log(rep)
           if (rep && rep.data) {
