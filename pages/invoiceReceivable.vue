@@ -315,7 +315,7 @@ export default {
         (rep) => {
           console.log(rep)
           if (rep && rep.data) {
-          this.invoiceList = rep.data.data
+            this.invoiceList = rep.data.data
           }
         },
         () => {}

@@ -8,13 +8,13 @@
               <span>应收单编号</span>
             </el-col>
             <el-col :span="3">
-              <el-input v-model="ruleForm.invoiceId" placeholder="请输入应收单编号"></el-input>
+              <el-input v-model="ruleForm.keyWord" placeholder="请输入应收单编号"></el-input>
             </el-col>
             <el-col :span="2" :offset="1" class="labelSty">
               <span>单位名称</span>
             </el-col>
             <el-col :span="3">
-              <el-input v-model="ruleForm.unitname" placeholder="请输入单位名称"></el-input>
+              <el-input v-model="ruleForm.coName" placeholder="请输入单位名称"></el-input>
             </el-col>
             <el-col :span="3" :offset="1" class="labelSty">
               <span>应税务劳务名称</span>
@@ -61,7 +61,7 @@
               <template slot-scope="scope">
                 <el-button @click="printPay(scope)" type="text" size="small" :disabled="scope.row.state<=3 || getProjectDetailData.status == 6" v-if="checkNowUserRole('project_invoice_print')">打印</el-button>
                 <el-button @click="edit(scope)" type="text" size="small" :disabled="scope.row.state<=3 || getProjectDetailData.status == 6" v-if="checkNowUserRole('project_invoice_print')">编辑</el-button>
-                <el-button @click="addinvoice(scope.row)" type="text" size="small" :class="[checkNowUserRole('invoice_update') ? '':'disRoleMenu']" :disabled="getProjectDetailData.status == 6">修改</el-button>
+                <!-- <el-button @click="addinvoice(scope.row)" type="text" size="small" :class="[checkNowUserRole('invoice_update') ? '':'disRoleMenu']" :disabled="getProjectDetailData.status == 6">修改</el-button> -->
                 <el-button @click="del(scope)" type="text" size="small" v-if="checkNowUserRole('project_invoice_del')" :disabled="getProjectDetailData.status == 6">删除</el-button>
               </template>
             </el-table-column>
@@ -239,8 +239,8 @@ export default {
     resetForm() {
       this.dataRange = "";
       this.ruleForm = {
-        invoiceNo: "",
-        unitname: "",
+        keyWord: "",
+        coName: "",
         revenueTypeName: "",
         username: "",
       }
