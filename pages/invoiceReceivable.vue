@@ -51,7 +51,7 @@
     <el-divider></el-divider>
     <el-row style="margin-top:20px">
       <el-col :span="24" style="text-align:right">
-        <el-button type="primary" @click="addinvoice('add')" :class="[checkNowUserRole('invoice_add') ? '':'disRoleMenu']">新增应收单</el-button>
+        <el-button type="primary" @click="addinvoice('add')" :class="[checkNowUserRole('invoice_add') ? '':'disRoleMenu']" :disabled="getProjectDetailData.status == 6">新增应收单</el-button>
       </el-col>
     </el-row>
     <el-table
@@ -217,6 +217,7 @@ export default {
     }
   },
   methods: {
+    
     delInvoice(row) {
       axios.get("/api/invoice/del?invoiceId="+row.invoiceId).then(
         (rep) => {
@@ -345,7 +346,11 @@ export default {
     }
 
   },
-   computed: {
+  computed: {
+    getProjectDetailData() {
+      console.log(this.$store.state.projectData.projectDetail);
+      return this.$store.state.projectData.projectDetail;
+    },
     checkNowUserRole(){
       return function(name) {
         return this.$store.state.userData.nowUserRole.indexOf(name) > -1;

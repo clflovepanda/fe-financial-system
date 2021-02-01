@@ -46,7 +46,7 @@
           </el-row>
           <el-row>
             <el-col :span="4" :offset="20">
-              <el-button type="primary" @click="handleExcel()" v-if="checkNowUserRole('project_invoice_add')">新增应收单</el-button>
+              <el-button type="primary" @click="handleExcel()" v-if="checkNowUserRole('project_invoice_add')" :disabled="getProjectDetailData.status == 6">新增应收单</el-button>
             </el-col>
           </el-row>
           <el-table :data="getReceivableList" border style="width: 100%; margin-top: 20px">
@@ -273,7 +273,6 @@ export default {
     },
     handleAddPay() {},
     addQuotation() {
-      console.log("新增应收单", this.form);
       if (this.invoiceId == "") {
         this.$refs["form"].validate((valid) => {
           if (valid) {
