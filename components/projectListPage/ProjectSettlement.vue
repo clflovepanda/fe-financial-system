@@ -35,7 +35,7 @@
           <el-table-column align="center" prop="settlementIncome" label="结算收入/元"></el-table-column>
           <el-table-column align="center" prop="proManager" label="附件">
             <template slot-scope="scope">
-              <el-button :href="scope.row.resourceUrl" type="text" size="small" :disabled="!checkNowUserRole('project_settlement_download') || getProjectDetailData.status == 6">{{scope.row.resourceName}}</el-button>
+              <el-button @click="download(scope.row.resourceUrl)" type="text" size="small" :disabled="!checkNowUserRole('project_settlement_download') || getProjectDetailData.status == 6">{{scope.row.resourceName}}</el-button>
             </template>
           </el-table-column>
           <el-table-column align="center" prop="id" label="操作" width="140">
@@ -156,6 +156,10 @@ export default {
     }
   },
   methods: {
+
+    down(url){
+      console.log(url);
+    },
     beforeAvatarUpload(file) {
         const isJPG = file.type === 'application/msword';
 

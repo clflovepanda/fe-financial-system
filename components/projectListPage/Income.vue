@@ -21,7 +21,7 @@
           </el-form-item>
 
           <el-form-item label="认款类型" prop="statement">
-            <el-select v-model="ruleForm.receivementTypeId" placeholder="请选择认款类型">
+            <el-select v-model="ruleForm.revenueTypeId" placeholder="请选择认款类型">
               <el-option
                 v-for="item in getRevenueType"
                 :key="item.revenueTypeId"
@@ -112,7 +112,13 @@ export default {
       return this.$store.state.incomeData.statistics;
     },
     getRevenueType() {
-      return this.$store.state.expenditureData.expenditurePurposeType.revenueType;
+      return this.$store.state.expenditureData.expenditurePurposeType.revenueType.filter((obj) => {
+        if(obj.revenueTypeName == "收回押金" || obj.revenueTypeName == "预收押金") {
+          return false;
+        } else {
+          return true;
+        }
+      });
     }
   },
   methods: {
@@ -131,7 +137,7 @@ export default {
         projectId: "",
         revenueNo: "",
         remitterMethodId: "",
-        receivementTypeId: "",
+        revenueTypeId: "",
         companyId: "",
         remitter: "",
         createUser: ""
