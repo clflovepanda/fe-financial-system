@@ -18,7 +18,7 @@ let EnumAccount = {
 let EnumProjectType = {
     list: [
         { value: 1, label: "未开始" },
-        { value: 2, label: "进行中" },
+        { value: 2, label: "已生效" },
         { value: 3, label: "暂停" },
         { value: 4, label: "取消" },
         { value: 5, label: "已完成" },
@@ -125,9 +125,9 @@ let EnumAuditType = {
 
 let EnumSaleSendType = { //销售提成发放状态
     list: [
-        { value: 1, label: "未发放" },
-        { value: 2, label: "部分发放" },
-        { value: 3, label: "全部发放" }
+        { value: 0, label: "未发放" },
+        { value: 1, label: "部分发放" },
+        { value: 2, label: "全部发放" }
     ],
     getMsg(value) {
         for (let i = 0; i < this.list.length; i++) {
