@@ -715,6 +715,8 @@ export default {
         this.showAuditDialog
       );
       if (!this.showAuditDialog) {
+        this.auditForm.auditType = "";
+        this.auditForm.remark = "";
         let projectId = this.$store.state.projectData.viewProjectId;
         axios.get("/api/expenditure/list?projectId=" + projectId).then(
           (rep) => {

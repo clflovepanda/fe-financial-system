@@ -614,6 +614,7 @@ export default {
 
     },
     handleTabClick(tab, event) {
+      console.log("tab 执行前", this.getProjectDetailData.auditState);
       if(tab.name == "1") {
         let projectId = this.$store.state.projectData.viewProjectId;
         axios.get("/api/project/project_detail?id=" + projectId).then(
@@ -622,6 +623,7 @@ export default {
               this.generateProjectDetail(rep.data.data);
               this.generateProjectFinancial(rep.data.data);
               this.$store.commit("projectData/setEditProject", rep.data.data);
+              console.log("tab 执行后", this.getProjectDetailData.auditState);
             }
           },
           () => {}
@@ -781,7 +783,7 @@ export default {
         if (detail.projectAuditLog) {
           projectDetail.auditName = detail.projectAuditLog.createUserName;
           projectDetail.auditDate = detail.projectAuditLog.ctime;
-          projectDetail.auditState = detail.projectAuditLog.state;
+          projectDetail.auditState = detail.projectAuditLog.auditType;
         }
       }
       this.$store.commit("projectData/setProjectDetail", projectDetail);
@@ -794,7 +796,8 @@ export default {
     },
   },
   created() {
-    if (this.$store.state.projectData.viewProjectId == "") {
+    console.log("created 执行前", this.getProjectDetailData.auditState);
+    if (true || this.$store.state.projectData.viewProjectId == "") {
       // this.$router.push("/projectList");
       let nowProjectId = UrlUtil.getUrlParam("projectId");
       this.$store.commit("projectData/setViewProjectId", nowProjectId);
@@ -867,15 +870,22 @@ export default {
         );
         console.log("receivable data", receivableResult);
         ts.$store.commit("projectData/setReceivableList", receivableResult);
+        console.log("created 执行后", ts.getProjectDetailData.auditState);
       })(this);
     } else {
       let projectId = UrlUtil.getUrlParam("projectId");
       // alert(projectId);
     }
+    
   },
   async asyncData(ctx) {
     if(!CookieUtil.existCookie("user_id")) {
       location.href = "/";
+    }
+    let nowProjectId = UrlUtil.getUrlParam("projectId");
+    if(nowProjectId){
+      console.log(nowProjectId);
+      ctx.store.commit("projectData/setViewProjectId", nowProjectId);
     }
     let nowUserRole = await NetReqUser.getNowUserRole();
     console.log("当前用户角色列表", nowUserRole);
@@ -946,7 +956,7 @@ export default {
     console.log("revenue", revenueResult);
     ctx.store.commit("incomeData/setRevenueList", revenueResult.data);
     ctx.store.commit("incomeData/setRevenueStatistic", revenueResult.statistic);
-
+    
   },
 };
 </script>
