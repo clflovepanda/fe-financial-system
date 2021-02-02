@@ -7,7 +7,7 @@
         <el-table-column align="center" prop="coName" label="账户"></el-table-column>
         <el-table-column align="center" prop="receivementTypeName" label="到款种类"></el-table-column>
         <el-table-column align="center" prop="remitter" label="汇款方"></el-table-column>
-        <el-table-column align="center" prop="remitter" label="认款类型"></el-table-column>
+        <el-table-column align="center" prop="revenueTypeName" label="认款类型"></el-table-column>
         <el-table-column align="center" prop="cnyMoney" label="认款金额/元"></el-table-column>
         <el-table-column align="center" prop="username" label="认款人"></el-table-column>
         <el-table-column align="center" prop="ctime" label="认款时间"></el-table-column>
