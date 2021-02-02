@@ -169,7 +169,7 @@
                 备注：
               </div>
               <div style="display: inline-block;position: absolute; left:15%;height:40px;line-height: 40px; width: 20%;text-align:left;padding-left:20px;border-right: 1px solid black">
-
+                {{printData.remark}}
               </div>
               <div style="display: inline-block;position: absolute; left:35%;height:40px;line-height: 40px;font-weight:400; width: 65%;">
                 汇款用途：{{printData.expenditurePurposeName}}
