@@ -1,10 +1,10 @@
 <template>
 <div>
-
-  <el-table :data="getNewProjectList" border style="width: 100%; margin-top: 20px">
-    <el-table-column align="center" fixed prop="projectId" label="序号" width="120"></el-table-column>
-    <el-table-column align="center" prop="code" label="项目编号"></el-table-column>
-    <el-table-column align="center" prop="name" label="项目名称">
+  <el-scrollbar :native="false" wrap-class="scrollbar-warpper">
+  <el-table :data="getNewProjectList" border style="margin-top: 20px">
+    <el-table-column align="center" fixed prop="projectId" label="序号" width="80"></el-table-column>
+    <el-table-column align="center" prop="code" label="项目编号" width="100"></el-table-column>
+    <el-table-column align="center" prop="name" label="项目名称" width="300">
       <template slot-scope="scope">
         <el-button @click="handleProjectName(scope.row)" type="text" size="small">{{scope.row.name}}</el-button>
       </template>
@@ -13,9 +13,9 @@
     <el-table-column align="center" prop="salesName" label="销售经理"></el-table-column>
     <el-table-column align="center" prop="userNames" label="项目成员"></el-table-column>
     <el-table-column align="center" prop="takeTime" label="花费工时/时"></el-table-column>
-    <el-table-column align="center" prop="ctime" label="项目创建时间"></el-table-column>
-    <el-table-column align="center" prop="startDate" label="项目开始时间"></el-table-column>
-    <el-table-column align="center" prop="endDate" label="项目结束时间"></el-table-column>
+    <el-table-column align="center" prop="ctime" label="项目创建时间" width="100"></el-table-column>
+    <el-table-column align="center" prop="startDate" label="项目开始时间" width="100"></el-table-column>
+    <el-table-column align="center" prop="endDate" label="项目结束时间" width="100"></el-table-column>
     <el-table-column align="center" prop="settlementIncome" label="结算收入"></el-table-column>
     <el-table-column align="center" prop="relRevenue" label="大收"></el-table-column>
     <el-table-column align="center" prop="relExpenditure" label="大支"></el-table-column>
@@ -54,6 +54,7 @@
       </template>
     </el-table-column>
   </el-table>
+  </el-scrollbar>
   <el-row style="margin-top:20px">
     <el-col :span="24" style="text-align:right">
       <el-pagination
@@ -67,6 +68,7 @@
     </el-pagination>
     </el-col>
   </el-row>
+  
 </div>
 </template>
 
