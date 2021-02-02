@@ -225,13 +225,13 @@
                 出差人:
               </div>
               <div style="display: inline-block;position: absolute; left:15%;height:40px;line-height: 40px; width: 15%;border-right: 1px solid black;text-align:left;padding-left:20px">
-                {{getPurposeContent(printData)}}
+                {{printData.username}}
               </div>
               <div style="display: inline-block;position: absolute; left:30%;height:40px;line-height: 40px;font-weight:400;border-right: 1px solid black; width: 15%;">
                 出差事由:
               </div>
               <div style="display: inline-block;position: absolute; left:45%;height:40px;line-height: 40px; width: 15%;border-right: 1px solid black;text-align:left;padding-left:20px">
-
+                {{getPurposeContent(printData)}}
               </div>
               <div style="display: inline-block;position: absolute; left:60%;height:40px;line-height: 40px;font-weight:400;border-right: 1px solid black; width: 15%;">
                 项目名称:
