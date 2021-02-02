@@ -91,6 +91,8 @@
         <el-table :data="listData" border style="width: 100%; margin-top: 20px" id="#out-table">
           <el-table-column align="center" prop="id" label="序号"></el-table-column>
           <el-table-column align="center" prop="revenueNo" label="押金编号"></el-table-column>
+          <el-table-column align="center" prop="projectName" label="项目名称"></el-table-column>
+          <el-table-column align="center" prop="projectNo" label="项目编号"></el-table-column>
           <el-table-column align="center" prop="coName" label="到款账户"></el-table-column>
           <el-table-column align="center" prop="receivementTypeName" label="到款种类"></el-table-column>
           <el-table-column align="center" prop="remitter" label="汇款方"></el-table-column>
@@ -228,6 +230,7 @@ export default {
       this.$store.commit("expenditureData/setRevenueId", scope.row.id);
       this.$store.commit("projectData/setViewProjectId", scope.row.projectId);
       // this.$store.commit("dialogSwitchData/setCreatePayDialogShow", true);
+      this.editObj = scope.row;
       this.showType = 1;
       this.showCreatePay += 1;
     },

@@ -283,6 +283,11 @@ export default {
       if(this.showType == 1) {
         this.projectName = this.getProjectDetailData.projectName;
         this.projectDataSource = this.getProjectDetailData.dataSourceName;
+        console.log(this.projectName, this.editObj);
+        if(this.projectName == null || this.projectName == "") {
+          this.projectName = this.editObj.projectName;
+          this.projectDataSource = this.projectName.split("-")[0] + this.projectName.split("-")[1];
+        }
         this.createForm.companyId = "";
         this.createForm.projectId = "";
         this.createForm.expenditureMethodId = "";
