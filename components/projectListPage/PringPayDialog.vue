@@ -92,7 +92,7 @@
     </el-row>
     <el-row :class="[getShowRow != 2 ? 'dis' : '' ]">
       <el-col :span="24" style="margin: 20px 0px">
-        <div style="border: 1px solid black; text-align:center" id="payPrintDiv2">
+        <div style="border: 1px solid black; text-align:center; font-size:8px;" id="payPrintDiv2">
           <div style="height:60px; position: relative; text-align: center">
             <div style="margin-top: 20px; padding-bottom: 10px; line-height: 30px;display:inline-block; height: 40px; font-size: 26px; font-weight: 600; text-align: center; width: 600px">
               电汇通知单
@@ -110,80 +110,83 @@
           </div>
           <div style="position:relative; display:inline-block; border: 3px solid black;width:100%">
             <div style="height: 40px;border-bottom: 1px solid black">
-              <div style="display: inline-block;position: absolute; left:0px;height:40px;line-height: 40px;font-weight:400;border-right: 1px solid black; width: 15%;">
-                收款人单位（全称）
+              <div style="padding-left: 5px; display: inline-block;position: absolute; left:0px;height:40px;line-height: 40px;font-weight:400;border-right: 1px solid black; width: 22%;">
+                收款人单位(全称)
               </div>
-              <div style="display: inline-block;position: absolute; left:15%;height:40px;line-height: 40px; width: 85%;text-align:left;padding-left:20px">
+              <div style="display: inline-block;position: absolute; left:22%;height:40px;line-height: 40px; width: 88%;text-align:left;padding-left:20px">
                 {{printData.beneficiaryUnit}}
               </div>
             </div>
             <div style="height: 40px;border-bottom: 1px solid black">
-              <div style="display: inline-block;position: absolute; left:0px;height:40px;line-height: 40px;font-weight:400;border-right: 1px solid black; width: 15%;">
+              <div style="padding-left: 5px; display: inline-block;position: absolute; left:0px;height:40px;line-height: 40px;font-weight:400;border-right: 1px solid black; width: 22%;">
                 收款人账号
               </div>
-              <div style="display: inline-block;position: absolute; left:15%;height:40px;line-height: 40px; width: 85%;text-align:left;padding-left:20px">
+              <div style="display: inline-block;position: absolute; left:22%;height:40px;line-height: 40px; width: 88%;text-align:left;padding-left:20px">
                 {{printData.beneficiaryNumber}}
               </div>
             </div>
 
             <div style="position: relative; height: 40px;border-bottom: 1px solid black">
-              <div style="display: inline-block;position: absolute; left:0px;height:40px;line-height: 40px;font-weight:400; width: 15%;border-right: 1px solid black">
+              <div style="padding-left: 5px; display: inline-block;position: absolute; left:0px;height:40px;line-height: 40px;font-weight:400; width: 22%;border-right: 1px solid black">
                 汇入地点
               </div>
-              <div style="display: inline-block;position: absolute; left:15%;top: 0px;height:40px;line-height: 40px; width: 35%;text-align:left;padding-left:20px;border-bottom:1px solid black;border-right: 1px solid black;">
-                {{printData.provinceName}}省 {{printData.cityName}}市/县
+              <div style="display: inline-block;position: absolute; left:22%;top: 0px;height:40px;line-height: 40px; width: 38%;text-align:left;padding-left:20px;border-bottom:1px solid black;border-right: 1px solid black;">
+                {{dhProvince}}省&nbsp;&nbsp;{{dhCity}}市/县
               </div>
-              <div style="display: inline-block;position: absolute; left:50%;top: 0px;height:40px;line-height: 40px; width: 15%;text-align:left;padding-left:20px;border-bottom:1px solid black;border-right: 1px solid black;">
+              <div style="padding-left: 5px; display: inline-block;position: absolute; left:60%;top: 0px;height:40px;line-height: 40px; width: 15%;text-align:left;padding-left:20px;border-bottom:1px solid black;border-right: 1px solid black;">
                 汇入行名称
               </div>
-              <div style="display: inline-block;position: absolute; left:65%;top: 0px;height:40px;line-height: 40px; width: 35%;text-align:left;padding-left:20px;border-bottom:1px solid black;border-right: 1px solid black;">
+              <div style="display: inline-block;position: absolute; left:75%;top: 0px;height:40px;line-height: 40px; width: 25%;text-align:left;padding-left:20px;border-bottom:1px solid black;border-right: 1px solid black;">
                 {{printData.beneficiaryBank}}
               </div>
             </div>
 
             <div style="position:relative; height: 60px;border-bottom: 1px solid black">
-              <div style="display:inline-block; position:absolute; left: 0px; top: 0px; width: 15%; line-height: 60px; border-right: 1px solid black">
+              <div style="padding-left: 5px; display:inline-block; position:absolute; left: 0px; top: 0px; width: 22%; line-height: 60px; border-right: 1px solid black">
                 电汇金额
               </div>
-              <div style="display: inline-block;position: absolute; left:15%;height:30px;line-height: 30px;font-weight:400; width: 10%;">
+              <div style="display: inline-block;position: absolute; left:22%;height:30px;line-height: 30px;font-weight:400; width: 13%; padding-left: 5px">
                 人民币
               </div>
-              <div style="display: inline-block;position: absolute; left:15%;top: 30px; height:30px;line-height: 30px;font-weight:400; width: 10%;">
+              <div style="display: inline-block;position: absolute; left:22%;top: 30px; height:30px;line-height: 30px;font-weight:400; width: 13%; padding-left: 5px">
                 (大写)
               </div>
-              <div style="display: inline-block;position: absolute; left:25%;height:60px;line-height: 60px; width: 25%;text-align:left; border-right: 1px solid black">
+              <div style="display: inline-block;position: absolute; left:35%;height:60px;line-height: 60px; width: 25%;text-align:left; border-right: 1px solid black">
                  {{printData.moneyCapital}}
               </div>
-              <div style="display: inline-block;position: absolute; left:50%;height:30px;line-height: 30px;font-weight:400; width: 10%;">
+              <div style="padding-left: 5px; display: inline-block;position: absolute; left:60%;height:30px;line-height: 30px;font-weight:400; width: 10%;">
                 人民币
               </div>
-              <div style="display: inline-block;position: absolute; left:50%;top: 30px; height:30px;line-height: 30px;font-weight:400; width: 10%;">
+              <div style="padding-left: 5px; display: inline-block;position: absolute; left:60%;top: 30px; height:30px;line-height: 30px;font-weight:400; width: 10%;">
                 (小写)
               </div>
-              <div style="display: inline-block;position: absolute; left:60%;height:60px;line-height: 60px; width: 20%;text-align:left;">
+              <div style="display: inline-block;position: absolute; left:70%;height:60px;line-height: 60px; width: 20%;text-align:left;">
                 ￥:{{printData.expenditureMoney}}
               </div>
             </div>
             <div style="height: 40px;border-bottom: 1px solid black">
-              <div style="display: inline-block;position: absolute; left:0px;height:40px;line-height: 40px;font-weight:400; width: 15%;">
+              <div style="padding-left: 5px; display: inline-block;position: absolute; left:0px;height:40px;line-height: 40px;font-weight:400; width: 22%; border-right: 1px solid black">
                 备注：
               </div>
-              <div style="display: inline-block;position: absolute; left:15%;height:40px;line-height: 40px; width: 20%;text-align:left;padding-left:20px;border-right: 1px solid black">
+              <div style="display: inline-block;position: absolute; left:22%;height:40px;line-height: 40px; width: 38%;text-align:left;padding-left:20px;border-right: 1px solid black;">
                 {{printData.remark}}
               </div>
-              <div style="display: inline-block;position: absolute; left:35%;height:40px;line-height: 40px;font-weight:400; width: 65%;">
-                汇款用途：{{printData.expenditurePurposeName}}
+              <div style="padding-left: 5px; display: inline-block;position: absolute; left:60%;height:40px;line-height: 40px;font-weight:400; width: 15%; border-right: 1px solid black">
+                汇款用途：
               </div>
-              <div style="display: inline-block;position: absolute; left:50%;height:40px;line-height: 40px; width: 30%;text-align:left;padding-left:20px;"></div>
+              <div style="display: inline-block;position: absolute; left:75%;height:40px;line-height: 40px;font-weight:400; width: 25%; text-align: left; padding-left: 20px">
+                {{printData.expenditurePurposeName}}
+              </div>
+              <div style="display: inline-block;position: absolute; left:60%;height:40px;line-height: 40px; width: 30%;text-align:left;padding-left:20px;"></div>
             </div>
             <div style="height: 80px;border-bottom: 1px solid black">
-              <div style="display: inline-block;position: absolute; left:0px;height:80px;line-height: 80px;font-weight:400; width: 15%;">
+              <div style="padding-left: 5px; display: inline-block;position: absolute; left:0px;height:80px;line-height: 80px;font-weight:400; width: 15%;">
                 部门主管：
               </div>
               <div style="display: inline-block;position: absolute; left:15%;height:80px;line-height: 80px; width: 20%;text-align:left;padding-left:20px;border-right: 1px solid black">
 
               </div>
-              <div style="display: inline-block;position: absolute; left:35%;height:80px;line-height: 80px;font-weight:400; width: 15%;">
+              <div style="padding-left: 5px; display: inline-block;position: absolute; left:35%;height:80px;line-height: 80px;font-weight:400; width: 15%;">
                 领导批示：
               </div>
               <div style="display: inline-block;position: absolute; left:50%;height:50px;line-height: 80px; width: 30%;text-align:left;padding-left:20px;"></div>
@@ -203,15 +206,17 @@
     </el-row>
     <el-row :class="[getShowRow != 3 ? 'dis' : '' ]">
       <el-col :span="24" style="margin: 20px 0px">
-        <div style="border: 1px solid black; text-align:center" id="payPrintDiv3">
-          <div style="height:60px; position: relative; text-align: center">
-            <div style="margin-top: 20px; border-bottom: 1px solid black; padding-bottom: 10px; line-height: 30px;display:inline-block; height: 40px; font-size: 26px; font-weight: 600; text-align: center; width: 300px">
+        <div style="border: 1px solid black; text-align:center; padding-right: 15px;vertical-align:middle;" id="payPrintDiv3">
+          <div style="width: 15px; height: 200px; position: absolute; right: 0px; top: 150px;">附单据数︵</div>
+          <div style="width: 15px; height: 300px; position: absolute; right: 0px; top: 350px;">︶张</div>
+          <div style="height:40px; position: relative; text-align: center">
+            <div style="border-bottom: 1px solid black; padding-bottom: 5px; line-height: 30px;display:inline-block; height: 40px; font-size: 26px; font-weight: 600; text-align: center; width: 300px">
               差旅费用报销单
               <div style="display:inline-block;font-weight:100;font-size:14px;position:absolute; right: 20px;">{{printData.numbering}}</div>
             </div>
           </div>
-          <div style="height:30px; position: relative; text-align: center">
-            <div style="margin-top: 10px; line-height: 20px;display:inline-block; height: 20px; font-size: 16px; text-align: center; width: 300px">
+          <div style="height:20px; position: relative; text-align: center">
+            <div style="line-height: 20px;display:inline-block; height: 20px; font-size: 16px; text-align: center; width: 300px">
               {{getCreateTime(printData.ctime)}}
             </div>
           </div>
@@ -230,15 +235,15 @@
               <div style="display: inline-block;position: absolute; left:30%;height:40px;line-height: 40px;font-weight:400;border-right: 1px solid black; width: 15%;">
                 出差事由:
               </div>
-              <div style="display: inline-block;position: absolute; left:45%;height:40px;line-height: 40px; width: 15%;border-right: 1px solid black;text-align:left;padding-left:20px">
+              <div style="display: inline-block;position: absolute; left:45%;height:40px;line-height: 40px; width: 25%;border-right: 1px solid black;text-align:left;padding-left:20px">
                 {{getPurposeContent(printData)}}
               </div>
-              <div style="display: inline-block;position: absolute; left:60%;height:40px;line-height: 40px;font-weight:400;border-right: 1px solid black; width: 15%;">
+              <div style="display: inline-block;position: absolute; left:70%;height:40px;line-height: 40px;font-weight:400;border-right: 1px solid black; width: 15%;">
                 项目名称:
               </div>
-              <div style="display: inline-block;position: absolute; left:75%;height:40px;line-height: 40px; width: 25%;border-right: 1px solid black;text-align:left;padding-left:20px">
+              <!-- <div style="display: inline-block;position: absolute; left:75%;height:40px;line-height: 40px; width: 25%;border-right: 1px solid black;text-align:left;padding-left:20px">
                 {{printData.name}}
-              </div>
+              </div> -->
             </div>
             <div style="height: 30px;border-bottom: 1px solid black">
               <div style="display: inline-block;position: absolute; left:0px;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 30%;">
@@ -374,7 +379,7 @@
 
               </div>
               <div style="display: inline-block;position: absolute; left:60%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 10%;">
-                市 内 车 费
+                市内车费
               </div>
               <div style="display: inline-block;position: absolute; left:70%;height:30px;line-height: 30px;font-weight:400;border-right: 1px solid black; width: 20%;">
 
@@ -554,21 +559,21 @@
                 退/补金额￥
               </div>
             </div>
-            <div style="height: 80px;border-bottom: 1px solid black">
-              <div style="display: inline-block;position: absolute; left:0px;height:80px;line-height: 80px;font-weight:400; width: 15%;">
+            <div style="height: 60px;border-bottom: 1px solid black">
+              <div style="display: inline-block;position: absolute; left:0px;height:60px;line-height: 60px;font-weight:400; width: 15%;">
                 部门主管：
               </div>
-              <div style="display: inline-block;position: absolute; left:15%;height:80px;line-height: 80px; width: 20%;text-align:left;padding-left:20px;border-right: 1px solid black">
+              <div style="display: inline-block;position: absolute; left:15%;height:60px;line-height: 60px; width: 20%;text-align:left;padding-left:20px;border-right: 1px solid black">
 
               </div>
-              <div style="display: inline-block;position: absolute; left:35%;height:80px;line-height: 80px;font-weight:400; width: 15%;">
+              <div style="display: inline-block;position: absolute; left:35%;height:60px;line-height: 60px;font-weight:400; width: 15%;">
                 领导批示：
               </div>
-              <div style="display: inline-block;position: absolute; left:50%;height:50px;line-height: 80px; width: 30%;text-align:left;padding-left:20px;">
+              <div style="display: inline-block;position: absolute; left:50%;height:60px;line-height: 60px; width: 30%;text-align:left;padding-left:20px;">
 
               </div>
-              <div style="display: inline-block;position: absolute; right:5px;height:72px;width:72px;line-height: 80px;text-align:left;background:gray">
-                <img style="width:78px; height:78px" :src="qrUrl" />
+              <div style="display: inline-block;position: absolute; right:5px;height:58px;width:58px;line-height: 58px;text-align:left;background:gray">
+                <img style="display: inline-block; position: absolute; left: 0px; top: 0px; width:58px; height:58px" :src="qrUrl" />
               </div>
             </div>
           </div>
@@ -669,6 +674,22 @@ export default {
     };
   },
   computed: {
+    dhProvince() {
+      let pn = this.printData.provinceName;
+      if(pn && pn[pn.length - 1] == '省') {
+        return pn.substring(0, pn.length - 1);
+      } else {
+        return pn;
+      }
+    },
+    dhCity() {
+      let pn = this.printData.cityName;
+      if(pn && pn[pn.length - 1] == '市') {
+        return pn.substring(0, pn.length - 1);
+      } else {
+        return pn;
+      }
+    },
     printData() {
       return this.$store.state.projectData.printTemp;
     },
