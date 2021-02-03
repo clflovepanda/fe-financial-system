@@ -123,11 +123,13 @@ export default {
     handleCurrentChange(data){
       if (this.passStatus) {
         this.$store.commit("projectData/setProjectPassPageAndSize", {pageNum: data});
-        let temp = {
-          pageSize: this.$store.state.projectData.projectPassTable.pageSize,
-          pageNum: this.$store.state.projectData.projectPassTable.pageNum
-        }
-        axios.get("/api/project/list?auditing_state=1&limit=" + temp.pageSize + "&offset=" + temp.pageNum).then(
+        let temp = this.$store.state.projectData.projectSearchTemp;
+        temp.auditing_state = 1;
+        temp.pageSize = this.$store.state.projectData.projectPassTable.pageSize;
+        temp.pageNum = this.$store.state.projectData.projectPassTable.pageNum;
+        axios.get("/api/project/list", {
+          params: temp
+        }).then(
           (rep) => {
             if (rep && rep.data) {
               let tempPass = {
@@ -144,11 +146,13 @@ export default {
       } else {
         console.log("拒绝");
         this.$store.commit("projectData/setProjectRejectPageAndSize", {pageNum: data});
-        let temp = {
-          pageSize: this.$store.state.projectData.projectRejectTable.pageSize,
-          pageNum: this.$store.state.projectData.projectRejectTable.pageNum
-        }
-        axios.get("/api/project/list?auditing_state=2&limit=" + temp.pageSize + "&offset=" + temp.pageNum).then(
+        let temp = this.$store.state.projectData.projectSearchTemp;
+        temp.auditing_state = 1;
+        temp.pageSize = this.$store.state.projectData.projectRejectTable.pageSize;
+        temp.pageNum = this.$store.state.projectData.projectRejectTable.pageNum;
+        axios.get("/api/project/list", {
+          params: temp
+        }).then(
           (rep) => {
             if (rep && rep.data) {
               let tempReject = {

@@ -35,12 +35,16 @@ export const state = () => ({
     taskTimeList: [],
     getuserList: [],
     receivableList: [],
-    printTemp: {}
+    printTemp: {},
+    projectSearchTemp: {},
 })
 
 //状态(1:未开始 2:进行中 3:暂停 4:取消 5:已完成 6:已关闭)
 
 export const mutations = {
+    setProjectSearchTemp(state, newObj) {
+        state.projectSearchTemp = newObj;
+    },
     setPringTemp(state, newObj) {
         state.printTemp = newObj;
     },
