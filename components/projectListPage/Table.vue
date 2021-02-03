@@ -63,7 +63,7 @@
       :current-page="currentPage"
       :page-sizes="[5, 10, 50]"
       :page-size="5"
-      layout="total, sizes, prev, pager, next, jumper"
+      layout="total, prev, pager, next, jumper"
       :total="getTotal">
     </el-pagination>
     </el-col>
