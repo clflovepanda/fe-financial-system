@@ -155,6 +155,7 @@ export default {
         this.ruleForm.startDt = st.getTime();
         this.ruleForm.endDt = et.getTime();
       }
+      this.$store.commit("projectData/setProjectSearchTemp", JSON.parse(JSON.stringify(this.ruleForm)));
       this.ruleForm.auditing_state = 1;
       this.ruleForm.limit=5;
       this.ruleForm.offset=1;
@@ -221,6 +222,7 @@ export default {
     if(!CookieUtil.existCookie("user_id")) {
       location.href = "/";
     }
+    ctx.store.commit("projectData/setProjectSearchTemp", {});
     let nowUserRole = await NetReqUser.getNowUserRole();
     console.log("当前用户角色列表", nowUserRole);
     ctx.store.commit("userData/setNowUserRole", nowUserRole);
