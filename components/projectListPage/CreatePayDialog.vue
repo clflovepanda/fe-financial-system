@@ -273,6 +273,9 @@ export default {
     }
   },
   watch: {
+    subCityList(){
+      this.createForm.city = "";
+    },
     showCreatPay() {
       if(this.showCreatePayDialog == true) {
         this.showCreatePayDialog = false;
