@@ -68,7 +68,7 @@
     </el-pagination>
     </el-col>
   </el-row>
-  
+
 </div>
 </template>
 
@@ -126,7 +126,9 @@ export default {
         let temp = this.$store.state.projectData.projectSearchTemp;
         temp.auditing_state = 1;
         temp.pageSize = this.$store.state.projectData.projectPassTable.pageSize;
+        temp.limit = this.$store.state.projectData.projectPassTable.pageSize;
         temp.pageNum = this.$store.state.projectData.projectPassTable.pageNum;
+        temp.offset = this.$store.state.projectData.projectPassTable.pageNum;
         axios.get("/api/project/list", {
           params: temp
         }).then(
