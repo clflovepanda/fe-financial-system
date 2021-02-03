@@ -99,7 +99,7 @@
           <el-table-column align="center" prop="utime" label="最新状态时间" width="180"></el-table-column>
           <el-table-column align="center" prop="expenditureAuditLogs" label="工作流" width="140" :class="[checkNowUserRole('expenditure_approval') ? '':'disRoleMenu']">
             <template slot-scope="scope">
-              <el-button @click="audit(scope)" type="text" size="small">{{getAuditType(scope.row.state)}}</el-button>
+              <el-button @click="audit(scope)" type="text" :disabled="!checkNowUserRole('expenditure_approval')" size="small">{{getAuditType(scope.row.state)}}</el-button>
             </template>
           </el-table-column>
           <el-table-column align="center" prop="utime" label="操作" width="180">
